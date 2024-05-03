@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/theme/color.dart';
 import 'package:makeupstarstudio/home/widget/about.dart';
-import 'package:makeupstarstudio/menu_drawer.dart';
-import 'package:makeupstarstudio/responsive.dart';
-import 'package:makeupstarstudio/top_bar_contents.dart';
+import 'package:makeupstarstudio/home/widget/menu_drawer.dart';
+import 'package:makeupstarstudio/home/widget/top_bar_contents.dart';
+import 'package:makeupstarstudio/theme/responsive.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,11 +12,11 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: const Color(0xFFFAF8F7),
+      backgroundColor: AppColorConstant.backgroundColor,
       appBar: ResponsiveWidget.isSmallScreen(context)
           ? AppBar(
-              iconTheme: const IconThemeData(color: Colors.black),
-              backgroundColor: const Color(0xfffaf8f7),
+              iconTheme: const IconThemeData(color: AppColorConstant.black),
+              backgroundColor: AppColorConstant.backgroundColor,
               elevation: 0,
               centerTitle: true,
               title: Image.asset(
@@ -31,11 +32,10 @@ class HomePage extends StatelessWidget {
       drawer: const MenuDrawer(),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 30.0),
-          child: const Column(
-            children: [
-              AboutSection()
-            ],
+          padding: EdgeInsets.symmetric(
+          horizontal: screenSize.width * 0.15, vertical: 50.0),
+          child: Column(
+            children: [AboutSection()],
           ),
         ),
       ),

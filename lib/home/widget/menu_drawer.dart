@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/theme/color.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({
@@ -9,7 +10,7 @@ class MenuDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Container(
-        color: const Color(0xFFFAF8F7),
+        color: AppColorConstant.backgroundColor,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -25,7 +26,6 @@ class MenuDrawer extends StatelessWidget {
                     const Text(
                       'BOOK APPOINTMENT',
                       style: TextStyle(
-                        fontFamily: 'Questrial',
                         // fontWeight: FontWeight.bold,
                         fontSize: 14.0,
                         letterSpacing: 2.0,
@@ -46,7 +46,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'Home',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),
@@ -58,7 +57,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'About',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),
@@ -70,7 +68,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'Services',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),
@@ -82,7 +79,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'Bridal',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),
@@ -94,7 +90,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'Gallery',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),
@@ -106,7 +101,6 @@ class MenuDrawer extends StatelessWidget {
                 child: const Text(
                   'Contact',
                   style: TextStyle(
-                    fontFamily: 'Questrial',
                     color: Colors.black,
                     fontSize: 18,
                   ),

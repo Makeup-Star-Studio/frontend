@@ -82,11 +82,7 @@ flutter:
     - family: Cradley
       fonts:
         - asset: assets/fonts/Cradley/CradleyTitle-Regular2.otf
-        - asset: assets/fonts/Cradley/Cradley Title.woff
-        - asset: assets/fonts/Cradley/Cradley Open.woff
-        - asset: assets/fonts/Cradley/Cradley Title Italic.woff
-          style: italic
-        - asset: assets/fonts/Cradley/CradleyOpen.otf
+          weight: 400
         - asset: assets/fonts/Cradley/CradleyTitleItalic.otf
           style: italic
 
@@ -97,10 +93,8 @@ flutter:
     - family: Sebastian Bobby
       fonts:
         - asset: assets/fonts/Sebastian_Bobby/Sebastian Bobby.otf
-        - asset: assets/fonts/Sebastian_Bobby/Sebastian Bobby Alt.otf
+          weight: 400
         - asset: assets/fonts/Sebastian_Bobby/Sebastian Bobby Slanted.otf
-          style: italic
-        - asset: assets/fonts/Sebastian_Bobby/Sebastian Bobby Alt Slanted.otf
           style: italic
 
   #

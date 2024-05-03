@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/theme/color.dart';
 
 class TopBarContents extends StatefulWidget {
   const TopBarContents({super.key});
@@ -63,9 +64,8 @@ class _TopBarContentsState extends State<TopBarContents> {
                         Text(
                           'ABOUT',
                           style: TextStyle(
-                            fontFamily: 'Questrial',
                             color: _isHovering[0]
-                                ? const Color(0xFFAC8E76)
+                                ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -90,9 +90,8 @@ class _TopBarContentsState extends State<TopBarContents> {
                         Text(
                           'SERVICES',
                           style: TextStyle(
-                            fontFamily: 'Questrial',
                             color: _isHovering[1]
-                                ? const Color(0xFFAC8E76)
+                                ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -117,9 +116,8 @@ class _TopBarContentsState extends State<TopBarContents> {
                         Text(
                           'BRIDAL',
                           style: TextStyle(
-                            fontFamily: 'Questrial',
                             color: _isHovering[2]
-                                ? const Color(0xFFAC8E76)
+                                ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -144,9 +142,8 @@ class _TopBarContentsState extends State<TopBarContents> {
                         Text(
                           'GALLERY',
                           style: TextStyle(
-                            fontFamily: 'Questrial',
                             color: _isHovering[3]
-                                ? const Color(0xFFAC8E76)
+                                ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -171,9 +168,8 @@ class _TopBarContentsState extends State<TopBarContents> {
                         Text(
                           'CONTACT',
                           style: TextStyle(
-                            fontFamily: 'Questrial',
                             color: _isHovering[4]
-                                ? const Color(0xFFAC8E76)
+                                ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -198,13 +194,13 @@ class _TopBarContentsState extends State<TopBarContents> {
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: const BoxDecoration(color: Color(0xffF0E7E3)),
+                      decoration: const BoxDecoration(
+                          color: AppColorConstant.buttonColor),
                       child: Row(
                         children: [
                           const Text(
                             'BOOK APPOINTMENT',
                             style: TextStyle(
-                              fontFamily: 'Questrial',
                               // fontWeight: FontWeight.bold,
                               fontSize: 14.0,
                               letterSpacing: 2.0,
