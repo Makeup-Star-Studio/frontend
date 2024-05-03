@@ -4,12 +4,14 @@ import 'package:makeupstarstudio/theme/color.dart';
 class SubHeading extends StatelessWidget {
   final Color color;
   final String text;
+  final double size;
   final TextAlign textAlign;
 
   const SubHeading(
     {super.key, 
     this.color = AppColorConstant.subHeadingColor, 
     required this.text, 
+    this.size = 50.0,
     this.textAlign = TextAlign.center,
     }
   );
@@ -24,7 +26,8 @@ class SubHeading extends StatelessWidget {
       style: TextStyle(
         fontFamily: 'Sebastian Bobby',
         color: color,
-        fontSize: 50.0,
+        fontSize: size,
+        fontStyle: FontStyle.normal,
       ),
     );
   }

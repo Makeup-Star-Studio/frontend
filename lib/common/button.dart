@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/common/text/body.dart';
 import 'package:makeupstarstudio/theme/color.dart';
 
 class ModifiedButton extends StatelessWidget {
   final String text;
   final void Function() press;
   final Color color, textColor;
+  final double size;
+  final double letterSpacing;
+
   const ModifiedButton({
     super.key,
     required this.text,
     required this.press,
+    this.size = 14.0,
+    this.letterSpacing = 1.0,
     this.color = AppColorConstant.buttonColor,
     this.textColor = AppColorConstant.black,
   });
@@ -31,9 +35,14 @@ class ModifiedButton extends StatelessWidget {
         ),
       ),
       onPressed: press,
-      child: BodyText(
-        text: text,
-        color: textColor,
+      child: Text(
+        text,
+        style: TextStyle(
+          color: textColor,
+          fontSize: size,
+          letterSpacing: letterSpacing,
+          fontWeight: FontWeight.w600
+        ),
       ),
     );
   }

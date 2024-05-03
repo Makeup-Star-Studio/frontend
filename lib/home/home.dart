@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/theme/color.dart';
+import 'package:makeupstarstudio/common/menu_drawer.dart';
+import 'package:makeupstarstudio/common/top_bar_contents.dart';
 import 'package:makeupstarstudio/home/widget/about.dart';
-import 'package:makeupstarstudio/home/widget/menu_drawer.dart';
-import 'package:makeupstarstudio/home/widget/top_bar_contents.dart';
+import 'package:makeupstarstudio/home/widget/footer.dart';
+import 'package:makeupstarstudio/home/widget/info.dart';
+import 'package:makeupstarstudio/home/widget/how_it_works.dart';
+import 'package:makeupstarstudio/home/widget/mission.dart';
+import 'package:makeupstarstudio/home/widget/services.dart';
+import 'package:makeupstarstudio/home/widget/subscribe.dart';
+import 'package:makeupstarstudio/home/widget/testimonial.dart';
+import 'package:makeupstarstudio/theme/color.dart';
 import 'package:makeupstarstudio/theme/responsive.dart';
 
 class HomePage extends StatelessWidget {
@@ -30,14 +37,22 @@ class HomePage extends StatelessWidget {
               child: const TopBarContents(),
             ),
       drawer: const MenuDrawer(),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.15, vertical: 50.0),
-          child: Column(
-            children: [AboutSection()],
-          ),
-        ),
+      body: ListView(
+        children: const [
+          AboutSection(),
+          ServiceSection(),
+          SizedBox(height: 20.0),
+          WorkingSection(),
+          SizedBox(height: 40.0),
+          TestimonialSection(),
+          MissionSection(),
+          SizedBox(height: 40.0),
+          SubscriptionSection(),
+          SizedBox(height: 10.0),
+          InfoSection(),
+          SizedBox(height: 40.0),
+          FooterSection(),
+        ],
       ),
     );
   }

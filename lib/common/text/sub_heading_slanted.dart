@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/theme/color.dart';
 
-class BigText extends StatelessWidget {
+class SubHeadingSlanted extends StatelessWidget {
   final Color color;
   final String text;
-  final double size; 
+  final double size;
   final TextAlign textAlign;
-  final TextOverflow overflow;
 
-  const BigText(
+  const SubHeadingSlanted(
     {super.key, 
-    this.color = AppColorConstant.black, 
+    this.color = AppColorConstant.subHeadingColor, 
     required this.text, 
-    this.size = 40.0,
-    this.overflow = TextOverflow.ellipsis,
+    this.size = 50.0,
     this.textAlign = TextAlign.center,
     }
   );
@@ -24,13 +22,12 @@ class BigText extends StatelessWidget {
     // final isTablet = screenSize.shortestSide >= 600;
     return Text(
       text,
-      maxLines: 2,
-      overflow: overflow,
       textAlign: textAlign,
       style: TextStyle(
-        fontFamily: 'Cradley',
+        fontFamily: 'Sebastian Bobby',
         color: color,
         fontSize: size,
+        fontStyle: FontStyle.italic,
       ),
     );
   }
