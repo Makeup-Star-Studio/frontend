@@ -29,8 +29,7 @@ class _ContactUsSectionState extends State<ContactUsSection> {
     final screenSize = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
-          top: 20.0, bottom: 20.0),
+      padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
       child: Stack(
         children: [
           Column(
@@ -89,10 +88,10 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                 ),
               ),
               const BodyText(
-                  text:
-                      "Please fill out the form below & we'll be in touch as soon as possible! You can also email us directly at info@makeupstarstudio.com",
-                      size: 16.0,
-                  ),
+                text:
+                    "Please fill out the form below & we'll be in touch as soon as possible! You can also email us directly at info@makeupstarstudio.com",
+                size: 16.0,
+              ),
               const SizedBox(height: 20.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -100,39 +99,106 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                   key: _contactFormKey,
                   child: Column(
                     children: [
-                      TextFormInputField(
-                        controller: _firstNameController,
-                        hintText: 'First Name',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'required';
-                          }
-                          return null;
-                        },
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: TextFormInputField(
+                              controller: _firstNameController,
+                              hintText: 'First Name',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'required';
+                                }
+                                return null;
+                              },
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10.0),
+                          Expanded(
+                            child: TextFormInputField(
+                              controller: _lastNameController,
+                              hintText: 'Last Name',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
+                      // const SizedBox(height: 10.0),
                       const SizedBox(height: 10.0),
-                      TextFormInputField(
-                        controller: _lastNameController,
-                        hintText: 'Last Name',
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextFormInputField(
+                              controller: _emailController,
+                              hintText: 'Email Address',
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'required';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 10.0),
+                          Expanded(
+                            child: TextFormInputField(
+                              controller: _phoneController,
+                              hintText: 'Contact Number',
+                              keyboardType: TextInputType.phone,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(0.0),
+                                borderSide: const BorderSide(
+                                  width: 1.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10.0),
-                      TextFormInputField(
-                        controller: _emailController,
-                        hintText: 'Email Address',
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'required';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.emailAddress,
-                      ),
-                      const SizedBox(height: 10.0),
-                      TextFormInputField(
-                        controller: _phoneController,
-                        hintText: 'Contact Number',
-                        keyboardType: TextInputType.phone,
-                      ),
+                      // const SizedBox(height: 10.0),
                       const SizedBox(height: 10.0),
                       TextFormInputField(
                         controller: _messageController,
@@ -144,6 +210,18 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                           }
                           return null;
                         },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                        focusBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 20.0),
                       ModifiedButton(
