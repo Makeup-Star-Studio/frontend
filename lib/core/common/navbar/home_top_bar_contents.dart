@@ -34,7 +34,7 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
               InkWell(
                 hoverColor: Colors.transparent,
                 onTap: () {
-                  Navigator.pushNamed(context, '');
+                  Navigator.pushNamed(context, WebsiteRoute.homeRoute);
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -51,6 +51,34 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // SizedBox(width: screenSize.width / 5),
+                  InkWell(
+                    hoverColor: Colors.transparent,
+                    onHover: (value) {
+                      setState(() {
+                        _isHovering[2] = value;
+                      });
+                    },
+                    onTap: () {
+                      Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'HOME',
+                          style: TextStyle(
+                            color: _isHovering[2]
+                                ? AppColorConstant.secondaryColor
+                                : Colors.black,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 14.0,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: screenSize.width / 30),
                   InkWell(
                     hoverColor: Colors.transparent,
                     onTap:() {
@@ -86,7 +114,9 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                         _isHovering[1] = value;
                       });
                     },
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -109,36 +139,12 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     hoverColor: Colors.transparent,
                     onHover: (value) {
                       setState(() {
-                        _isHovering[2] = value;
-                      });
-                    },
-                    onTap: () {},
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'BRIDAL',
-                          style: TextStyle(
-                            color: _isHovering[2]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
                         _isHovering[3] = value;
                       });
                     },
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -164,7 +170,9 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                         _isHovering[4] = value;
                       });
                     },
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                    },
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -191,7 +199,9 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     _isHovering[5] = value;
                   });
                 },
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [

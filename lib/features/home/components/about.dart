@@ -47,7 +47,7 @@ class AboutSection extends StatelessWidget {
                 const SubHeading(
                   text: 'elevating beauty & confidence',
                 ),
-                const SizedBox(height: 8.0),
+                // const SizedBox(height: 8.0),
                 const BodyText(
                   size: 16.0,
                   text:

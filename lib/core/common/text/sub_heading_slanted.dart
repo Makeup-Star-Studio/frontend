@@ -6,15 +6,16 @@ class SubHeadingSlanted extends StatelessWidget {
   final String text;
   final double size;
   final TextAlign textAlign;
+  final double height;
 
-  const SubHeadingSlanted(
-    {super.key, 
-    this.color = AppColorConstant.subHeadingColor, 
-    required this.text, 
+  const SubHeadingSlanted({
+    super.key,
+    this.color = AppColorConstant.subHeadingColor,
+    required this.text,
     this.size = 50.0,
     this.textAlign = TextAlign.center,
-    }
-  );
+    this.height = 1.5,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class SubHeadingSlanted extends StatelessWidget {
         color: color,
         fontSize: size,
         fontStyle: FontStyle.italic,
+        height: height,
       ),
     );
   }

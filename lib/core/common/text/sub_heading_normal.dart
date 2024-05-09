@@ -7,7 +7,7 @@ class SubHeading extends StatelessWidget {
   final double size;
   final TextAlign textAlign;
   final FontWeight fontWeight;
-  // final double height;
+  final double height;
 
   const SubHeading({
     super.key,
@@ -15,7 +15,7 @@ class SubHeading extends StatelessWidget {
     required this.text,
     this.size = 50.0,
     this.fontWeight = FontWeight.normal,
-    // this.height = 84 / 50,
+    this.height = 1.5,
     this.textAlign = TextAlign.center,
   });
 
@@ -32,7 +32,7 @@ class SubHeading extends StatelessWidget {
         fontSize: size,
         fontStyle: FontStyle.normal,
         fontWeight: fontWeight,
-        // height: height,
+        height: height,
       ),
     );
   }

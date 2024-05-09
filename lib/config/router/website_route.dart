@@ -1,5 +1,6 @@
 import 'package:makeupstarstudio/features/about/about.dart';
 import 'package:makeupstarstudio/features/home/home.dart';
+import 'package:makeupstarstudio/features/services/services.dart';
 
 class WebsiteRoute {
   WebsiteRoute._();
@@ -24,7 +25,7 @@ class WebsiteRoute {
       // registerRoute: (context) => const SignUpPageView(),
       // profileRoute: (context) => ProfilePageView(),
       aboutRoute: (context) => const AboutPage(),
-      // servicesRoute: (context) => const ServicesPage(),
+      servicesRoute: (context) => const ServicesPage(),
       // galleryRoute: (context) => const GalleryPage(),
       // contactRoute: (context) => const ContactPage(),
       // bookRoute: (context) => const BookingPage(),

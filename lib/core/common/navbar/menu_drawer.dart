@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
+import 'package:makeupstarstudio/core/common/text/body.dart';
 
 class MenuDrawer extends StatelessWidget {
   const MenuDrawer({
@@ -23,26 +25,26 @@ class MenuDrawer extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      'BOOK APPOINTMENT',
-                      style: TextStyle(
-                        // fontWeight: FontWeight.bold,
-                        fontSize: 14.0,
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                      },
+                      child: const BodyText(
+                        text: 'BOOK APPOINTMENT',
                         letterSpacing: 2.0,
                       ),
                     ),
-                    // SizedBox(width: 10),
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: () {},
-                      icon: const Icon(Icons.arrow_right_alt_sharp),
+                    const Icon(
+                      Icons.arrow_right_alt_sharp,
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 16),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+                },
                 child: const Text(
                   'Home',
                   style: TextStyle(
@@ -53,7 +55,9 @@ class MenuDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+                },
                 child: const Text(
                   'About',
                   style: TextStyle(
@@ -64,7 +68,9 @@ class MenuDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+                },
                 child: const Text(
                   'Services',
                   style: TextStyle(
@@ -75,18 +81,9 @@ class MenuDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               InkWell(
-                onTap: () {},
-                child: const Text(
-                  'Bridal',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+                },
                 child: const Text(
                   'Gallery',
                   style: TextStyle(
@@ -97,7 +94,9 @@ class MenuDrawer extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                },
                 child: const Text(
                   'Contact',
                   style: TextStyle(

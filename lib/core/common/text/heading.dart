@@ -7,7 +7,8 @@ class BigText extends StatelessWidget {
   final double size; 
   final TextAlign textAlign;
   final FontWeight fontWeight;
-  // final double height;
+  final double height;
+  final double letterSpacing;
   // final TextOverflow overflow;
 
   const BigText(
@@ -16,7 +17,8 @@ class BigText extends StatelessWidget {
     required this.text, 
     this.fontWeight = FontWeight.normal,
     this.size = 40.0,
-    // this.height = 84 / 40,
+    this.height = 1.5,
+    this.letterSpacing = 1.0,
     // this.overflow = TextOverflow.ellipsis,
     this.textAlign = TextAlign.center,
     }
@@ -36,7 +38,8 @@ class BigText extends StatelessWidget {
         color: color,
         fontSize: size,
         fontWeight: fontWeight,
-        // height: height,
+        height: height,
+        letterSpacing: letterSpacing,
       ),
     );
   }

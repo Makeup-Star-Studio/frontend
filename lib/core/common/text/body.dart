@@ -8,6 +8,7 @@ class BodyText extends StatelessWidget {
   final TextAlign textAlign;
   final double letterSpacing;
   final FontWeight fontWeight;
+  final double height;
 
   const BodyText({
     super.key,
@@ -16,6 +17,7 @@ class BodyText extends StatelessWidget {
     this.letterSpacing = 0.0,
     this.fontWeight = FontWeight.normal,
     this.size = 14.0,
+    this.height = 1.75,
     this.textAlign = TextAlign.center,
   });
 
@@ -32,7 +34,7 @@ class BodyText extends StatelessWidget {
         fontSize: size,
         fontWeight: fontWeight,
         letterSpacing: letterSpacing,
-        height: 1.75
+        height: height
       ),
     );
   }

@@ -13,12 +13,13 @@ class AboutMissionSection extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.15, vertical: 50.0),
+          horizontal: screenSize.width * 0.1, vertical: 50.0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
+            height: 300,
             decoration: BoxDecoration(
               shape: BoxShape.rectangle, // Making the box shape circular
               color: Colors.grey[200],
@@ -31,12 +32,13 @@ class AboutMissionSection extends StatelessWidget {
                 ),
               ],
             ),
-            width: 450,
-            height: 550,
-            child: ClipRect(
-              child: Image.asset(
-                'assets/images/testimonial.jpg',
-                fit: BoxFit.cover,
+            child: Expanded(
+              flex: 1,
+              child: ClipRect(
+                child: Image.asset(
+                  'assets/images/testimonial.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -44,12 +46,14 @@ class AboutMissionSection extends StatelessWidget {
             width: 50.0,
           ),
           Expanded(
+            flex: 2,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const BigText(
                   text: 'OUR MISSION',
                   size: 50.0,
-                  // height: 84/50,
+                  height: 1.0,
                   color: AppColorConstant.secondaryColor,
                 ),
                 const SubHeading(

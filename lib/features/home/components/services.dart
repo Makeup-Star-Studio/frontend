@@ -20,7 +20,7 @@ class ServiceSection extends StatelessWidget {
             text: 'Explore our beauty services',
             size: 80.0,
           ),
-          const SizedBox(height: 10.0),
+          // const SizedBox(height: 10.0),
           GridView.count(
             crossAxisCount: 4, // Adjust the number of columns as needed
             crossAxisSpacing: 20.0,

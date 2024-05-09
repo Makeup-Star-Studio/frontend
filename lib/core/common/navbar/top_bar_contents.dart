@@ -26,9 +26,9 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const NavBarItem(title: 'About', index: 0),
-            const NavBarItem(title: 'Services', index: 1),
-            const NavBarItem(title: 'Bridal', index: 2),
+            const NavBarItem(title: 'Home', index: 0),
+            const NavBarItem(title: 'About', index: 1),
+            const NavBarItem(title: 'Services', index: 2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: InkWell(
@@ -71,6 +71,31 @@ class NavBarItem extends StatefulWidget {
 
 class _NavBarItemState extends State<NavBarItem> {
   bool _isHovering = false;
+  void _navigateToPage(BuildContext context) {
+    switch (widget.index) {
+      case 0:
+        Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+        break;
+      case 1:
+        Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+        break;
+      case 2:
+        Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+        break;
+      case 3:
+        Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+        break;
+      case 4:
+        Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+        break;
+      case 5:
+        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,7 +107,7 @@ class _NavBarItemState extends State<NavBarItem> {
           });
         },
         onPressed: () {
-          // Handle navigation here
+          _navigateToPage(context);
         },
         child: BodyText(
           text: widget.title,
