@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/core/common/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_normal.dart';
-import 'package:makeupstarstudio/config/constants/color.dart';
 
 class SubscriptionSection extends StatefulWidget {
   const SubscriptionSection({super.key});
@@ -41,20 +41,9 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
+                  child: TextFormInputField(
                     controller: _firstNameController,
-                    decoration: const InputDecoration(
-                      hoverColor: Colors.transparent,
-                      filled: true,
-                      fillColor: AppColorConstant.white,
-                      hintText: 'FIRST NAME',
-                      hintStyle: TextStyle(
-                        color: AppColorConstant.black,
-                        fontSize: 14.0,
-                      ),
-                      border: InputBorder.none,
-                    ),
+                    hintText: 'FIRST NAME',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';
@@ -65,38 +54,17 @@ class _SubscriptionSectionState extends State<SubscriptionSection> {
                 ),
                 const SizedBox(width: 10), // Add spacing between form fields
                 Expanded(
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
+                  child: TextFormInputField(
                     controller: _lastNameController,
-                    decoration: const InputDecoration(
-                      hoverColor: Colors.transparent,
-                      filled: true,
-                      fillColor: AppColorConstant.white,
-                      hintText: 'LAST NAME',
-                      hintStyle: TextStyle(
-                        color: AppColorConstant.black,
-                        fontSize: 14.0,
-                      ),
-                      border: InputBorder.none,
-                    ),
+                    hintText: 'LAST NAME',
                   ),
                 ),
                 const SizedBox(width: 10), // Add spacing between form fields
                 Expanded(
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
+                  child: TextFormInputField(
                     controller: _emailController,
-                    decoration: const InputDecoration(
-                      hoverColor: Colors.transparent,
-                      filled: true,
-                      fillColor: AppColorConstant.white,
-                      hintText: 'EMAIL',
-                      hintStyle: TextStyle(
-                        color: AppColorConstant.black,
-                        fontSize: 14.0,
-                      ),
-                      border: InputBorder.none,
-                    ),
+                    hintText: 'EMAIL',
+                    keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';

@@ -11,4 +11,9 @@ class AppColorConstant {
   static const buttonColor = Color(0xFFF0E7E3);
   static const black = Colors.black;
   static const white = Colors.white;
+
+  // system colors
+  static const Color successColor = Color(0xFF29A81A);
+  static const Color errorColor = Color(0xFFD32F2F);
+  static const Color warningColor = Color(0xFFF7E701);
 }

@@ -35,17 +35,17 @@ class InfoSection extends StatelessWidget {
                   children: [
                     _buildSocialMediaIcon(
                       'assets/icons/facebook.png',
-                      'https://www.facebook.com/your_profile',
+                      'https://www.facebook.com/share/nKqoKmAsqthiRJSo/?mibextid=LQQJ4d',
                     ),
                     const SizedBox(width: 10.0),
                     _buildSocialMediaIcon(
                       'assets/icons/instagram.png',
-                      'https://www.instagram.com/__ayusha16/',
+                      'https://www.instagram.com/__ayusha16?igsh=eGR6aGM2aXh1amF6&utm_source=qr',
                     ),
                     const SizedBox(width: 10.0),
                     _buildSocialMediaIcon(
                       'assets/icons/whatsapp.png',
-                      'https://wa.me/your_phone_number',
+                      'https://wa.link/yoty74',
                     ),
                     const SizedBox(width: 10.0),
                     _buildSocialMediaIcon(
