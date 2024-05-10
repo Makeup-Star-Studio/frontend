@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/core/common/input_field.dart';
+import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';

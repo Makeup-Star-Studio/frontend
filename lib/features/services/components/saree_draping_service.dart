@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/core/common/button_card.dart';
+import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 
-class SareeDrappingServiceSection extends StatefulWidget {
-  const SareeDrappingServiceSection({super.key});
+class SareeDrapingServiceSection extends StatefulWidget {
+  const SareeDrapingServiceSection({super.key});
 
   @override
-  SareeDrappingServiceSectionState createState() =>
-      SareeDrappingServiceSectionState();
+  SareeDrapingServiceSectionState createState() =>
+      SareeDrapingServiceSectionState();
 }
 
-class SareeDrappingServiceSectionState
-    extends State<SareeDrappingServiceSection> {
+class SareeDrapingServiceSectionState
+    extends State<SareeDrapingServiceSection> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -68,8 +68,9 @@ class SareeDrappingServiceSectionState
                           fontSize: 14.0,
                         ),
                         children: [
-                          TextSpan(text: "- BRIDAL SAREE DRAPPING | \$80+\n"),
-                          TextSpan(text: "- GUEST SAREE DRAPPING | \$50+\n"),
+                          TextSpan(text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
+                          TextSpan(text: "- NORMAL SAREE DRAPING | \$80+\n"),
+                          TextSpan(text: "- DUPATTA / VEIL SAREE DRAPING | \$50+"),
                         ],
                       ),
                     ),
@@ -80,9 +81,12 @@ class SareeDrappingServiceSectionState
                       color: AppColorConstant.subHeadingColor,
                     ),
                     const SizedBox(height: 20.0),
-                    const SizedBox(
+                    SizedBox(
                       width: 300,
-                      child: ButtonCard(),
+                      child: ButtonCard(
+                      text: 'BOOK APPOINTMENT',
+                      press: () {},
+                    ),
                     ),
                   ],
                 ),

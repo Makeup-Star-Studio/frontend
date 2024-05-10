@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/core/common/input_field.dart';
+import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_normal.dart';

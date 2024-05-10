@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 
-class HeaderContentServiceSection extends StatelessWidget {
+class HeaderContentBookingSection extends StatelessWidget {
   final String title;
   final String subTitle;
 
-  const HeaderContentServiceSection({
+  const HeaderContentBookingSection({
     super.key,
     required this.title,
     required this.subTitle,
@@ -22,11 +22,12 @@ class HeaderContentServiceSection extends StatelessWidget {
           BigText(
             text: title,
             height: 1.0,
+            size: 30.0,
             letterSpacing: 3.0,
           ),
           SubHeadingSlanted(
             height: 1.0,
-            size: 70.0, 
+            size: 60.0, 
             text: subTitle,
           ),
         ],

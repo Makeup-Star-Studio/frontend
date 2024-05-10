@@ -65,17 +65,17 @@ class InfoSection extends StatelessWidget {
                 _buildListTile(
                   icon: Icons.call_outlined,
                   title: 'Have Questions?',
-                  subtitle: 'Call us at +1 123 456 7890',
+                  subtitle: 'Call us at +1 415-696-0258',
                 ),
                 _buildListTile(
                   icon: Icons.location_on_outlined,
                   title: 'Location',
-                  subtitle: 'Bay Area, San Francisco & beyond',
+                  subtitle: 'San Jose, California & beyond',
                 ),
                 _buildListTile(
                   icon: Icons.calendar_today_outlined,
                   title: 'Business Hours',
-                  subtitle: 'Mon - Fri: 9:00 AM - 6:00 PM',
+                  subtitle: 'Open 24 Hours Daily',
                 ),
               ],
             ),

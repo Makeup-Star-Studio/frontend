@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/core/common/button_card.dart';
+import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
@@ -92,9 +92,12 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                     color: AppColorConstant.subHeadingColor,
                   ),
                   const SizedBox(height: 20.0),
-                  const SizedBox(
+                  SizedBox(
                     width: 300,
-                    child: ButtonCard(),
+                    child: ButtonCard(
+                      text: 'BOOK APPOINTMENT',
+                      press: () {},
+                    ),
                   ),
                 ],
               ),

@@ -30,6 +30,7 @@ class TextFormInputField extends StatelessWidget {
         textAlign: textAlign,
         controller: controller,
         keyboardType: keyboardType,
+        cursorColor: AppColorConstant.black.withOpacity(0.6),
         maxLines: maxLines,
         decoration: InputDecoration(
           hoverColor: Colors.transparent,
@@ -42,7 +43,7 @@ class TextFormInputField extends StatelessWidget {
           ),
           border: border,
           focusedBorder: focusBorder,
-          focusColor: AppColorConstant.black,
+          // focusColor: AppColorConstant.subHeadingColor,
         ),
         validator: validator, // Apply the validator conditionally
       ),

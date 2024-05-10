@@ -11,7 +11,7 @@ import 'package:makeupstarstudio/features/services/components/bridal_service.dar
 import 'package:makeupstarstudio/features/services/components/henna_service.dart';
 import 'package:makeupstarstudio/features/services/components/non_bridal_hair_service.dart';
 import 'package:makeupstarstudio/features/services/components/non_bridal_makeup_service.dart';
-import 'package:makeupstarstudio/features/services/components/saree_drapping_service.dart';
+import 'package:makeupstarstudio/features/services/components/saree_draping_service.dart';
 import 'package:makeupstarstudio/features/services/components/service_header.dart';
 import 'package:makeupstarstudio/features/services/components/service_text.dart';
 
@@ -45,40 +45,40 @@ class ServicesPage extends StatelessWidget {
           ServiceHeaderSection(),
           ServiceTextSection(),
           SizedBox(height: 40.0),
-          HeaderContentSection(
+          HeaderContentServiceSection(
             title: 'Birdal Services',
             subTitle: 'for your big day',
           ),
           SizedBox(height: 20.0),
           BridalServiceSection(),
           SizedBox(height: 40.0),
-          HeaderContentSection(
+          HeaderContentServiceSection(
             title: 'Non Bridal Makeup Services',
             subTitle: 'makeup application',
           ),
           SizedBox(height: 20.0),
           NonBridalMakeupServiceSection(),
           SizedBox(height: 40.0),
-          HeaderContentSection(
+          HeaderContentServiceSection(
             title: 'Non Bridal Hair Services',
             subTitle: 'elevate hairstyle',
           ),
           SizedBox(height: 20.0),
           NonBridalHairServiceSection(),
           SizedBox(height: 40.0),
-          HeaderContentSection(
+          HeaderContentServiceSection(
             title: 'Henna Services',
             subTitle: 'cultural elegance',
           ),
           SizedBox(height: 20.0),
           HennaServiceSection(),
           SizedBox(height: 40.0),
-          HeaderContentSection(
-            title: 'Saree Drapping Services',
+          HeaderContentServiceSection(
+            title: 'Saree Draping Services',
             subTitle: 'elegant styling',
           ),
           SizedBox(height: 20.0),
-          SareeDrappingServiceSection(),
+          SareeDrapingServiceSection(),
           SizedBox(height: 40.0),
           SubscriptionSection(),
           SizedBox(height: 10.0),

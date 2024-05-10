@@ -1,4 +1,5 @@
 import 'package:makeupstarstudio/features/about/about.dart';
+import 'package:makeupstarstudio/features/booking/booking.dart';
 import 'package:makeupstarstudio/features/contact/contact.dart';
 import 'package:makeupstarstudio/features/home/home.dart';
 import 'package:makeupstarstudio/features/services/services.dart';
@@ -29,7 +30,7 @@ class WebsiteRoute {
       servicesRoute: (context) => const ServicesPage(),
       // galleryRoute: (context) => const GalleryPage(),
       contactRoute: (context) => const ContactPage(),
-      // bookRoute: (context) => const BookingPage(),
+      bookRoute: (context) => const BookingPage(),
       // editProfile: (context) => const UpdateProfileView(),
       // changePassword: (context) => const ChangePasswordView(),
     };
