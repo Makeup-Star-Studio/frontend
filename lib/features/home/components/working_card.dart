@@ -28,6 +28,7 @@ class WorkingCard extends StatelessWidget {
             child: BigText(
               text: title,
               size: 30.0,
+              height: 1.0,
             ),
           ),
           Padding(

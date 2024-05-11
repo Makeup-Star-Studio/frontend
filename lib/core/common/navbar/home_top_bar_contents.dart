@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/router/website_route.dart';
+import 'package:makeupstarstudio/core/common/text/button_card.dart';
 
 class HomeTopBarContents extends StatefulWidget {
   const HomeTopBarContents({super.key});
@@ -53,35 +54,7 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                   // SizedBox(width: screenSize.width / 5),
                   InkWell(
                     hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[2] = value;
-                      });
-                    },
                     onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.homeRoute);
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'HOME',
-                          style: TextStyle(
-                            color: _isHovering[2]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onTap:() {
                       Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
                     },
                     onHover: (value) {
@@ -124,6 +97,34 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                           'SERVICES',
                           style: TextStyle(
                             color: _isHovering[1]
+                                ? AppColorConstant.secondaryColor
+                                : Colors.black,
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 14.0,
+                            letterSpacing: 2.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(width: screenSize.width / 30),
+                  InkWell(
+                    hoverColor: Colors.transparent,
+                    onHover: (value) {
+                      setState(() {
+                        _isHovering[2] = value;
+                      });
+                    },
+                    onTap: () {
+                      Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'BRIDAL',
+                          style: TextStyle(
+                            color: _isHovering[2]
                                 ? AppColorConstant.secondaryColor
                                 : Colors.black,
                             // fontWeight: FontWeight.bold,
@@ -202,33 +203,14 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                 onTap: () {
                   Navigator.pushNamed(context, WebsiteRoute.bookRoute);
                 },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: const BoxDecoration(
-                          color: AppColorConstant.buttonColor),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'BOOK APPOINTMENT',
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              fontSize: 14.0,
-                              letterSpacing: 2.0,
-                            ),
-                          ),
-                          // SizedBox(width: 10),
-                          IconButton(
-                            hoverColor: Colors.transparent,
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_right_alt_sharp),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: ButtonCard(
+                  press: () {
+                    Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                  },
+                  text: 'BOOK APPOINTMENT',
+                  // color: _isHovering[5]
+                  //     ? AppColorConstant.secondaryColor
+                  //     : Colors.black,
                 ),
               ),
             ],

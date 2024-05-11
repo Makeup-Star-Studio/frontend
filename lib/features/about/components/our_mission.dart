@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
@@ -74,8 +75,11 @@ class AboutMissionSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 ModifiedButton(
-                  press: () {},
-                  text: 'VIEW OUR SERVICES',
+                  press: () {
+                    // Handle navigation here
+                    Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                  },
+                  text: 'GET IN TOUCH',
                   fontWeight: FontWeight.normal,
                 ),
               ],

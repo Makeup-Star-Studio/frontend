@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
@@ -82,7 +83,10 @@ class _WhyChooseUsSectionState extends State<WhyChooseUsSection> {
                 ),
                 const SizedBox(height: 20.0),
                 ModifiedButton(
-                  press: () {},
+                  press: () {
+                    // Handle navigation here
+                    Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+                  },
                   text: 'VIEW OUR SERVICES',
                   fontWeight: FontWeight.normal,
                 ),

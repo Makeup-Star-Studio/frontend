@@ -13,6 +13,7 @@ class WebsiteRoute {
   static const String registerRoute = '/register';
   static const String aboutRoute = '/about';
   static const String servicesRoute = '/services';
+  static const String bridalRoute = '/bridal';
   static const String galleryRoute = '/gallery';
   static const String contactRoute = '/contact';
   static const String bookRoute = '/book';
@@ -28,6 +29,7 @@ class WebsiteRoute {
       // profileRoute: (context) => ProfilePageView(),
       aboutRoute: (context) => const AboutPage(),
       servicesRoute: (context) => const ServicesPage(),
+      // bridalRoute: (context) => const BridalPage(),
       // galleryRoute: (context) => const GalleryPage(),
       contactRoute: (context) => const ContactPage(),
       bookRoute: (context) => const BookingPage(),

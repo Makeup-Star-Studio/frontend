@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
@@ -96,7 +97,9 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                     width: 300,
                     child: ButtonCard(
                       text: 'BOOK APPOINTMENT',
-                      press: () {},
+                      press: () {
+                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                      },
                     ),
                   ),
                 ],

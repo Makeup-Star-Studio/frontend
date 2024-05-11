@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/features/home/components/working_card.dart';
@@ -22,6 +23,7 @@ class WorkingSection extends StatelessWidget {
           const SubHeadingSlanted(
             text: 'How it Works',
             size: 80.0,
+            height: 1.0,
           ),
           const Row(
             children: [
@@ -53,7 +55,9 @@ class WorkingSection extends StatelessWidget {
               text: 'BOOK YOUR APPOINTMENT',
               size: 12.0,
               letterSpacing: 2.0,
-              press: () {}),
+              press: () {
+                Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+              }),
           const SizedBox(height: 20.0),
         ],
       ),

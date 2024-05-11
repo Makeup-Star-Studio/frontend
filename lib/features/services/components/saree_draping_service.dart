@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/core/common/text/button_card.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
+import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 
@@ -54,7 +55,8 @@ class SareeDrapingServiceSectionState
                       height: 1.0,
                       size: 25.0,
                     ),
-                    const SubHeadingSlanted(text: "what's included", height: 1.0),
+                    const SubHeadingSlanted(
+                        text: "what's included", height: 1.0),
                     const SizedBox(height: 20.0),
                     const BodyText(
                         text:
@@ -68,9 +70,11 @@ class SareeDrapingServiceSectionState
                           fontSize: 14.0,
                         ),
                         children: [
-                          TextSpan(text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
+                          TextSpan(
+                              text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
                           TextSpan(text: "- NORMAL SAREE DRAPING | \$80+\n"),
-                          TextSpan(text: "- DUPATTA / VEIL SAREE DRAPING | \$50+"),
+                          TextSpan(
+                              text: "- DUPATTA / VEIL SAREE DRAPING | \$50+"),
                         ],
                       ),
                     ),
@@ -84,9 +88,11 @@ class SareeDrapingServiceSectionState
                     SizedBox(
                       width: 300,
                       child: ButtonCard(
-                      text: 'BOOK APPOINTMENT',
-                      press: () {},
-                    ),
+                        text: 'BOOK APPOINTMENT',
+                        press: () {
+                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                        },
+                      ),
                     ),
                   ],
                 ),

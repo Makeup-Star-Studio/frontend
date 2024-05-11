@@ -14,7 +14,7 @@ class ButtonCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: const BoxDecoration(color: AppColorConstant.buttonColor),
       child: GestureDetector(
         onTap: press,

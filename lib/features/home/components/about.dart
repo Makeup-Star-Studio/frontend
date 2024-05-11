@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
@@ -12,9 +13,7 @@ class AboutSection extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: screenSize.width * 0.1, 
-        vertical: 50.0
-      ),
+          horizontal: screenSize.width * 0.1, vertical: 50.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -55,7 +54,9 @@ class AboutSection extends StatelessWidget {
                 ),
                 const SizedBox(height: 20.0),
                 ModifiedButton(
-                  press: () {},
+                  press: () {
+                    Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+                  },
                   text: 'Know More About Us..',
                   size: 12.0,
                 ),

@@ -4,6 +4,7 @@ import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
+
 class BookingHeaderSection extends StatefulWidget {
   const BookingHeaderSection({super.key});
 
@@ -47,7 +48,6 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
                   const BodyText(
                     text:
                         "Thank you so much for your consideration in working with the Makeup Star Studio Beauty Team! In need of a beauty team? Use the link below to instantly book one of our professional beauty stylists! For all Bridal & Event Inquiries, please use this booking form below to get in touch with us, and we'll get back to you shortly! ",
-                    size: 16.0,
                   ),
                   const SizedBox(height: 20.0),
                   ButtonCard(

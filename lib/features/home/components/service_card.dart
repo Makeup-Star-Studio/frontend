@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 
@@ -13,7 +14,7 @@ class ServiceCard extends StatefulWidget {
   });
 
   @override
-  _ServiceCardState createState() => _ServiceCardState();
+  State<ServiceCard> createState() => _ServiceCardState();
 }
 
 class _ServiceCardState extends State<ServiceCard> {
@@ -24,6 +25,7 @@ class _ServiceCardState extends State<ServiceCard> {
     return InkWell(
       onTap: () {
         // Handle onTap event if needed
+        Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
       },
       onHover: (isHovered) {
         setState(() {

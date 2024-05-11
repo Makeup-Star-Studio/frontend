@@ -7,7 +7,7 @@ class TopNavigationBar extends StatefulWidget {
   const TopNavigationBar({super.key});
 
   @override
-  _TopNavigationBarState createState() => _TopNavigationBarState();
+  State<TopNavigationBar> createState() => _TopNavigationBarState();
 }
 
 class _TopNavigationBarState extends State<TopNavigationBar> {
@@ -26,9 +26,9 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const NavBarItem(title: 'Home', index: 0),
-            const NavBarItem(title: 'About', index: 1),
-            const NavBarItem(title: 'Services', index: 2),
+            const NavBarItem(title: 'About', index: 0),
+            const NavBarItem(title: 'Services', index: 1),
+            const NavBarItem(title: 'Bridal', index: 2),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: InkWell(
@@ -74,13 +74,13 @@ class _NavBarItemState extends State<NavBarItem> {
   void _navigateToPage(BuildContext context) {
     switch (widget.index) {
       case 0:
-        Navigator.pushNamed(context, WebsiteRoute.homeRoute);
-        break;
-      case 1:
         Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
         break;
-      case 2:
+      case 1:
         Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+        break;
+      case 2:
+        Navigator.pushNamed(context, WebsiteRoute.bridalRoute);
         break;
       case 3:
         Navigator.pushNamed(context, WebsiteRoute.galleryRoute);

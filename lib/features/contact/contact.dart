@@ -23,7 +23,7 @@ class ContactPage extends StatelessWidget {
               elevation: 0,
               centerTitle: true,
               title: Image.asset(
-                'assets/images/contact.png',
+                'assets/images/logo-black.png',
                 width: 70,
                 height: 60,
               ),
