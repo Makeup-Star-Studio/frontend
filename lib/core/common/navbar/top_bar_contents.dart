@@ -26,9 +26,10 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const NavBarItem(title: 'About', index: 0),
-            const NavBarItem(title: 'Services', index: 1),
-            const NavBarItem(title: 'Bridal', index: 2),
+            const NavBarItem(title: 'Home', index: 0),
+            const NavBarItem(title: 'About', index: 1),
+            const NavBarItem(title: 'Services', index: 2),
+            const NavBarItem(title: 'Bridal', index: 3),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: InkWell(
@@ -46,9 +47,9 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                 ),
               ),
             ),
-            const NavBarItem(title: 'Gallery', index: 3),
-            const NavBarItem(title: 'Contact', index: 4),
-            const NavBarItem(title: 'Book Now', index: 5),
+            const NavBarItem(title: 'Gallery', index: 4),
+            const NavBarItem(title: 'Contact', index: 5),
+            const NavBarItem(title: 'Book Now', index: 6),
           ],
         ),
       ),
@@ -74,21 +75,24 @@ class _NavBarItemState extends State<NavBarItem> {
   void _navigateToPage(BuildContext context) {
     switch (widget.index) {
       case 0:
-        Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+        Navigator.pushNamed(context, WebsiteRoute.homeRoute);
         break;
       case 1:
-        Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+        Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
         break;
       case 2:
-        Navigator.pushNamed(context, WebsiteRoute.bridalRoute);
+        Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
         break;
       case 3:
-        Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+        Navigator.pushNamed(context, WebsiteRoute.bridalRoute);
         break;
       case 4:
-        Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+        Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
         break;
       case 5:
+        Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+        break;
+      case 6:
         Navigator.pushNamed(context, WebsiteRoute.bookRoute);
         break;
       default:
