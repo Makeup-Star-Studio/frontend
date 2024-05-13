@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
-import 'package:makeupstarstudio/config/constants/color.dart';
 
 class TestimonialSection extends StatefulWidget {
   const TestimonialSection({super.key});
 
   @override
-  _TestimonialSectionState createState() => _TestimonialSectionState();
+  State<TestimonialSection> createState() => _TestimonialSectionState();
 }
 
 class _TestimonialSectionState extends State<TestimonialSection> {
@@ -54,6 +55,16 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   @override
   Widget build(BuildContext context) {
     final testimonial = _testimonials[_currentIndex];
+    final screenSize = MediaQuery.of(context).size;
+
+    return ResponsiveWidget(
+      largeScreen: _buildLargeScreen(testimonial),
+      mediumScreen: _buildMediumScreen(screenSize, testimonial),
+      smallScreen: _buildSmallScreen(screenSize, testimonial),
+    );
+  }
+
+  Widget _buildLargeScreen(Map<String, dynamic> testimonial) {
     return Container(
       color: AppColorConstant.bgColor,
       padding: const EdgeInsets.only(left: 50),
@@ -137,6 +148,85 @@ class _TestimonialSectionState extends State<TestimonialSection> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildMediumScreen(Size screenSize, Map<String, dynamic> testimonial) {
+    return _buildSmallScreen(screenSize, testimonial);
+  }
+
+  Widget _buildSmallScreen(Size screenSize, Map<String, dynamic> testimonial) {
+    return Column(
+      children: [
+        Image.asset(
+          testimonial['imagePath'],
+          width: screenSize.width,
+          height: 500.0,
+          fit: BoxFit.cover,
+        ),
+        // const SizedBox(height: 20.0),
+        Container(
+          color: AppColorConstant.bgColor,
+          padding: const EdgeInsets.all(20.0),
+          // Use Container instead of SizedBox
+          // height: screenSize.height * 0.5, // Specify a finite height
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SubHeadingSlanted(
+                textAlign: TextAlign.start,
+                text: 'Client Love',
+                size: 65.0,
+                height: 1.0,
+                color: AppColorConstant.black,
+              ),
+              const SizedBox(height: 20.0),
+              BigText(
+                // textAlign: TextAlign.start,
+                text: testimonial['bigText'],
+                size: 25.0,
+              ),
+              const SizedBox(height: 20.0),
+              BodyText(
+                // textAlign: TextAlign.start,
+                text: testimonial['bodyText'],
+              ),
+              const SizedBox(height: 20.0),
+              BodyText(
+                text: testimonial['name'],
+                color: AppColorConstant.subHeadingColor,
+                // size: 16.0,
+                fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 20.0),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    onPressed: _previousTestimonial,
+                    icon: const Icon(
+                      Icons.arrow_back_sharp,
+                      color: AppColorConstant.black,
+                    ),
+                  ),
+                  const SizedBox(width: 12.0),
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    onPressed: _nextTestimonial,
+                    icon: const Icon(
+                      Icons.arrow_forward_sharp,
+                      color: AppColorConstant.black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

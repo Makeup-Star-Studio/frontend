@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
+import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/home_top_bar_contents.dart';
+import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/features/home/components/about.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
-import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/how_it_works.dart';
+import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/mission.dart';
 import 'package:makeupstarstudio/features/home/components/services.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
 import 'package:makeupstarstudio/features/home/components/testimonial.dart';
-import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

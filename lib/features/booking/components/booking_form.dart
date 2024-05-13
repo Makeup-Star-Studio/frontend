@@ -15,7 +15,10 @@ class BookingFormSection extends StatefulWidget {
 }
 
 class _BookingFormSectionState extends State<BookingFormSection> {
+  bool showPricing = false;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -28,8 +31,9 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   final TextEditingController _hairController = TextEditingController();
   final TextEditingController _hennaController = TextEditingController();
   final TextEditingController _drapingController = TextEditingController();
-  final TextEditingController _artistController = TextEditingController();
   final TextEditingController _sourceController = TextEditingController();
+  final TextEditingController _artistController = TextEditingController();
+  final TextEditingController _pricingController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
 
   DateTime? date = DateTime.now();
@@ -39,6 +43,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
       TimeOfDay.now(); // Add this variable for the selected time
 
   List<String> selectedEventTypes = [];
+  List<String> selectedPricingTypes = [];
 
   final List<String> sourceOptions = [
     "Personal Website",
@@ -336,36 +341,6 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                   const SizedBox(height: 20),
                   // how did you hear about us
                   BookingInputField(
-                    labelText:
-                        'Are you looking for the exclusive premium service? (Select an option)',
-                    controller: _artistController,
-                    hintText: 'E.g. Yes, No',
-                    isFormFieldRequired: false,
-                    isTextRequired: false,
-                  ),
-                  DropdownButton(
-                    // padding: EdgeInsets.only(top: 8),
-                    isExpanded: true,
-                    underline: Container(
-                      height: 1,
-                      color: AppColorConstant.black,
-                    ),
-                    value: selectedArtistOptions,
-                    items: artistOptions.map((String option) {
-                      return DropdownMenuItem(
-                        value: option,
-                        child: BodyText(text: option),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedArtistOptions = newValue.toString();
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  // how did you hear about us
-                  BookingInputField(
                     labelText: 'How did you hear about us? (Select an option)',
                     controller: _sourceController,
                     hintText: 'E.g. Instagram, Facebook, Google, etc',
@@ -391,6 +366,72 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                         selectedSourceOptions = newValue.toString();
                       });
                     },
+                  ),
+                  const SizedBox(height: 20),
+                  // artist preference
+                  BookingInputField(
+                    labelText:
+                        'Are you looking for the exclusive premium service? (Select an option)',
+                    controller: _artistController,
+                    hintText: 'E.g. Yes, No',
+                    isFormFieldRequired: false,
+                  ),
+                  DropdownButton(
+                    // padding: EdgeInsets.only(top: 8),
+                    isExpanded: true,
+                    underline: Container(
+                      height: 1,
+                      color: AppColorConstant.black,
+                    ),
+                    value: selectedArtistOptions,
+                    items: artistOptions.map((String option) {
+                      return DropdownMenuItem(
+                        value: option,
+                        child: BodyText(text: option),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        selectedArtistOptions = newValue.toString();
+                        showPricing = selectedArtistOptions ==
+                                "Yes, Exclusive with Geet" ||
+                            selectedArtistOptions ==
+                                "No, Team Geet (Senior Artists) is perfect" ||
+                            selectedArtistOptions == "NA / No Preference";
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  // pricing
+                  Visibility(
+                    visible: showPricing,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BookingInputField(
+                          labelText:
+                              'What are you willing to pay for that perfect look(per event)?',
+                          controller: _pricingController,
+                          hintText: 'E.g. Bridal Makeup, Hair, etc',
+                          isFormFieldRequired: false,
+                        ),
+                        EventTypeCheckboxGroup(
+                          eventTypes: const [
+                            "\$500 - \$850",
+                            "\$850 - \$1500",
+                            "\$1500 - \$2500",
+                            "\$2500 - \$3500",
+                            "\$3500 plus",
+                          ],
+                          selectedTypes: selectedPricingTypes,
+                          onChanged: (selectedTypes) {
+                            setState(() {
+                              selectedPricingTypes = selectedTypes;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(height: 20),
                   // message

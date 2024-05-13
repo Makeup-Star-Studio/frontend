@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
 import 'package:makeupstarstudio/features/about/components/about_me.dart';
@@ -8,8 +10,6 @@ import 'package:makeupstarstudio/features/about/components/why_choose_us.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
 import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
-import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});

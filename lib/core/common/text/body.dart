@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class BodyText extends StatelessWidget {
   final Color color;
   final String text;
   final double size;
+  final double mediumSize;
+  final double smallSize;
   final TextAlign textAlign;
   final double letterSpacing;
   final FontWeight fontWeight;
@@ -16,7 +19,9 @@ class BodyText extends StatelessWidget {
     required this.text,
     this.letterSpacing = 0.0,
     this.fontWeight = FontWeight.normal,
-    this.size = 14.0,
+    this.size = 16.0,
+    this.mediumSize = 16.0,
+    this.smallSize = 14.0,
     this.height = 1.75,
     this.textAlign = TextAlign.center,
   });
@@ -28,14 +33,17 @@ class BodyText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
-      style: TextStyle(        
-        fontFamily: 'Questrial',
-        color: color,
-        fontSize: size,
-        fontWeight: fontWeight,
-        letterSpacing: letterSpacing,
-        height: height
-      ),
+      style: TextStyle(
+          fontFamily: 'Questrial',
+          color: color,
+          fontSize: ResponsiveWidget.isSmallScreen(context)
+              ? smallSize
+              : ResponsiveWidget.isMediumScreen(context)
+                  ? mediumSize
+                  : size,
+          fontWeight: fontWeight,
+          letterSpacing: letterSpacing,
+          height: height),
     );
   }
 }

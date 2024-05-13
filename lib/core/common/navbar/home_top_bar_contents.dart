@@ -7,7 +7,7 @@ class HomeTopBarContents extends StatefulWidget {
   const HomeTopBarContents({super.key});
 
   @override
-  _HomeTopBarContentsState createState() => _HomeTopBarContentsState();
+  State<HomeTopBarContents> createState() => _HomeTopBarContentsState();
 }
 
 class _HomeTopBarContentsState extends State<HomeTopBarContents> {

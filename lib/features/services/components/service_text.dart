@@ -17,7 +17,9 @@ class ServiceTextSection extends StatelessWidget {
               BigText(
                 text: "let's get you glam, beautiful",
                 fontWeight: FontWeight.w600,
-                size: 28.0,
+                size: 24,
+                smallSize: 18,
+                mediumSize: 22,
                 color: AppColorConstant.white,
               )
             ]));

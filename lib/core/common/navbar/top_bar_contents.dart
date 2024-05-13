@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 
@@ -39,11 +40,10 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
                   Navigator.pushNamed(context, WebsiteRoute.homeRoute);
                 },
                 child: ClipRect(
-                  child: Image.asset(
-                    'assets/images/logo2.png',
-                    width: 125,
-                    height: 75,
-                  ),
+                  child: Image.asset('assets/images/logo2.png',
+                      width:
+                          ResponsiveWidget.isLargeScreen(context) ? 125 : 100,
+                      height: 75),
                 ),
               ),
             ),
@@ -115,8 +115,8 @@ class _NavBarItemState extends State<NavBarItem> {
         },
         child: BodyText(
           text: widget.title,
-          letterSpacing: 2.0,
-          size: 16.0,
+          letterSpacing: ResponsiveWidget.isLargeScreen(context) ? 2.0 : 0.0,
+          size: ResponsiveWidget.isLargeScreen(context) ? 16.0 : 14.0,
           color: _isHovering ? AppColorConstant.secondaryColor : Colors.black,
           fontWeight: _isHovering ? FontWeight.bold : FontWeight.normal,
         ),

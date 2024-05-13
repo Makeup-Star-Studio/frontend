@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class SubHeading extends StatelessWidget {
   final Color color;
   final String text;
   final double size;
+  final double mediumSize;
+  final double smallSize;
   final TextAlign textAlign;
   final FontWeight fontWeight;
   final double height;
@@ -14,6 +17,8 @@ class SubHeading extends StatelessWidget {
     this.color = AppColorConstant.subHeadingColor,
     required this.text,
     this.size = 50.0,
+    this.mediumSize = 70.0,
+    this.smallSize = 50.0,
     this.fontWeight = FontWeight.normal,
     this.height = 1.5,
     this.textAlign = TextAlign.center,
@@ -29,7 +34,11 @@ class SubHeading extends StatelessWidget {
       style: TextStyle(
         fontFamily: 'Sebastian Bobby',
         color: color,
-        fontSize: size,
+        fontSize: ResponsiveWidget.isSmallScreen(context)
+            ? smallSize
+            : ResponsiveWidget.isMediumScreen(context)
+                ? mediumSize
+                : size,
         fontStyle: FontStyle.normal,
         fontWeight: fontWeight,
         height: height,

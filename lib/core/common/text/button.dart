@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class ModifiedButton extends StatelessWidget {
   final String text;
   final void Function() press;
   final Color color, textColor;
   final double size;
+  final double mediumSize;
+  final double smallSize;
   final double letterSpacing;
   final FontWeight fontWeight;
 
@@ -13,7 +16,9 @@ class ModifiedButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.press,
-    this.size = 14.0,
+    this.size = 16.0,
+    this.mediumSize = 16.0,
+    this.smallSize = 14.0,
     this.fontWeight = FontWeight.w600,
     this.letterSpacing = 1.0,
     this.color = AppColorConstant.buttonColor,
@@ -41,7 +46,11 @@ class ModifiedButton extends StatelessWidget {
         text,
         style: TextStyle(
           color: textColor,
-          fontSize: size,
+          fontSize: ResponsiveWidget.isSmallScreen(context)
+              ? smallSize
+              : ResponsiveWidget.isMediumScreen(context)
+                  ? mediumSize
+                  : size,
           letterSpacing: letterSpacing,
           fontWeight: fontWeight,
         ),

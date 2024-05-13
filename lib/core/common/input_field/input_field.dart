@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class TextFormInputField extends StatelessWidget {
   final TextEditingController controller;
@@ -38,8 +39,13 @@ class TextFormInputField extends StatelessWidget {
           fillColor: AppColorConstant.white,
           hintText: hintText,
           hintStyle: TextStyle(
-            color: AppColorConstant.black.withOpacity(0.6),
-            fontSize: 14.0,
+            color: ResponsiveWidget.isSmallScreen(context)
+                ? AppColorConstant.black
+                : AppColorConstant.black.withOpacity(0.6),
+            fontSize: ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
+            fontWeight: ResponsiveWidget.isSmallScreen(context)
+                ? FontWeight.w600
+                : FontWeight.normal,
           ),
           border: border,
           focusedBorder: focusBorder,

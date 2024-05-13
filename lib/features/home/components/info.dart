@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +9,15 @@ class InfoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    return ResponsiveWidget(
+      largeScreen: _buildLargeScreen(screenSize),
+      mediumScreen: _buildMediumScreen(screenSize),
+      smallScreen: _buildSmallScreen(screenSize),
+    );
+  }
+
+  // large screen
+  Widget _buildLargeScreen(Size screenSize) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.1),
       child: Row(
@@ -85,21 +95,94 @@ class InfoSection extends StatelessWidget {
     );
   }
 
-  Widget _buildListTile({required IconData icon, required String title, required String subtitle}) {
+  // medium screen
+  Widget _buildMediumScreen(Size screenSize) {
+    return _buildLargeScreen(screenSize); // Just using large screen layout
+  }
+
+  // small screen
+  Widget _buildSmallScreen(Size screenSize) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRect(
+            child: Image.asset(
+              'assets/images/logo-black.png',
+              width: 100,
+              height: 100,
+            ),
+          ),
+          const BodyText(
+            // textAlign: TextAlign.start,
+            text:
+                'Makeup Star Studio is a team of talented beauty professionals providing luxury on-site beauty services while elevating your beauty and confidence. Serving Bay Area, San Francisco & beyond.',
+          ),
+          const SizedBox(height: 10.0),
+          Column(
+            children: [
+              _buildListTile(
+                icon: Icons.call_outlined,
+                title: 'Have Questions?',
+                subtitle: 'Call us at +1 415-696-0258',
+              ),
+              _buildListTile(
+                icon: Icons.location_on_outlined,
+                title: 'Location',
+                subtitle: 'San Jose, California & beyond',
+              ),
+              _buildListTile(
+                icon: Icons.calendar_today_outlined,
+                title: 'Business Hours',
+                subtitle: 'Open 24 Hours Daily',
+              ),
+            ],
+          ),
+          const SizedBox(height: 40.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildSocialMediaIcon(
+                'assets/icons/facebook.png',
+                'https://www.facebook.com/share/nKqoKmAsqthiRJSo/?mibextid=LQQJ4d',
+              ),
+              const SizedBox(width: 10.0),
+              _buildSocialMediaIcon(
+                'assets/icons/instagram.png',
+                'https://www.instagram.com/__ayusha16?igsh=eGR6aGM2aXh1amF6&utm_source=qr',
+              ),
+              const SizedBox(width: 10.0),
+              _buildSocialMediaIcon(
+                'assets/icons/whatsapp.png',
+                'https://wa.link/yoty74',
+              ),
+              const SizedBox(width: 10.0),
+              _buildSocialMediaIcon(
+                'assets/icons/youtube.png',
+                'https://www.youtube.com/channel/UC-xQSuEvPEAwgpSJKDXLQfw',
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListTile(
+      {IconData? icon, required String title, required String subtitle}) {
     return ListTile(
       mouseCursor: MaterialStateMouseCursor.textable,
       hoverColor: Colors.transparent,
       leading: Icon(icon),
       title: BodyText(
         textAlign: TextAlign.start,
-        text: title, 
+        text: title,
         size: 16.0,
         fontWeight: FontWeight.bold,
       ),
-      subtitle: BodyText(
-        textAlign: TextAlign.start,
-        text: subtitle
-      ),
+      subtitle: BodyText(textAlign: TextAlign.start, text: subtitle),
       onTap: () {
         // Handle onTap action here
       },
