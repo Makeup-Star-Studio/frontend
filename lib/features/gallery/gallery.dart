@@ -37,20 +37,23 @@ class GalleryPage extends StatelessWidget {
               child: const TopNavigationBar(),
             ),
       drawer: const MenuDrawer(),
-      body: ListView(
-        children: [
-          GalleryHeaderSection(),
-          GallerySlide1(),
-          GallerySlide2(),
-          GallerySlide3(),
-          GallerySlide4(),
-          const SizedBox(height: 40.0),
-          const SubscriptionSection(),
-          const SizedBox(height: 10.0),
-          const InfoSection(),
-          const SizedBox(height: 40.0),
-          const FooterSection(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            GalleryHeaderSection(),
+            GallerySlide1(),
+            GallerySlide2(),
+            GallerySlide3(),
+            GallerySlide4(),
+            const SizedBox(height: 40.0),
+            const SubscriptionSection(),
+            const SizedBox(height: 10.0),
+            const InfoSection(),
+            const SizedBox(height: 40.0),
+            const FooterSection(),
+          ],
+        ),
       ),
     );
   }

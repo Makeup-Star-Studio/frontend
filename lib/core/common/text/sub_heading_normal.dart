@@ -16,7 +16,7 @@ class SubHeading extends StatelessWidget {
     super.key,
     this.color = AppColorConstant.subHeadingColor,
     required this.text,
-    this.size = 50.0,
+    this.size = 70.0,
     this.mediumSize = 70.0,
     this.smallSize = 50.0,
     this.fontWeight = FontWeight.normal,

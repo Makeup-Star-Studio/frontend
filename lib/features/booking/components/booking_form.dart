@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/booking_input_field.dart';
 import 'package:makeupstarstudio/core/common/input_field/checkbox.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
@@ -71,13 +72,19 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: screenSize.width * 0.15),
+      padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveWidget.isSmallScreen(context)
+              ? 20
+              : screenSize.width * 0.15),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const BodyText(
             text: 'For bookings & inquiries, contact:',
-            size: 18.0,
+            fontWeight: FontWeight.w600,
+            smallSize: 18.0,
+            mediumSize: 20.0,
+            size: 22.0,
           ),
           InkWell(
             hoverColor: Colors.transparent,
@@ -85,6 +92,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
               _launchEmail('info@makeupstarstudio.com');
             },
             child: RichText(
+              textAlign: TextAlign.center,
               text: const TextSpan(
                 style: TextStyle(
                   fontFamily: 'Questrial',
@@ -113,6 +121,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
               _launchURL('https://maps.app.goo.gl/Yj5N8eYKiPm6udRm7');
             },
             child: RichText(
+              textAlign: TextAlign.center,
               text: const TextSpan(
                 style: TextStyle(
                   fontFamily: 'Questrial',
@@ -433,12 +442,12 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 40.0),
                   // message
                   BookingInputField(
                     maxLines: 5,
                     labelText:
-                        "Let's chat! Feel free to include any details regarding the services you're interested in, the event or occasion, location, and of course, any questions you might have for our team. We look forward to working with you!",
+                        "Let's chat! Feel free to include any details regarding the services you're interested in, the event or occasion, location, and of course, any questions you might have for our team. We look forward to working with you!\n",
                     controller: _messageController,
                     hintText: 'What do I need to know about the project?',
                     isTextRequired: false,

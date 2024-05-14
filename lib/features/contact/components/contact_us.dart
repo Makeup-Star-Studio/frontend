@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
-import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
@@ -53,46 +53,45 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                 fit: BoxFit.cover,
               ),
               const SizedBox(height: 20.0),
-              // const BigText(
-              //   text: 'Visit Us In Person',
-              //   size: 25.0,
-              //   color: AppColorConstant.secondaryColor,
-              //   height: 1.0,
-              // ),
-              // const BodyText(text: 'STREET NAME, BAY AREA, CA 12345'),
-              // const BodyText(text: 'MONDAY TO FRIDAY - 9AM TO 8PM'),
-              // const SizedBox(height: 20.0),
-              RichText(
-                text: const TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Questrial',
-                    height: 1.75,
-                    fontSize: 16.0,
-                  ),
-                  children: [
-                    TextSpan(
-                        text: "For pricing inquires please include:\n",
-                        style: TextStyle(
-                          fontFamily: 'Cradley',
-                          fontSize: 25.0,
-                        )),
-                    TextSpan(text: "- Description of event(s)\n"),
-                    TextSpan(text: "- Date(s)\n"),
-                    TextSpan(text: "- Timing to be ready by\n"),
-                    TextSpan(text: "- Getting Ready Location(s)\n"),
-                    TextSpan(text: "- Number of Clients\n"),
-                    TextSpan(
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal:
+                        ResponsiveWidget.isSmallScreen(context) ? 40.0 : 0.0),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: const TextStyle(
+                      fontFamily: 'Questrial',
+                      height: 1.75,
+                      fontSize: 16.0,
+                    ),
+                    children: [
+                      TextSpan(
+                          text: "For pricing inquires please include:\n",
+                          style: TextStyle(
+                            fontFamily: 'Cradley',
+                            fontSize: ResponsiveWidget.isSmallScreen(context)
+                                ? 24.0
+                                : 28.0,
+                          )),
+                      const TextSpan(text: "- Description of event(s)\n"),
+                      const TextSpan(text: "- Date(s)\n"),
+                      const TextSpan(text: "- Timing to be ready by\n"),
+                      const TextSpan(text: "- Getting Ready Location(s)\n"),
+                      const TextSpan(text: "- Number of Clients\n"),
+                      const TextSpan(
+                          text:
+                              "- Services needed for each Bridal and Non-Bridal\n\n"),
+                      const TextSpan(
                         text:
-                            "- Services needed for each Bridal and Non-Bridal\n"),
-                  ],
+                            "Please fill out the form below & we'll be in touch as soon as possible! You can also email us directly at info@makeupstarstudio.com\n",
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const BodyText(
-                text:
-                    "Please fill out the form below & we'll be in touch as soon as possible! You can also email us directly at info@makeupstarstudio.com",
-                size: 16.0,
-              ),
-              const SizedBox(height: 20.0),
+              SizedBox(
+                  height: ResponsiveWidget.isSmallScreen(context) ? 0.0 : 20.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Form(
@@ -262,8 +261,8 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  width: 120,
-                  height: 65,
+                  width: ResponsiveWidget.isSmallScreen(context) ? 80 : 180,
+                  height: ResponsiveWidget.isSmallScreen(context) ? 50 : 65,
                   decoration: const BoxDecoration(
                     color: AppColorConstant.successColor,
                     borderRadius: BorderRadius.only(

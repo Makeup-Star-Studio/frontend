@@ -16,20 +16,23 @@ class HeaderContentServiceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          BigText(
-            text: title,
-            height: 1.0,
-            letterSpacing: 3.0,
-          ),
-          SubHeadingSlanted(
-            height: 1.0,
-            size: 70.0, 
-            text: subTitle,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BigText(
+              text: title,
+              height: 1.0,
+              letterSpacing: 3.0,
+            ),
+            SubHeadingSlanted(
+              height: 1.0,
+              size: 70.0,
+              text: subTitle,
+            ),
+          ],
+        ),
       ),
     );
   }

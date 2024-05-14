@@ -15,9 +15,9 @@ class SubHeadingSlanted extends StatelessWidget {
     super.key,
     this.color = AppColorConstant.subHeadingColor,
     required this.text,
-    this.size = 50.0,
+    this.size = 70.0,
     this.mediumSize = 70.0,
-    this.smallSize = 80.0,
+    this.smallSize = 60.0,
     this.textAlign = TextAlign.center,
     this.height = 1.5,
   });

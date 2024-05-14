@@ -82,7 +82,7 @@ class MenuDrawer extends StatelessWidget {
               const SizedBox(height: 8),
               InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+                  Navigator.pushNamed(context, WebsiteRoute.bridalRoute);
                 },
                 child: const Text(
                   'Bridal',

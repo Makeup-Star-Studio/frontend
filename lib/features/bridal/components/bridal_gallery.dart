@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class BridalGallery extends StatefulWidget {
   final List<String> imageUrls = [
@@ -23,13 +24,18 @@ class _BridalGalleryState extends State<BridalGallery> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Container(
-      height: screenSize.height,
-      padding: const EdgeInsets.all(40),
+    // final screenSize = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.all(
+        ResponsiveWidget.isSmallScreen(context) ? 20.0 : 30.0,
+      ),
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: ResponsiveWidget.isSmallScreen(context)
+              ? 2
+              : ResponsiveWidget.isMediumScreen(context)
+                  ? 3
+                  : 4, // Number of grid items in the cross axis
           mainAxisSpacing: 24.0, // Vertical spacing between grid items
           crossAxisSpacing: 24.0, // Horizontal spacing between grid items
         ),

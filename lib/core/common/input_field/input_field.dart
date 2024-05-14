@@ -5,6 +5,8 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 class TextFormInputField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
+  final Color hintColor;
+  final FontWeight hintFontWeight;  
   final TextInputType keyboardType;
   final TextAlign textAlign;
   final int maxLines;
@@ -16,6 +18,8 @@ class TextFormInputField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.hintColor = AppColorConstant.black,
+    this.hintFontWeight = FontWeight.w600,
     this.textAlign = TextAlign.center,
     this.keyboardType = TextInputType.text,
     this.maxLines = 1,
@@ -40,11 +44,11 @@ class TextFormInputField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(
             color: ResponsiveWidget.isSmallScreen(context)
-                ? AppColorConstant.black
+                ? hintColor
                 : AppColorConstant.black.withOpacity(0.6),
             fontSize: ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
             fontWeight: ResponsiveWidget.isSmallScreen(context)
-                ? FontWeight.w600
+                ? hintFontWeight
                 : FontWeight.normal,
           ),
           border: border,

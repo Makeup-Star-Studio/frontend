@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 
 class GallerySlide1 extends StatelessWidget {
   final List<String> imageUrls = [
@@ -19,8 +20,10 @@ class GallerySlide1 extends StatelessWidget {
     return CarouselSlider(
       options: CarouselOptions(
         autoPlay: true,
-        aspectRatio: 16 / 9,
-        viewportFraction: 1 / 3, // Display three images at once
+        // aspectRatio: 16 / 9,
+        viewportFraction: ResponsiveWidget.isSmallScreen(context)
+            ? 1 / 2
+            : 1 / 3, // Display three images at once
         enlargeCenterPage: false,
       ),
       items: imageUrls.map((imageUrl) {

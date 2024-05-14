@@ -68,6 +68,8 @@ class _BookingInputFieldState extends State<BookingInputField> {
             textAlign: TextAlign.start,
             controller: widget.controller,
             hintText: widget.hintText,
+            hintColor: AppColorConstant.black.withOpacity(0.6),
+            hintFontWeight: FontWeight.normal,
             border: widget.border,
             focusBorder: widget.focusBorder,
             validator: (value) {

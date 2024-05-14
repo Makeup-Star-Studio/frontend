@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 
 class EventTypeCheckboxGroup extends StatefulWidget {
@@ -21,11 +22,15 @@ class _EventTypeCheckboxGroupState extends State<EventTypeCheckboxGroup> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 2 : 3,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        childAspectRatio: 6,
+        childAspectRatio: ResponsiveWidget.isSmallScreen(context)
+            ? 4
+            : ResponsiveWidget.isMediumScreen(context)
+                ? 3
+                : 5,
       ),
       shrinkWrap: true,
       itemCount: widget.eventTypes.length,

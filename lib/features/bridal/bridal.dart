@@ -3,6 +3,7 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
+import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/features/bridal/components/bridal_gallery.dart';
 import 'package:makeupstarstudio/features/bridal/components/bridal_header_content.dart';
 import 'package:makeupstarstudio/features/bridal/components/bridal_text.dart';
@@ -39,8 +40,18 @@ class BridalPage extends StatelessWidget {
         children: [
           BridalHeaderSection(),
           const BridalTextSection(),
+          const SizedBox(height: 20.0),
+          const Center(
+            child: BodyText(
+              text: '"Click on the images to view full size"',
+              color: AppColorConstant.errorColor,
+              size: 22.0,
+              smallSize: 16.0,
+              mediumSize: 20.0,
+            ),
+          ),
           BridalGallery(),
-          // const SizedBox(height: 40.0),
+          const SizedBox(height: 20.0),
           const SubscriptionSection(),
           const SizedBox(height: 10.0),
           const InfoSection(),

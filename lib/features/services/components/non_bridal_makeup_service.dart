@@ -124,7 +124,7 @@ class NonBridalMakeupServiceSectionState
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.15, vertical: 10.0),
+          horizontal: screenSize.width * 0.1, vertical: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -187,13 +187,13 @@ class NonBridalMakeupServiceSectionState
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   const BodyText(
                     text: "Travel Fee: according to location",
-                    size: 16.0,
+                    smallSize: 16.0,
                     color: AppColorConstant.subHeadingColor,
                   ),
-                  const SizedBox(height: 20.0),
+                  const SizedBox(height: 10.0),
                   SizedBox(
                     width: 300,
                     child: ButtonCard(
