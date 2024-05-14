@@ -23,16 +23,17 @@ class _EventTypeCheckboxGroupState extends State<EventTypeCheckboxGroup> {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 2 : 3,
+        crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 1 : 3,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
         childAspectRatio: ResponsiveWidget.isSmallScreen(context)
-            ? 4
+            ? 6
             : ResponsiveWidget.isMediumScreen(context)
                 ? 3
                 : 5,
       ),
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: widget.eventTypes.length,
       itemBuilder: (context, index) {
         final eventType = widget.eventTypes[index];

@@ -83,10 +83,9 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildSmallScreen(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    // final screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 20),
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

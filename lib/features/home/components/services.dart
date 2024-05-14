@@ -58,17 +58,13 @@ class ServiceSection extends StatelessWidget {
 
   Widget _buildSmallScreen(Size screenSize) {
     return Container(
-      padding: EdgeInsets.only(
-          left: screenSize.width * 0.1,
-          right: screenSize.width * 0.1,
-          top: 60.0,
-          bottom: 20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         children: [
           const SubHeadingSlanted(
             text: 'Explore our beauty services',
-            size: 80.0,
-            height: 0.5,
+            // size: 80.0,
+            height: 1.0,
           ),
           const SizedBox(height: 20.0),
           GridView.count(

@@ -178,8 +178,7 @@ class AboutMeSection extends StatelessWidget {
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -221,9 +220,10 @@ class AboutMeSection extends StatelessWidget {
             text: TextSpan(
               style: TextStyle(
                 fontFamily: 'Questrial',
+                color: AppColorConstant.black,
                 height: 1.75,
                 fontSize: ResponsiveWidget.isSmallScreen(context)
-                    ? 14.0
+                    ? 18.0
                     : ResponsiveWidget.isMediumScreen(context)
                         ? 16.0
                         : 16.0,
@@ -254,9 +254,10 @@ class AboutMeSection extends StatelessWidget {
             text: TextSpan(
               style: TextStyle(
                 fontFamily: 'Questrial',
+                color: AppColorConstant.black,
                 height: 1.75,
                 fontSize: ResponsiveWidget.isSmallScreen(context)
-                    ? 14.0
+                    ? 18.0
                     : ResponsiveWidget.isMediumScreen(context)
                         ? 16.0
                         : 16.0,
@@ -290,10 +291,11 @@ class AboutMeSection extends StatelessWidget {
             textAlign: TextAlign.center,
             text: TextSpan(
               style: TextStyle(
+                color: AppColorConstant.black,
                 fontFamily: 'Questrial',
                 height: 1.75,
                 fontSize: ResponsiveWidget.isSmallScreen(context)
-                    ? 14.0
+                    ? 18.0
                     : ResponsiveWidget.isMediumScreen(context)
                         ? 16.0
                         : 16.0,

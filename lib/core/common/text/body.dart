@@ -21,7 +21,7 @@ class BodyText extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.size = 16.0,
     this.mediumSize = 16.0,
-    this.smallSize = 14.0,
+    this.smallSize = 18.0,
     this.height = 1.75,
     this.textAlign = TextAlign.center,
   });

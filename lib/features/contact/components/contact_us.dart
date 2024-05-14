@@ -56,14 +56,15 @@ class _ContactUsSectionState extends State<ContactUsSection> {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal:
-                        ResponsiveWidget.isSmallScreen(context) ? 40.0 : 0.0),
+                        ResponsiveWidget.isSmallScreen(context) ? 20.0 : 0.0),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
                     style: const TextStyle(
+                      color: AppColorConstant.black,
                       fontFamily: 'Questrial',
                       height: 1.75,
-                      fontSize: 16.0,
+                      fontSize: 18.0,
                     ),
                     children: [
                       TextSpan(
@@ -71,8 +72,8 @@ class _ContactUsSectionState extends State<ContactUsSection> {
                           style: TextStyle(
                             fontFamily: 'Cradley',
                             fontSize: ResponsiveWidget.isSmallScreen(context)
-                                ? 24.0
-                                : 28.0,
+                                ? 28.0
+                                : 24.0,
                           )),
                       const TextSpan(text: "- Description of event(s)\n"),
                       const TextSpan(text: "- Date(s)\n"),

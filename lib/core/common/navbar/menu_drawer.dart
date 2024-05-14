@@ -14,7 +14,7 @@ class MenuDrawer extends StatelessWidget {
       child: Container(
         color: AppColorConstant.backgroundColor,
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +31,7 @@ class MenuDrawer extends StatelessWidget {
                       },
                       child: const BodyText(
                         text: 'BOOK APPOINTMENT',
-                        letterSpacing: 2.0,
+                        // letterSpacing: 2.0,
                       ),
                     ),
                     const Icon(

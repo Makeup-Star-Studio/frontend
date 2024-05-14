@@ -46,69 +46,67 @@ class NonBridalHairServiceSectionState
             ),
           ),
           const SizedBox(width: 20.0),
-          Expanded(
-            child: Container(
-              width: 350,
-              height: screenSize.height,
-              decoration: BoxDecoration(
-                color: AppColorConstant.white,
-                border: Border.all(
-                  color: AppColorConstant.secondaryColor,
-                  width: 1,
-                ),
+          Container(
+            width: 350,
+            height: screenSize.height,
+            decoration: BoxDecoration(
+              color: AppColorConstant.white,
+              border: Border.all(
+                color: AppColorConstant.secondaryColor,
+                width: 1,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const BigText(
-                      text: 'Hair Styling',
-                      height: 1.0,
-                      size: 25.0,
-                    ),
-                    const SubHeadingSlanted(
-                        text: "what's included", height: 1.0),
-                    const SizedBox(height: 20.0),
-                    const BodyText(
-                        text:
-                            "Discover the art of flawless hairstyling at Makeup Star Studio. From chic curls to stunning updos, our expert stylists craft personalized looks tailored to your unique beauty."),
-                    const SizedBox(height: 20.0),
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Questrial',
-                          height: 1.75,
-                          fontSize: 14.0,
-                        ),
-                        children: [
-                          TextSpan(
-                              text: "- HAIRSTYLING/ FORMAL STYLE | \$105+\n"),
-                          TextSpan(text: "- BLOWOUT | \$105+\n"),
-                          TextSpan(text: "- BLOWOUT & STYLE | \$165+\n"),
-                          TextSpan(text: "- HAIR EXTENSIONS | \$200+\n"),
-                          TextSpan(text: "- HAIR TRIAL | \$110+\n"),
-                        ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BigText(
+                    text: 'Hair Styling',
+                    height: 1.0,
+                    size: 30.0,
+                  ),
+                  const SubHeadingSlanted(
+                      text: "what's included", height: 1.0),
+                  const SizedBox(height: 20.0),
+                  const BodyText(
+                      text:
+                          "Discover the art of flawless hairstyling at Makeup Star Studio. From chic curls to stunning updos, our expert stylists craft personalized looks tailored to your unique beauty."),
+                  const SizedBox(height: 20.0),
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 16.0,
                       ),
+                      children: [
+                        TextSpan(
+                            text: "- HAIRSTYLING/ FORMAL STYLE | \$105+\n"),
+                        TextSpan(text: "- BLOWOUT | \$105+\n"),
+                        TextSpan(text: "- BLOWOUT & STYLE | \$165+\n"),
+                        TextSpan(text: "- HAIR EXTENSIONS | \$200+\n"),
+                        TextSpan(text: "- HAIR TRIAL | \$110+\n"),
+                      ],
                     ),
-                    // const SizedBox(height: 20.0),
-                    const BodyText(
-                      text: "Travel Fee: according to location",
-                      size: 16.0,
-                      color: AppColorConstant.subHeadingColor,
+                  ),
+                  // const SizedBox(height: 20.0),
+                  const BodyText(
+                    text: "Travel Fee: according to location",
+                    size: 18.0,
+                    color: AppColorConstant.subHeadingColor,
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    width: 300,
+                    child: ButtonCard(
+                      text: 'BOOK APPOINTMENT',
+                      press: () {
+                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                      },
                     ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      width: 300,
-                      child: ButtonCard(
-                        text: 'BOOK APPOINTMENT',
-                        press: () {
-                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -126,8 +124,7 @@ class NonBridalHairServiceSectionState
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -135,7 +132,7 @@ class NonBridalHairServiceSectionState
             child: Image.asset(
               'assets/images/service2.jpg',
               width: screenSize.width,
-              height: screenSize.height,
+              height: screenSize.height * 0.5,
               fit: BoxFit.cover,
             ),
           ),
@@ -177,11 +174,13 @@ class NonBridalHairServiceSectionState
                           "Discover the art of flawless hairstyling at Makeup Star Studio. From chic curls to stunning updos, our expert stylists craft personalized looks tailored to your unique beauty."),
                   const SizedBox(height: 20.0),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: const TextSpan(
                       style: TextStyle(
+                        color: AppColorConstant.black,
                         fontFamily: 'Questrial',
                         height: 1.75,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                       ),
                       children: [
                         TextSpan(
@@ -196,7 +195,7 @@ class NonBridalHairServiceSectionState
                   const SizedBox(height: 20.0),
                   const BodyText(
                     text: "Travel Fee: according to location",
-                    smallSize: 16.0,
+                    smallSize: 18.0,
                     color: AppColorConstant.subHeadingColor,
                   ),
                   const SizedBox(height: 10.0),

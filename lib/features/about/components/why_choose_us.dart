@@ -129,8 +129,7 @@ class _WhyChooseUsSectionState extends State<WhyChooseUsSection> {
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Container(
       color: AppColorConstant.bgColor,
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

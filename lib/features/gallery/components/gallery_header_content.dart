@@ -121,47 +121,49 @@ class GalleryHeaderSection extends StatelessWidget {
         ),
         //text
         Container(
-          height: screenSize.height * 0.7,
+          // height: screenSize.height * 0.7,
           width: screenSize.width,
           decoration: const BoxDecoration(
             color: AppColorConstant.buttonColor,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const BigText(
-                text: 'Look Book',
-                // size: 30.0,
-                height: 1.0,
-              ),
-              const SubHeadingSlanted(
-                text: '2024',
-                color: AppColorConstant.black,
-                // size: 80.0,
-                height: 0.1,
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              const BodyText(
-                text:
-                    'Discover the look that\'s Right for you...\n\n TO MY CLIENTS WHO',
-                smallSize: 18.0,
-              ),
-              // const SizedBox(
-              //   height: 20,
-              // ),
-              const BodyText(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          child: Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const BigText(
+                  text: 'Look Book',
+                  // size: 30.0,
+                  height: 1.0,
+                ),
+                const SubHeadingSlanted(
+                  text: '2024',
+                  color: AppColorConstant.black,
+                  // size: 80.0,
+                  height: 0.1,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const BodyText(
                   text:
-                      'Reshare my work of their service\n Ask me if I need food or drinks\n Tip me when possible\n Understand that I am human and make errors\n Compliment my work and show excitement.\n\n Thank you so much ❤️\n I am so grateful for you!!'),
-              const SizedBox(height: 20),
-              ModifiedButton(
-                  text: 'Get in Touch',
-                  press: () {
-                    Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-                  }),
-            ],
+                      'Discover the look that\'s Right for you...\n\n TO MY CLIENTS WHO',
+                  smallSize: 20.0,
+                ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                const BodyText(
+                    text:
+                        'Reshare my work of their service\n Ask me if I need food or drinks\n Tip me when possible\n Understand that I am human and make errors\n Compliment my work and show excitement.\n\n Thank you so much ❤️\n I am so grateful for you!!'),
+                const SizedBox(height: 20),
+                ModifiedButton(
+                    text: 'Get in Touch',
+                    press: () {
+                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                    }),
+              ],
+            ),
           ),
         ),
       ],

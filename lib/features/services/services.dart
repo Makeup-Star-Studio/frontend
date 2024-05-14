@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
 import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
-import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/features/services/components/header_content_of_service.dart';
 import 'package:makeupstarstudio/features/services/components/bridal_service.dart';
+import 'package:makeupstarstudio/features/services/components/header_content_of_service.dart';
 import 'package:makeupstarstudio/features/services/components/henna_service.dart';
 import 'package:makeupstarstudio/features/services/components/non_bridal_hair_service.dart';
 import 'package:makeupstarstudio/features/services/components/non_bridal_makeup_service.dart';

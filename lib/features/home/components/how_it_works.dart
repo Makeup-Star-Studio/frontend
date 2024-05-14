@@ -12,9 +12,10 @@ class WorkingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.only(
-        left: screenSize.width * 0.1,
-        right: screenSize.width * 0.1,
+      padding: EdgeInsets.symmetric(
+        horizontal: ResponsiveWidget.isSmallScreen(context)
+            ? 20
+            : screenSize.width * 0.1,
         // top: 20.0,
         // bottom: 20.0
       ),
@@ -80,7 +81,8 @@ class WorkingSection extends StatelessWidget {
           ModifiedButton(
               text: 'BOOK YOUR APPOINTMENT',
               size: 12.0,
-              letterSpacing: 2.0,
+              letterSpacing:
+                  ResponsiveWidget.isSmallScreen(context) ? 1.0 : 2.0,
               press: () {
                 Navigator.pushNamed(context, WebsiteRoute.bookRoute);
               }),

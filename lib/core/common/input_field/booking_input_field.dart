@@ -42,9 +42,10 @@ class _BookingInputFieldState extends State<BookingInputField> {
           textAlign: TextAlign.start,
           text: TextSpan(
             style: const TextStyle(
+              color: AppColorConstant.black,
               fontFamily: 'Questrial',
               height: 1.75,
-              fontSize: 16.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),
             children: [

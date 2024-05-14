@@ -18,7 +18,7 @@ class ModifiedButton extends StatelessWidget {
     required this.press,
     this.size = 16.0,
     this.mediumSize = 16.0,
-    this.smallSize = 14.0,
+    this.smallSize = 18.0,
     this.fontWeight = FontWeight.w600,
     this.letterSpacing = 1.0,
     this.color = AppColorConstant.buttonColor,

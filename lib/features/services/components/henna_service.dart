@@ -33,71 +33,68 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Container(
-              width: 350,
-              height: screenSize.height,
-              decoration: BoxDecoration(
-                color: AppColorConstant.white,
-                border: Border.all(
-                  color: AppColorConstant.secondaryColor,
-                  width: 1,
-                ),
+          Container(
+            width: 350,
+            height: screenSize.height,
+            decoration: BoxDecoration(
+              color: AppColorConstant.white,
+              border: Border.all(
+                color: AppColorConstant.secondaryColor,
+                width: 1,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const BigText(
-                      text: 'Make your hands beautiful',
-                      height: 1.0,
-                      size: 25.0,
-                    ),
-                    const SubHeadingSlanted(
-                        text: "what's included", height: 1.0),
-                    const SizedBox(height: 20.0),
-                    const BodyText(
-                        text:
-                            "Our unique designs reflect the Diversity of the art of henna in cultures unique to different parts of the World. Sindhi, Arabic, Morrocan, Indian, Western, Contemporary, and designs to suit your preference and style."),
-                    const SizedBox(height: 20.0),
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Questrial',
-                          height: 1.75,
-                          fontSize: 14.0,
-                        ),
-                        children: [
-                          TextSpan(
-                              text: "- BRIDAL HENNA / HANDS & LEGS | \$200+\n"),
-                          TextSpan(text: "- ONE HAND / FRONT | \$40+\n"),
-                          TextSpan(text: "- ONE HAND / FRONT & BACK | \$80+\n"),
-                          TextSpan(text: "- BOTH HANDS / FRONT | \$80+\n"),
-                          TextSpan(
-                              text: "- BOTH HANDS / FRONT & BACK | \$160+\n"),
-                          TextSpan(text: "- FEET | \$80+\n"),
-                        ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BigText(
+                    text: 'Make your hands beautiful',
+                    height: 1.0,
+                    size: 30.0,
+                  ),
+                  const SubHeadingSlanted(text: "what's included", height: 1.0),
+                  const SizedBox(height: 20.0),
+                  const BodyText(
+                      text:
+                          "Our unique designs reflect the Diversity of the art of henna in cultures unique to different parts of the World. Sindhi, Arabic, Morrocan, Indian, Western, Contemporary, and designs to suit your preference and style."),
+                  const SizedBox(height: 20.0),
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 16.0,
                       ),
+                      children: [
+                        TextSpan(
+                            text: "- BRIDAL HENNA / HANDS & LEGS | \$200+\n"),
+                        TextSpan(text: "- ONE HAND / FRONT | \$40+\n"),
+                        TextSpan(text: "- ONE HAND / FRONT & BACK | \$80+\n"),
+                        TextSpan(text: "- BOTH HANDS / FRONT | \$80+\n"),
+                        TextSpan(
+                            text: "- BOTH HANDS / FRONT & BACK | \$160+\n"),
+                        TextSpan(text: "- FEET | \$80+\n"),
+                      ],
                     ),
-                    // const SizedBox(height: 20.0),
-                    const BodyText(
-                      text: "Travel Fee: according to location",
-                      size: 16.0,
-                      color: AppColorConstant.subHeadingColor,
+                  ),
+                  // const SizedBox(height: 20.0),
+                  const BodyText(
+                    text: "Travel Fee: according to location",
+                    size: 18.0,
+                    color: AppColorConstant.subHeadingColor,
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    width: 300,
+                    child: ButtonCard(
+                      text: 'BOOK APPOINTMENT',
+                      press: () {
+                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                      },
                     ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      width: 300,
-                      child: ButtonCard(
-                        text: 'BOOK APPOINTMENT',
-                        press: () {
-                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -126,8 +123,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -135,7 +131,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
             child: Image.asset(
               'assets/images/service3.jpg',
               width: screenSize.width,
-              height: screenSize.height,
+              height: screenSize.height * 0.3,
               fit: BoxFit.cover,
             ),
           ),
@@ -176,11 +172,13 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
                           "Our unique designs reflect the Diversity of the art of henna in cultures unique to different parts of the World. Sindhi, Arabic, Morrocan, Indian, Western, Contemporary, and designs to suit your preference and style."),
                   const SizedBox(height: 20.0),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: const TextSpan(
                       style: TextStyle(
+                        color: AppColorConstant.black,
                         fontFamily: 'Questrial',
                         height: 1.75,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                       ),
                       children: [
                         TextSpan(
@@ -197,7 +195,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
                   const SizedBox(height: 20.0),
                   const BodyText(
                     text: "Travel Fee: according to location",
-                    smallSize: 16.0,
+                    smallSize: 18.0,
                     color: AppColorConstant.subHeadingColor,
                   ),
                   const SizedBox(height: 10.0),

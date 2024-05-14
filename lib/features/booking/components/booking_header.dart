@@ -125,8 +125,8 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           const BodyText(
             text:
                 '"WE\'RE YOUR GO-TO GIRLS TO HELP YOU FEEL & LOOK YOUR MOST BEAUTIFUL."',
-            smallSize: 16.0,
-            fontWeight: FontWeight.w600,
+            // smallSize: 16.0,
+            // fontWeight: FontWeight.w600,
             letterSpacing: 1.5,
           ),
           const SizedBox(height: 20.0),

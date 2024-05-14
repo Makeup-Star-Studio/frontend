@@ -82,54 +82,59 @@ class ServiceHeaderSection extends StatelessWidget {
 
   // smll screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-    return Column(
-      // crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        ClipRect(
-          child: Image.asset(
-            'assets/images/service_header.jpg',
-            fit: BoxFit.cover,
-            width: screenSize.width,
-            height: screenSize.height * 0.5,
-          ),
-        ),
-        const SizedBox(height: 20.0),
-        RichText(
-          textAlign: TextAlign.center,
-          text: const TextSpan(
-            style: TextStyle(
-                fontFamily: 'Cradley',
-                height: 1.25,
-                fontSize: 40.0,
-                letterSpacing: 2.0),
-            children: [
-              TextSpan(text: "luxurious &\n"),
-              TextSpan(text: "elevated"),
-            ],
-          ),
-        ),
-        const SubHeadingSlanted(
-          text: 'beauty services',
-          height: 1,
-          // size: 70,
-          // smallSize: 50,
-          // color: AppColorConstant.black,
-        ),
-        RichText(
-          text: const TextSpan(
-            style: TextStyle(
-              fontFamily: 'Questrial',
-              height: 1.75,
-              fontSize: 18.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20.0),
+      child: Column(
+        // crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          ClipRect(
+            child: Image.asset(
+              'assets/images/service_header.jpg',
+              fit: BoxFit.cover,
+              width: screenSize.width,
+              height: screenSize.height * 0.5,
             ),
-            children: [
-              TextSpan(text: "WE'RE YOUR GO-T0 GIRLS TO HELP YOU\n"),
-              TextSpan(text: "FEEL & LOOK YOUR BEST INSIDE & OUT!"),
-            ],
           ),
-        ),
-        const SizedBox(height: 20.0),
-      ],
+          const SizedBox(height: 20.0),
+          RichText(
+            textAlign: TextAlign.center,
+            text: const TextSpan(
+              style: TextStyle(
+                  color: AppColorConstant.black,
+                  fontFamily: 'Cradley',
+                  height: 1.25,
+                  fontSize: 40.0,
+                  letterSpacing: 2.0),
+              children: [
+                TextSpan(text: "luxurious &\n"),
+                TextSpan(text: "elevated"),
+              ],
+            ),
+          ),
+          const SubHeadingSlanted(
+            text: 'beauty services',
+            height: 1,
+            // size: 70,
+            // smallSize: 50,
+            // color: AppColorConstant.black,
+          ),
+          RichText(
+            text: const TextSpan(
+              style: TextStyle(
+                color: AppColorConstant.black,
+                fontFamily: 'Questrial',
+                height: 1.75,
+                fontSize: 18.0,
+              ),
+              children: [
+                TextSpan(text: "WE'RE YOUR GO-T0 GIRLS TO HELP YOU\n"),
+                TextSpan(text: "FEEL & LOOK YOUR BEST INSIDE & OUT!"),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20.0),
+        ],
+      ),
     );
   }
 }

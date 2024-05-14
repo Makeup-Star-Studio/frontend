@@ -35,66 +35,64 @@ class NonBridalMakeupServiceSectionState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Container(
-              width: 350,
-              height: screenSize.height,
-              decoration: BoxDecoration(
-                color: AppColorConstant.white,
-                border: Border.all(
-                  color: AppColorConstant.secondaryColor,
-                  width: 1,
-                ),
+          Container(
+            width: 350,
+            height: screenSize.height,
+            decoration: BoxDecoration(
+              color: AppColorConstant.white,
+              border: Border.all(
+                color: AppColorConstant.secondaryColor,
+                width: 1,
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const BigText(
-                      text: 'Makeup Application',
-                      height: 1.0,
-                      size: 25.0,
-                    ),
-                    const SubHeadingSlanted(
-                        text: "what's included", height: 1.0),
-                    const SizedBox(height: 20.0),
-                    const BodyText(
-                        text:
-                            "At Makeup Star Studio, we excel in delivering subtle yet stunning glamour. As your dedicated beauty team, we prioritize offering you a lavish, personalized, and relaxing glam experience. Elevate your look to celebrity status with our top-tier makeup artists."),
-                    const SizedBox(height: 20.0),
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Questrial',
-                          height: 1.75,
-                          fontSize: 14.0,
-                        ),
-                        children: [
-                          TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
-                          TextSpan(text: "- MAKEUP TRIAL | \$105+\n"),
-                          TextSpan(text: "- MAKEUP & HAIR | \$230+\n"),
-                        ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BigText(
+                    text: 'Makeup Application',
+                    height: 1.0,
+                    size: 30.0,
+                  ),
+                  const SubHeadingSlanted(
+                      text: "what's included", height: 1.0),
+                  const SizedBox(height: 20.0),
+                  const BodyText(
+                      text:
+                          "At Makeup Star Studio, we excel in delivering subtle yet stunning glamour. As your dedicated beauty team, we prioritize offering you a lavish, personalized, and relaxing glam experience. Elevate your look to celebrity status with our top-tier makeup artists."),
+                  const SizedBox(height: 20.0),
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 16.0,
                       ),
+                      children: [
+                        TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
+                        TextSpan(text: "- MAKEUP TRIAL | \$105+\n"),
+                        TextSpan(text: "- MAKEUP & HAIR | \$230+\n"),
+                      ],
                     ),
-                    // const SizedBox(height: 20.0),
-                    const BodyText(
-                      text: "Travel Fee: according to location",
-                      size: 16.0,
-                      color: AppColorConstant.subHeadingColor,
+                  ),
+                  // const SizedBox(height: 20.0),
+                  const BodyText(
+                    text: "Travel Fee: according to location",
+                    size: 18.0,
+                    color: AppColorConstant.subHeadingColor,
+                  ),
+                  const SizedBox(height: 20.0),
+                  SizedBox(
+                    width: 300,
+                    child: ButtonCard(
+                      text: 'BOOK APPOINTMENT',
+                      press: () {
+                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                      },
                     ),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      width: 300,
-                      child: ButtonCard(
-                        text: 'BOOK APPOINTMENT',
-                        press: () {
-                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -123,8 +121,7 @@ class NonBridalMakeupServiceSectionState
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -132,7 +129,7 @@ class NonBridalMakeupServiceSectionState
             child: Image.asset(
               'assets/images/nonbridal.png',
               width: screenSize.width,
-              height: screenSize.height,
+              height: screenSize.height * 0.5,
               fit: BoxFit.cover,
             ),
           ),
@@ -174,11 +171,13 @@ class NonBridalMakeupServiceSectionState
                           "At Makeup Star Studio, we excel in delivering subtle yet stunning glamour. As your dedicated beauty team, we prioritize offering you a lavish, personalized, and relaxing glam experience. Elevate your look to celebrity status with our top-tier makeup artists."),
                   const SizedBox(height: 20.0),
                   RichText(
+                    textAlign: TextAlign.center,
                     text: const TextSpan(
                       style: TextStyle(
+                        color: AppColorConstant.black,
                         fontFamily: 'Questrial',
                         height: 1.75,
-                        fontSize: 14.0,
+                        fontSize: 16.0,
                       ),
                       children: [
                         TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
@@ -190,7 +189,7 @@ class NonBridalMakeupServiceSectionState
                   const SizedBox(height: 20.0),
                   const BodyText(
                     text: "Travel Fee: according to location",
-                    smallSize: 16.0,
+                    smallSize: 18.0,
                     color: AppColorConstant.subHeadingColor,
                   ),
                   const SizedBox(height: 10.0),

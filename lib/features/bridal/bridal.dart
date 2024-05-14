@@ -46,7 +46,7 @@ class BridalPage extends StatelessWidget {
               text: '"Click on the images to view full size"',
               color: AppColorConstant.errorColor,
               size: 22.0,
-              smallSize: 16.0,
+              smallSize: 20.0,
               mediumSize: 20.0,
             ),
           ),

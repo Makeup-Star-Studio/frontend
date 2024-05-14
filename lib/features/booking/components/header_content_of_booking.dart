@@ -36,6 +36,7 @@ class HeaderContentBookingSection extends StatelessWidget {
             SubHeadingSlanted(
               height: 1.0,
               size: 60.0,
+              smallSize: 50.0,
               text: subTitle,
             ),
           ],

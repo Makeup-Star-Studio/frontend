@@ -50,7 +50,7 @@ class MissionSection extends StatelessWidget {
                 children: [
                   BigText(
                     text: 'Our Main Mission',
-                    size: ResponsiveWidget.isLargeScreen(context) ? 50.0 : 40.0,
+                    size: 50.0,
                     height: ResponsiveWidget.isLargeScreen(context) ? 1.5 : 1.0,
                     color: AppColorConstant.secondaryColor,
                   ),
@@ -90,7 +90,8 @@ class MissionSection extends StatelessWidget {
         children: [
           const BigText(
             text: 'Our Main Mission',
-            // size: 50.0,
+            smallSize: 40.0,
+            height: 1.2,
             color: AppColorConstant.secondaryColor,
           ),
           InkWell(
@@ -101,18 +102,15 @@ class MissionSection extends StatelessWidget {
             },
             child: const BodyText(
               text: '"TAKING MODERN BEAUTY TO THE NEXT LEVEL."',
-              size: 20.0,
-              fontWeight: FontWeight.w600,
+              // size: 20.0,
+              fontWeight: FontWeight.normal,
             ),
           ),
           const SizedBox(height: 10.0),
-          const Padding(
-            padding: EdgeInsets.all(20.0),
-            child: BodyText(
-              text:
-                  'We wanted to create a unique luxurious, yet relaxed experience for the everyday woman. We understand that life can get crazy, and we do not always have time to get a blowout, keep up with our glow, and keep up with our beauty regimen, while running from appointment to appointment. We wanted to offer something to not only make you feel beautiful inside and out, but to save you time and the energy of doing it all yourself! Makeup Star studio is delivering beauty services to you, while elevating your confidence!',
-              size: 16.0,
-            ),
+          const BodyText(
+            text:
+                'We wanted to create a unique luxurious, yet relaxed experience for the everyday woman. We understand that life can get crazy, and we do not always have time to get a blowout, keep up with our glow, and keep up with our beauty regimen, while running from appointment to appointment. We wanted to offer something to not only make you feel beautiful inside and out, but to save you time and the energy of doing it all yourself! Makeup Star studio is delivering beauty services to you, while elevating your confidence!',
+            size: 16.0,
           ),
         ],
       ),

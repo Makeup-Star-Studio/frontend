@@ -25,7 +25,7 @@ class ButtonCard extends StatelessWidget {
               text,
               style: const TextStyle(
                 // fontWeight: FontWeight.bold,
-                fontSize: 14.0,
+                fontSize: 16,
                 letterSpacing: 2.0,
               ),
             ),

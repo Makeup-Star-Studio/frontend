@@ -105,21 +105,22 @@ class AboutMissionSection extends StatelessWidget {
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 20.0),
+      padding: const EdgeInsets.all(20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const BigText(
             text: 'OUR MISSION',
-            size: 50.0,
+            smallSize: 40.0,
+            // size: 50.0,
             height: 1.0,
             color: AppColorConstant.secondaryColor,
           ),
           const SubHeading(
             text: 'serving Bay Area & beyond',
             // height: 84/50,
+            height: 1.0,
             color: AppColorConstant.black,
           ),
           ClipRect(
@@ -130,7 +131,7 @@ class AboutMissionSection extends StatelessWidget {
             ),
           ),
           ResponsiveWidget.isSmallScreen(context)
-              ? const SizedBox(height: 5.0)
+              ? const SizedBox(height: 0.0)
               : const SizedBox(height: 20.0),
           const BodyText(
             text:

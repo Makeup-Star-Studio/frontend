@@ -82,7 +82,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
           const BodyText(
             text: 'For bookings & inquiries, contact:',
             fontWeight: FontWeight.w600,
-            smallSize: 18.0,
+            smallSize: 20.0,
             mediumSize: 20.0,
             size: 22.0,
           ),
@@ -95,6 +95,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
               textAlign: TextAlign.center,
               text: const TextSpan(
                 style: TextStyle(
+                  color: AppColorConstant.black,
                   fontFamily: 'Questrial',
                   height: 1.75,
                   fontSize: 18.0,
@@ -124,6 +125,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
               textAlign: TextAlign.center,
               text: const TextSpan(
                 style: TextStyle(
+                  color: AppColorConstant.black,
                   fontFamily: 'Questrial',
                   height: 1.75,
                   fontSize: 18.0,
