@@ -16,4 +16,15 @@ class AppColorConstant {
   static const Color successColor = Color(0xFF29A81A);
   static const Color errorColor = Color(0xFFD32F2F);
   static const Color warningColor = Color(0xFFF7E701);
+
+  // for admin
+
+  // static const adminPrimaryColor = Color(0xFF2697FF);
+  static const adminPrimaryColor = Color(0xFF20288F);
+  static const adminMenuColor = Color(0xFF2A2D3E);
+  static const adminSecondaryColor = Color(0xFFFFFFFF);
+  // static const adminBgColor = Color(0xFF212332);
+  static const adminBgColor = Color(0xFFF1F1FD);
+
+  static const defaultPadding = 16.0;
 }
