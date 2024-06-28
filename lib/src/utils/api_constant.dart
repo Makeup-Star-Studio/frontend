@@ -8,5 +8,5 @@ class ApiConstant {
   /// [AUTH_URL]
   static const String adminRegisterUri = '/admin/register';
   static const String adminLoginUri = '/admin/login';
-  static const String getServices = 'http://localhost:3001/services/';
+  static const String getServices = '/services/';
 }
