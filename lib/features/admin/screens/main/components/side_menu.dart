@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/features/admin/controllers/menu_controller.dart';
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
-import 'package:provider/provider.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -25,49 +23,74 @@ class SideMenu extends StatelessWidget {
           DrawerListTile(
             title: "Dashboard",
             svgSrc: "assets/svgs/menu_dashboard.svg",
-               press: () {
-              Navigator.pop(context); // Close the drawer
-              Provider.of<MenuAppController>(context, listen: false).setSelectedIndex(0);
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 0);
+              }));
             },
           ),
           DrawerListTile(
             title: "Bookings",
             svgSrc: "assets/svgs/menu_tran.svg",
             press: () {
-              // Navigator.pop(context); // Close the drawer
-              Provider.of<MenuAppController>(context, listen: false)
-                  .setSelectedIndex(1);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 1);
+              }));
             },
           ),
           DrawerListTile(
             title: "Clients",
             svgSrc: "assets/svgs/menu_task.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 2);
+              }));
+            },
           ),
           DrawerListTile(
             title: "Glam Team",
             svgSrc: "assets/svgs/menu_doc.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 3);
+              }));
+            },
           ),
           DrawerListTile(
             title: "Message",
             svgSrc: "assets/svgs/menu_store.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 4);
+              }));
+            },
           ),
           DrawerListTile(
             title: "Services",
             svgSrc: "assets/svgs/menu_notification.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 5);
+              }));
+            },
           ),
           DrawerListTile(
             title: "Finance",
             svgSrc: "assets/svgs/menu_profile.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 6);
+              }));
+            },
           ),
           DrawerListTile(
             title: "Settings",
             svgSrc: "assets/svgs/menu_setting.svg",
-            press: () {},
+            press: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const AdminPage(selectedIndex: 7);
+              }));
+            },
           ),
         ],
       ),

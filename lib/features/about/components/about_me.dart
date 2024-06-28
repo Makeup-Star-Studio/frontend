@@ -83,7 +83,7 @@ class AboutMeSection extends StatelessWidget {
                             " is the Lead Artist of Makeup Star Studio! Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
                       ),
                       TextSpan(
-                        text: "9 years ",
+                        text: "10 years ",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
@@ -238,7 +238,7 @@ class AboutMeSection extends StatelessWidget {
                       " is the Lead Artist of Makeup Star Studio! Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
                 ),
                 TextSpan(
-                  text: "9 years ",
+                  text: "10 years ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 TextSpan(

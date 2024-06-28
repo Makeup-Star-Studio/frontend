@@ -42,16 +42,16 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                   text: 'Little More About Geet',
                   // height: 84 / 50,
                 ),
-                ListTile(
-                  leading: Icon(Icons.star_border_outlined,
-                      color: AppColorConstant.secondaryColor),
-                  title: BodyText(
-                    textAlign: TextAlign.start,
-                    text:
-                        "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
-                    // size: 16.0,
-                  ),
-                ),
+                // ListTile(
+                //   leading: Icon(Icons.star_border_outlined,
+                //       color: AppColorConstant.secondaryColor),
+                //   title: BodyText(
+                //     textAlign: TextAlign.start,
+                //     text:
+                //         "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
+                //     // size: 16.0,
+                //   ),
+                // ),
                 ListTile(
                   leading: Icon(Icons.star_border_outlined,
                       color: AppColorConstant.secondaryColor),
@@ -119,16 +119,6 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
             ),
           ),
           const SizedBox(height: 20.0),
-          const ListTile(
-            leading: Icon(Icons.star_border_outlined,
-                color: AppColorConstant.secondaryColor),
-            title: BodyText(
-              textAlign: TextAlign.start,
-              text:
-                  "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
-              // size: 16.0,
-            ),
-          ),
           const ListTile(
             leading: Icon(Icons.star_border_outlined,
                 color: AppColorConstant.secondaryColor),

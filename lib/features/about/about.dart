@@ -4,6 +4,7 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
 import 'package:makeupstarstudio/features/about/components/about_me.dart';
+import 'package:makeupstarstudio/features/about/components/about_team.dart';
 import 'package:makeupstarstudio/features/about/components/little_about_me.dart';
 import 'package:makeupstarstudio/features/about/components/our_mission.dart';
 import 'package:makeupstarstudio/features/about/components/why_choose_us.dart';
@@ -39,6 +40,8 @@ class AboutPage extends StatelessWidget {
       body: ListView(
         children: const [
           AboutMeSection(),
+          AboutTeamSection(),
+          SizedBox(height: 40.0),
           WhyChooseUsSection(),
           AboutMissionSection(),
           LittleAboutMeSection(),

@@ -2,27 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/features/admin/controllers/menu_controller.dart';
 import 'package:makeupstarstudio/features/admin/screens/bookings/admin_booking_view.dart';
+import 'package:makeupstarstudio/features/admin/screens/clients/clients.dart';
 import 'package:makeupstarstudio/features/admin/screens/dashboard/dashboard_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:makeupstarstudio/features/admin/screens/finance/finance.dart';
+import 'package:makeupstarstudio/features/admin/screens/message/message.dart';
+import 'package:makeupstarstudio/features/admin/screens/services/services.dart';
+import 'package:makeupstarstudio/features/admin/screens/settings/settings.dart';
+import 'package:makeupstarstudio/features/admin/screens/team/team.dart';
 
 import 'components/side_menu.dart';
 
 class AdminPage extends StatefulWidget {
-  const AdminPage({Key? key}) : super(key: key);
+  final int selectedIndex;
+
+  const AdminPage({this.selectedIndex = 0, super.key});
 
   @override
-  _AdminPageState createState() => _AdminPageState();
+  State<AdminPage> createState() => _AdminPageState();
 }
 
 class _AdminPageState extends State<AdminPage> {
-  int _selectedIndex = 0; // Initially selected index
-
   final List<Widget> _screens = [
-    DashboardScreen(),
-    AdminBookingViewPage(),
-    // Add other screens here as needed
+    const DashboardScreen(),
+    const AdminBookingViewPage(),
+    const AdminClientsView(),
+    const AdminGlamTeamView(),
+    const AdminMessagesView(),
+    const AdminServicesView(),
+    const AdminFinanceView(),
+    const AdminSettings(),
   ];
 
   @override
@@ -35,7 +44,7 @@ class _AdminPageState extends State<AdminPage> {
         canvasColor: AppColorConstant.adminSecondaryColor,
       ),
       child: Scaffold(
-        key: context.read<MenuAppController>().scaffoldKey,
+        // key: context.read<MenuAppController>().scaffoldKey,
         drawer: const SideMenu(),
         body: SafeArea(
           child: Row(
@@ -51,7 +60,8 @@ class _AdminPageState extends State<AdminPage> {
               Expanded(
                 // It takes 5/6 part of the screen
                 flex: 5,
-                child: _screens[_selectedIndex], // Show selected screen
+                // child: DashboardScreen(),
+                child: _screens[widget.selectedIndex], // Show selected screen
               ),
             ],
           ),

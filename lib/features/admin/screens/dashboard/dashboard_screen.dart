@@ -7,7 +7,6 @@ import 'package:makeupstarstudio/features/admin/screens/dashboard/components/ser
 import 'package:makeupstarstudio/features/admin/screens/dashboard/components/upcoming_bookings.dart';
 
 class DashboardScreen extends StatelessWidget {
-  
   const DashboardScreen({super.key});
 
   @override
