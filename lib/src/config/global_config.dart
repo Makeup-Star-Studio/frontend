@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/app_enums.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
