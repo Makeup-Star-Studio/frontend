@@ -294,19 +294,21 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
               vertical: 10.0,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRect(
-                  child: Image.asset(
-                    'assets/images/service1.jpg',
-                    width: 500,
-                    height: screenSize.height,
-                    fit: BoxFit.cover,
+                Expanded(
+                  child: ClipRect(
+                    child: Image.asset(
+                      'assets/images/service1.jpg',
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                // const SizedBox(width: 20.0),
+                const SizedBox(width: 20.0),
                 Container(
-                  width: 500,
+                  width: 350,
                   height: screenSize.height,
                   decoration: BoxDecoration(
                     color: AppColorConstant.white,
@@ -319,7 +321,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const BigText(
                           text: 'All about the bride',
@@ -405,7 +407,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                   child: Image.asset(
                     'assets/images/service1.jpg',
                     width: screenSize.width,
-                    height: screenSize.height,
+                    height: screenSize.height * 0.5,
                     fit: BoxFit.cover,
                   ),
                 ),
