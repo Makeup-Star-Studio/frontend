@@ -21,7 +21,7 @@ class ServicesProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiService.get(ApiConstant.getServices);
+      final response = await _apiService.get(ApiConstant.getbridalServices);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);

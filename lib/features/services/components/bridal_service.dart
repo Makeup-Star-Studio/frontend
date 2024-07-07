@@ -255,7 +255,7 @@ import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
-import 'package:makeupstarstudio/src/provider/services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services_category/services_provider.dart';
 import 'package:provider/provider.dart';
 
 class BridalServiceSection extends StatefulWidget {
