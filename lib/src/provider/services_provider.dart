@@ -1,6 +1,4 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:makeupstarstudio/src/api/api_service.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
@@ -15,28 +13,29 @@ class ServicesProvider extends ChangeNotifier {
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
-    final StarStudioApiService _apiService = StarStudioApiService();
-  final HttpRepo  _httpRepo = HttpServices();
+
+  final StarStudioApiService _apiService = StarStudioApiService();
 
   Future<void> fetchServices() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      // final response = await http.get(Uri.parse(ApiConstant.getServices));
-      final response = await _httpRepo.get(ApiConstant.getServices);
-      print("Response: ${response.data}"); 
+      final response = await _apiService.get(ApiConstant.getServices);
+      print("Response: $response");
 
-   
-        var decodedResponse = ServicesModel.fromRawJson(response.data);
-        _services = decodedResponse.data.services;
+      var apiResponse = ApiResponse.fromJson(response);
+      if (apiResponse.status == true && apiResponse.data != null) {
+        // Handling nested structure
+        var servicesData = apiResponse.data['services'] as List;
+        _services = servicesData.map((serviceJson) => Service.fromJson(serviceJson)).toList();
         _filteredServices = _services;
-     
+      }
 
       _isLoading = false;
       notifyListeners();
     } catch (e, s) {
-      print('Error: $e'); 
+      print('Error: $e');
       print('Stack trace: $s');
       _isLoading = false;
       handleSubmissionError(e);
@@ -46,15 +45,6 @@ class ServicesProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  // void filterServices(String query) {
-  //   final lowerCaseQuery = query.toLowerCase();
-  //   _filteredServices = _services.where((service) {
-  //     return service.title.toLowerCase().contains(lowerCaseQuery) ||
-  //         service.category.toLowerCase().contains(lowerCaseQuery);
-  //   }).toList();
-  //   notifyListeners();
-  // }
 
   void handleSubmissionError(error) {
     print(error);

@@ -6,15 +6,13 @@ import 'package:makeupstarstudio/src/config/global_config.dart';
 import 'package:makeupstarstudio/src/services/jwt_service.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
-
-
 class StarStudioApiService {
   final SharedPreferencesService sharedPref = SharedPreferencesService();
 
   Future<dynamic> get(String path, {bool isContainBaseUrl = true}) async {
     var token = await sharedPref.getStringPref('userData');
+    String fullPath = isContainBaseUrl ? '${GlobalConfig.baseUrl}$path' : path;
 
-    // Check if token is available and not expired
     if (token != null && token['token'] != null) {
       String tokenString = token['token'];
       bool isExpired = JwtDecoder.isExpired(tokenString);
@@ -29,14 +27,14 @@ class StarStudioApiService {
       }
     }
 
-    print('Full Url ----> ${GlobalConfig.baseUrl}$path');
+    print('Full Url ----> $fullPath');
     final response = await http.get(
-      Uri.parse('${GlobalConfig.baseUrl}$path'),
+      Uri.parse(fullPath),
       headers: <String, String>{
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader:
-            'Bearer ${token != null ? token['token'] : ''}',
+        if (token != null && token['token'] != null)
+          HttpHeaders.authorizationHeader: 'Bearer ${token['token']}',
       },
     );
 
@@ -44,14 +42,14 @@ class StarStudioApiService {
       final jsonResponse = jsonDecode(response.body);
       return jsonResponse;
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Failed to load data: ${response.reasonPhrase}');
     }
   }
 
   Future<dynamic> post(String path, Map<String, dynamic> body) async {
     var token = await sharedPref.getStringPref('userData');
 
-    // Check if token is available and not expired
+   
     if (token != null && token['token'] != null) {
       String tokenString = token['token'];
       bool isExpired = JwtDecoder.isExpired(tokenString);
@@ -72,8 +70,8 @@ class StarStudioApiService {
       headers: <String, String>{
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader:
-            'Bearer ${token != null ? token['token'] : ''}',
+        if (token != null && token['token'] != null)
+          HttpHeaders.authorizationHeader: 'Bearer ${token['token']}',
       },
       body: jsonEncode(body),
     );
@@ -82,7 +80,7 @@ class StarStudioApiService {
       final jsonResponse = jsonDecode(response.body);
       return jsonResponse;
     } else {
-      throw Exception('Failed to load data');
+      throw Exception('Failed to load data: ${response.reasonPhrase}');
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-ApiResponse apiResponseFromJson(String str) =>
-    ApiResponse.fromJson(json.decode(str));
+ApiResponse apiResponseFromJson(String str) => ApiResponse.fromJson(json.decode(str));
 
 String apiResponseToJson(ApiResponse body) => json.encode(body.toJson());
 
@@ -29,14 +28,12 @@ class ApiResponse {
   });
 
   factory ApiResponse.fromJson(Map<String, dynamic> json) => ApiResponse(
-        status: json["status"],
-        data: json["data"],
-        package: json['Packages'],
-        transactions: json["Transactions"],
+        status: json["status"] == 'success',
+        data: json["data"] ?? {},
+        package: json['Packages'] ?? {},
+        transactions: json["Transactions"] ?? {},
         token: json["token"] ?? "",
-        message: json["message"] == null || json['message'] == ""
-            ? ''
-            : json['message'],
+        message: json["message"] ?? '',
         code: json["Code"] ?? "",
         messages: json["Message"] ?? "",
         error: json["exception"] ?? "",
