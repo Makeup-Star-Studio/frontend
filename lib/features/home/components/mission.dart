@@ -55,7 +55,7 @@ class MissionSection extends StatelessWidget {
                     color: AppColorConstant.secondaryColor,
                   ),
                   InkWell(
-                    mouseCursor: MaterialStateMouseCursor.clickable,
+                    mouseCursor: WidgetStateMouseCursor.clickable,
                     hoverColor: Colors.transparent,
                     onTap: () {},
                     child: const BodyText(
@@ -95,7 +95,7 @@ class MissionSection extends StatelessWidget {
             color: AppColorConstant.secondaryColor,
           ),
           InkWell(
-            mouseCursor: MaterialStateMouseCursor.clickable,
+            mouseCursor: WidgetStateMouseCursor.clickable,
             hoverColor: Colors.transparent,
             onTap: () {
               Navigator.pushNamed(context, WebsiteRoute.aboutRoute);

@@ -46,6 +46,12 @@ class ServicesPricing extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
+                DataColumn(
+                  label: Text(
+                    "Category",
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                ),
                 const DataColumn(
                   label: Text(""),
                 ),
@@ -72,6 +78,7 @@ DataRow serviceInfoDataRow(AboutServices serviceInfo) {
         Text(serviceInfo.title!),
       ),
       DataCell(Text(serviceInfo.price!)),
+      DataCell(Text(serviceInfo.category!)),
       DataCell(
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

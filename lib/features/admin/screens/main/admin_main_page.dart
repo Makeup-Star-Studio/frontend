@@ -44,24 +44,18 @@ class _AdminPageState extends State<AdminPage> {
         canvasColor: AppColorConstant.adminSecondaryColor,
       ),
       child: Scaffold(
-        // key: context.read<MenuAppController>().scaffoldKey,
         drawer: const SideMenu(),
         body: SafeArea(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // We want this side menu only for large screen
               if (ResponsiveWidget.isLargeScreen(context))
                 const Expanded(
-                  // default flex = 1
-                  // and it takes 1/6 part of the screen
                   child: SideMenu(),
                 ),
               Expanded(
-                // It takes 5/6 part of the screen
                 flex: 5,
-                // child: DashboardScreen(),
-                child: _screens[widget.selectedIndex], // Show selected screen
+                child: _screens[widget.selectedIndex],
               ),
             ],
           ),
