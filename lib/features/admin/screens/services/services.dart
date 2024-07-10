@@ -80,11 +80,11 @@ class _AdminServicesViewState extends State<AdminServicesView> {
         key: _servicesFormKey,
         child: ListView(
           children: [
-            Text(
+            const Text(
               textAlign: TextAlign.center,
               "Manage Services",
               style: TextStyle(
-                fontSize: ResponsiveWidget.isSmallScreen(context) ? 26 : 24,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),

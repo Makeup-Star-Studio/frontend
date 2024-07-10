@@ -4,14 +4,9 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 
-class TopNavigationBar extends StatefulWidget {
+class TopNavigationBar extends StatelessWidget {
   const TopNavigationBar({super.key});
 
-  @override
-  State<TopNavigationBar> createState() => _TopNavigationBarState();
-}
-
-class _TopNavigationBarState extends State<TopNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,35 +18,33 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
           ),
         ),
       ),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const NavBarItem(title: 'Home', index: 0),
-            const NavBarItem(title: 'About', index: 1),
-            const NavBarItem(title: 'Services', index: 2),
-            const NavBarItem(title: 'Bridal', index: 3),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: InkWell(
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  // Handle navigation here
-                  Navigator.pushNamed(context, WebsiteRoute.homeRoute);
-                },
-                child: ClipRect(
-                  child: Image.asset('assets/images/logo2.png',
-                      width:
-                          ResponsiveWidget.isLargeScreen(context) ? 125 : 100,
-                      height: 75),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const NavBarItem(title: 'Home', index: 0),
+          const NavBarItem(title: 'About', index: 1),
+          const NavBarItem(title: 'Services', index: 2),
+          const NavBarItem(title: 'Bridal', index: 3),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+              },
+              child: ClipRect(
+                child: Image.asset(
+                  'assets/images/logo2.png',
+                  width: ResponsiveWidget.isLargeScreen(context) ? 125 : 100,
+                  height: 75,
                 ),
               ),
             ),
-            const NavBarItem(title: 'Gallery', index: 4),
-            const NavBarItem(title: 'Contact', index: 5),
-            const NavBarItem(title: 'Book Now', index: 6),
-          ],
-        ),
+          ),
+          const NavBarItem(title: 'Gallery', index: 4),
+          const NavBarItem(title: 'Contact', index: 5),
+          const NavBarItem(title: 'Book Now', index: 6),
+        ],
       ),
     );
   }
@@ -60,6 +53,7 @@ class _TopNavigationBarState extends State<TopNavigationBar> {
 class NavBarItem extends StatefulWidget {
   final String title;
   final int index;
+
   const NavBarItem({
     super.key,
     required this.title,
@@ -72,6 +66,7 @@ class NavBarItem extends StatefulWidget {
 
 class _NavBarItemState extends State<NavBarItem> {
   bool _isHovering = false;
+
   void _navigateToPage(BuildContext context) {
     switch (widget.index) {
       case 0:
@@ -105,13 +100,13 @@ class _NavBarItemState extends State<NavBarItem> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: TextButton(
+        onPressed: () {
+          _navigateToPage(context);
+        },
         onHover: (value) {
           setState(() {
             _isHovering = value;
           });
-        },
-        onPressed: () {
-          _navigateToPage(context);
         },
         child: BodyText(
           text: widget.title,

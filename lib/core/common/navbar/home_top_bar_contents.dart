@@ -25,196 +25,184 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
           ),
         ),
       ),
-      // color: Colors.white.withOpacity(0.5),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
-        child: Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                hoverColor: Colors.transparent,
-                onTap: () {
-                  Navigator.pushNamed(context, WebsiteRoute.homeRoute);
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo.png',
-                      width: 75,
-                      height: 75,
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              hoverColor: Colors.transparent,
+              onTap: () {
+                Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // SizedBox(width: screenSize.width / 5),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
-                    },
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[0] = value;
-                      });
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'ABOUT',
-                          style: TextStyle(
-                            color: _isHovering[0]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[1] = value;
-                      });
-                    },
-                    onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'SERVICES',
-                          style: TextStyle(
-                            color: _isHovering[1]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[2] = value;
-                      });
-                    },
-                    onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.homeRoute);
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'BRIDAL',
-                          style: TextStyle(
-                            color: _isHovering[2]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[3] = value;
-                      });
-                    },
-                    onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'GALLERY',
-                          style: TextStyle(
-                            color: _isHovering[3]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: screenSize.width / 30),
-                  InkWell(
-                    hoverColor: Colors.transparent,
-                    onHover: (value) {
-                      setState(() {
-                        _isHovering[4] = value;
-                      });
-                    },
-                    onTap: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-                    },
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'CONTACT',
-                          style: TextStyle(
-                            color: _isHovering[4]
-                                ? AppColorConstant.secondaryColor
-                                : Colors.black,
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 14.0,
-                            letterSpacing: 2.0,
-                          ),
-                        ),
-                      ],
-                    ),
+                  Image.asset(
+                    'assets/images/logo.png',
+                    width: 75,
+                    height: 75,
                   ),
                 ],
               ),
-              InkWell(
-                hoverColor: Colors.transparent,
-                onHover: (value) {
-                  setState(() {
-                    _isHovering[5] = value;
-                  });
-                },
-                onTap: () {
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+                  },
+                  onHover: (value) {
+                    setState(() {
+                      _isHovering[0] = value;
+                    });
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'ABOUT',
+                        style: TextStyle(
+                          color: _isHovering[0]
+                              ? AppColorConstant.secondaryColor
+                              : Colors.black,
+                          fontSize: 14.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: screenSize.width / 30),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onHover: (value) {
+                    setState(() {
+                      _isHovering[1] = value;
+                    });
+                  },
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'SERVICES',
+                        style: TextStyle(
+                          color: _isHovering[1]
+                              ? AppColorConstant.secondaryColor
+                              : Colors.black,
+                          fontSize: 14.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: screenSize.width / 30),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onHover: (value) {
+                    setState(() {
+                      _isHovering[2] = value;
+                    });
+                  },
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'BRIDAL',
+                        style: TextStyle(
+                          color: _isHovering[2]
+                              ? AppColorConstant.secondaryColor
+                              : Colors.black,
+                          fontSize: 14.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: screenSize.width / 30),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onHover: (value) {
+                    setState(() {
+                      _isHovering[3] = value;
+                    });
+                  },
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'GALLERY',
+                        style: TextStyle(
+                          color: _isHovering[3]
+                              ? AppColorConstant.secondaryColor
+                              : Colors.black,
+                          fontSize: 14.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: screenSize.width / 30),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onHover: (value) {
+                    setState(() {
+                      _isHovering[4] = value;
+                    });
+                  },
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'CONTACT',
+                        style: TextStyle(
+                          color: _isHovering[4]
+                              ? AppColorConstant.secondaryColor
+                              : Colors.black,
+                          fontSize: 14.0,
+                          letterSpacing: 2.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            InkWell(
+              hoverColor: Colors.transparent,
+              onHover: (value) {
+                setState(() {
+                  _isHovering[5] = value;
+                });
+              },
+              onTap: () {
+                Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+              },
+              child: ButtonCard(
+                press: () {
                   Navigator.pushNamed(context, WebsiteRoute.bookRoute);
                 },
-                child: ButtonCard(
-                  press: () {
-                    Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                  },
-                  text: 'BOOK APPOINTMENT',
-                  // color: _isHovering[5]
-                  //     ? AppColorConstant.secondaryColor
-                  //     : Colors.black,
-                ),
+                text: 'BOOK APPOINTMENT',
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

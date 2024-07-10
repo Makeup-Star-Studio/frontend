@@ -45,13 +45,10 @@ class AboutMissionSection extends StatelessWidget {
                 ),
               ],
             ),
-            child: Expanded(
-              flex: 1,
-              child: ClipRect(
-                child: Image.asset(
-                  'assets/images/testimonial.jpg',
-                  fit: BoxFit.cover,
-                ),
+            child: ClipRect(
+              child: Image.asset(
+                'assets/images/testimonial.jpg',
+                fit: BoxFit.cover,
               ),
             ),
           ),

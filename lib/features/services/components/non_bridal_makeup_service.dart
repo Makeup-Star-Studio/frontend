@@ -35,64 +35,66 @@ class NonBridalMakeupServiceSectionState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            width: 350,
-            height: screenSize.height,
-            decoration: BoxDecoration(
-              color: AppColorConstant.white,
-              border: Border.all(
-                color: AppColorConstant.secondaryColor,
-                width: 1,
+          Expanded(
+            child: Container(
+              width: 350,
+              height: screenSize.height,
+              decoration: BoxDecoration(
+                color: AppColorConstant.white,
+                border: Border.all(
+                  color: AppColorConstant.secondaryColor,
+                  width: 1,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const BigText(
-                    text: 'Makeup Application',
-                    height: 1.0,
-                    size: 30.0,
-                  ),
-                  const SubHeadingSlanted(
-                      text: "what's included", height: 1.0),
-                  const SizedBox(height: 20.0),
-                  const BodyText(
-                      text:
-                          "At Makeup Star Studio, we excel in delivering subtle yet stunning glamour. As your dedicated beauty team, we prioritize offering you a lavish, personalized, and relaxing glam experience. Elevate your look to celebrity status with our top-tier makeup artists."),
-                  const SizedBox(height: 20.0),
-                  RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        height: 1.75,
-                        fontSize: 16.0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const BigText(
+                      text: 'Makeup Application',
+                      height: 1.0,
+                      size: 30.0,
+                    ),
+                    const SubHeadingSlanted(
+                        text: "what's included", height: 1.0),
+                    const SizedBox(height: 20.0),
+                    const BodyText(
+                        text:
+                            "At Makeup Star Studio, we excel in delivering subtle yet stunning glamour. As your dedicated beauty team, we prioritize offering you a lavish, personalized, and relaxing glam experience. Elevate your look to celebrity status with our top-tier makeup artists."),
+                    const SizedBox(height: 20.0),
+                    RichText(
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Questrial',
+                          height: 1.75,
+                          fontSize: 16.0,
+                        ),
+                        children: [
+                          TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
+                          TextSpan(text: "- MAKEUP TRIAL | \$105+\n"),
+                          TextSpan(text: "- MAKEUP & HAIR | \$230+\n"),
+                        ],
                       ),
-                      children: [
-                        TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
-                        TextSpan(text: "- MAKEUP TRIAL | \$105+\n"),
-                        TextSpan(text: "- MAKEUP & HAIR | \$230+\n"),
-                      ],
                     ),
-                  ),
-                  // const SizedBox(height: 20.0),
-                  const BodyText(
-                    text: "Travel Fee: according to location",
-                    size: 18.0,
-                    color: AppColorConstant.subHeadingColor,
-                  ),
-                  const SizedBox(height: 20.0),
-                  SizedBox(
-                    width: 300,
-                    child: ButtonCard(
-                      text: 'BOOK APPOINTMENT',
-                      press: () {
-                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                      },
+                    // const SizedBox(height: 20.0),
+                    const BodyText(
+                      text: "Travel Fee: according to location",
+                      size: 18.0,
+                      color: AppColorConstant.subHeadingColor,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20.0),
+                    SizedBox(
+                      width: 300,
+                      child: ButtonCard(
+                        text: 'BOOK APPOINTMENT',
+                        press: () {
+                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -129,7 +131,7 @@ class NonBridalMakeupServiceSectionState
             child: Image.asset(
               'assets/images/nonbridal.png',
               width: screenSize.width,
-              height: screenSize.height * 0.5,
+              height: screenSize.height,
               fit: BoxFit.cover,
             ),
           ),
@@ -182,7 +184,7 @@ class NonBridalMakeupServiceSectionState
                       children: [
                         TextSpan(text: "- MAKEUP APPLICATION | \$125+\n"),
                         TextSpan(text: "- MAKEUP TRIAL | \$105+\n"),
-                        TextSpan(text: "- MAKEUP & HAIR | \$230+\n"),
+                        TextSpan(text: "- MAKEUP & HAIR | \$230+"),
                       ],
                     ),
                   ),

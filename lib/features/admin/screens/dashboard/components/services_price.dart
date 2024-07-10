@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/features/admin/models/service_pricing.dart';
 
 class ServicesPricing extends StatelessWidget {
@@ -10,7 +11,9 @@ class ServicesPricing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(AppColorConstant.defaultPadding),
+      padding: EdgeInsets.all(ResponsiveWidget.isSmallScreen(context)
+          ? AppColorConstant.defaultPadding / 2
+          : AppColorConstant.defaultPadding),
       decoration: const BoxDecoration(
         color: AppColorConstant.adminSecondaryColor,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -25,31 +28,40 @@ class ServicesPricing extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: DataTable(
-              columnSpacing: AppColorConstant.defaultPadding,
-              // minWidth: 600,
+              columnSpacing: ResponsiveWidget.isSmallScreen(context)
+                  ? AppColorConstant.defaultPadding / 2
+                  : AppColorConstant.defaultPadding,
               columns: [
                 DataColumn(
                   label: Text(
                     "S.No.",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: ResponsiveWidget.isSmallScreen(context)
+                        ? Theme.of(context).textTheme.titleSmall
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 DataColumn(
                   label: Text(
-                    "Service Name",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    "Name",
+                    style: ResponsiveWidget.isSmallScreen(context)
+                        ? Theme.of(context).textTheme.titleSmall
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 DataColumn(
                   label: Text(
                     "Price",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: ResponsiveWidget.isSmallScreen(context)
+                        ? Theme.of(context).textTheme.titleSmall
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 DataColumn(
                   label: Text(
                     "Category",
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: ResponsiveWidget.isSmallScreen(context)
+                        ? Theme.of(context).textTheme.titleSmall
+                        : Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 const DataColumn(
