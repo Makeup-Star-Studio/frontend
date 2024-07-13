@@ -28,7 +28,9 @@ class ServicesProvider extends ChangeNotifier {
       if (apiResponse.status == true && apiResponse.data != null) {
         // Handling nested structure
         var servicesData = apiResponse.data['services'] as List;
-        _services = servicesData.map((serviceJson) => Service.fromJson(serviceJson)).toList();
+        _services = servicesData
+            .map((serviceJson) => Service.fromJson(serviceJson))
+            .toList();
         _filteredServices = _services;
       }
 
