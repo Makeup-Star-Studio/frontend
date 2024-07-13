@@ -8,6 +8,8 @@ class ApiConstant {
   /// [AUTH_URL]
   static const String adminRegisterUri = '/admin/register';
   static const String adminLoginUri = '/admin/login';
+
+  /// [Services]
   static const String getbridalServices = '/services/category/bridal';
   static const String getmakeupServices = '/services/category/makeup';
 }

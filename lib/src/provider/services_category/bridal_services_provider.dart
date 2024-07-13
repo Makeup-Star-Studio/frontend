@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/src/api/api_service.dart';
+import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';

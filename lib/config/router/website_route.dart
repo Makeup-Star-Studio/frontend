@@ -1,4 +1,5 @@
 import 'package:makeupstarstudio/features/about/about.dart';
+import 'package:makeupstarstudio/features/admin/screens/dashboard/components/header.dart';
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
 import 'package:makeupstarstudio/features/booking/booking.dart';
 import 'package:makeupstarstudio/features/bridal/bridal.dart';
@@ -23,12 +24,13 @@ class WebsiteRoute {
   static const String galleryRoute = '/gallery';
   static const String contactRoute = '/contact';
   static const String bookRoute = '/book';
+  static const String headerRoute = '/header';
   // static const String editProfile = '/editProfile';
   // static const String changePassword= '/changePassword';
 
   static getApplicationRoute() {
     return {
-      adminRoute : (context) => const AdminPage(),
+      adminRoute: (context) => const AdminPage(),
       // splashRoute: (context) => const SplashView(),
       homeRoute: (context) => const HomePage(),
       // loginRoute: (context) => const LoginPageView(),
@@ -40,6 +42,7 @@ class WebsiteRoute {
       galleryRoute: (context) => const GalleryPage(),
       contactRoute: (context) => const ContactPage(),
       bookRoute: (context) => const BookingPage(),
+      headerRoute: (context) => const Header(),
       // editProfile: (context) => const UpdateProfileView(),
       // changePassword: (context) => const ChangePasswordView(),
     };
