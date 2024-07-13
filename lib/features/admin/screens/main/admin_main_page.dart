@@ -3,13 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/features/admin/screens/bookings/admin_booking_view.dart';
-import 'package:makeupstarstudio/features/admin/screens/clients/clients.dart';
 import 'package:makeupstarstudio/features/admin/screens/dashboard/dashboard_screen.dart';
-import 'package:makeupstarstudio/features/admin/screens/finance/finance.dart';
-import 'package:makeupstarstudio/features/admin/screens/message/message.dart';
 import 'package:makeupstarstudio/features/admin/screens/services/services.dart';
 import 'package:makeupstarstudio/features/admin/screens/settings/settings.dart';
 import 'package:makeupstarstudio/features/admin/screens/team/team.dart';
+import 'package:makeupstarstudio/features/admin/screens/testimonials/admin_testimonials.dart';
 
 import 'components/side_menu.dart';
 
@@ -26,11 +24,9 @@ class _AdminPageState extends State<AdminPage> {
   final List<Widget> _screens = [
     const DashboardScreen(),
     const AdminBookingViewPage(),
-    const AdminClientsView(),
-    const AdminGlamTeamView(),
-    const AdminMessagesView(),
     const AdminServicesView(),
-    const AdminFinanceView(),
+    const AdminGlamTeamView(),
+    const AdminTestimonialsView(),
     const AdminSettings(),
   ];
 

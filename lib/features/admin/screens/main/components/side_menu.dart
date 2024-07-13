@@ -38,9 +38,18 @@ class SideMenu extends StatelessWidget {
               }));
             },
           ),
+          // DrawerListTile(
+          //   title: "Message",
+          //   svgSrc: "assets/svgs/menu_store.svg",
+          //   press: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //       return const AdminPage(selectedIndex: 4);
+          //     }));
+          //   },
+          // ),
           DrawerListTile(
-            title: "Clients",
-            svgSrc: "assets/svgs/menu_task.svg",
+            title: "Services",
+            svgSrc: "assets/svgs/menu_notification.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 2);
@@ -57,29 +66,11 @@ class SideMenu extends StatelessWidget {
             },
           ),
           DrawerListTile(
-            title: "Message",
-            svgSrc: "assets/svgs/menu_store.svg",
+            title: "Testimonials",
+            svgSrc: "assets/svgs/menu_doc.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 4);
-              }));
-            },
-          ),
-          DrawerListTile(
-            title: "Services",
-            svgSrc: "assets/svgs/menu_notification.svg",
-            press: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 5);
-              }));
-            },
-          ),
-          DrawerListTile(
-            title: "Finance",
-            svgSrc: "assets/svgs/menu_profile.svg",
-            press: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 6);
               }));
             },
           ),
@@ -88,7 +79,7 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/svgs/menu_setting.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 7);
+                return const AdminPage(selectedIndex: 5);
               }));
             },
           ),
