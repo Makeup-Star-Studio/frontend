@@ -173,7 +173,7 @@ class InfoSection extends StatelessWidget {
   Widget _buildListTile(
       {IconData? icon, required String title, required String subtitle}) {
     return ListTile(
-      mouseCursor: MaterialStateMouseCursor.textable,
+      mouseCursor: WidgetStateMouseCursor.textable,
       hoverColor: Colors.transparent,
       leading: Icon(icon),
       title: BodyText(

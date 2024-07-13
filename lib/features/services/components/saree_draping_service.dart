@@ -46,66 +46,68 @@ class SareeDrapingServiceSectionState
             ),
           ),
           const SizedBox(width: 20.0),
-          Container(
-            width: 350,
-            height: screenSize.height,
-            decoration: BoxDecoration(
-              color: AppColorConstant.white,
-              border: Border.all(
-                color: AppColorConstant.secondaryColor,
-                width: 1,
+          Expanded(
+            child: Container(
+              width: 350,
+              height: screenSize.height,
+              decoration: BoxDecoration(
+                color: AppColorConstant.white,
+                border: Border.all(
+                  color: AppColorConstant.secondaryColor,
+                  width: 1,
+                ),
               ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const BigText(
-                    text: 'Elegance in every fold',
-                    height: 1.0,
-                    size: 30.0,
-                  ),
-                  const SubHeadingSlanted(
-                      text: "what's included", height: 1.0),
-                  const SizedBox(height: 20.0),
-                  const BodyText(
-                      text:
-                          "Experience the artistry of flawless saree draping at Makeup Star Studio. Our expert drapers ensure a seamless, picture-perfect look that enhances your elegance and confidence effortlessly."),
-                  const SizedBox(height: 20.0),
-                  RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Questrial',
-                        height: 1.75,
-                        fontSize: 16.0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const BigText(
+                      text: 'Elegance in every fold',
+                      height: 1.0,
+                      size: 30.0,
+                    ),
+                    const SubHeadingSlanted(
+                        text: "what's included", height: 1.0),
+                    const SizedBox(height: 20.0),
+                    const BodyText(
+                        text:
+                            "Experience the artistry of flawless saree draping at Makeup Star Studio. Our expert drapers ensure a seamless, picture-perfect look that enhances your elegance and confidence effortlessly."),
+                    const SizedBox(height: 20.0),
+                    RichText(
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Questrial',
+                          height: 1.75,
+                          fontSize: 16.0,
+                        ),
+                        children: [
+                          TextSpan(
+                              text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
+                          TextSpan(text: "- NORMAL SAREE DRAPING | \$80+\n"),
+                          TextSpan(
+                              text: "- DUPATTA / VEIL SAREE DRAPING | \$50+\n"),
+                        ],
                       ),
-                      children: [
-                        TextSpan(
-                            text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
-                        TextSpan(text: "- NORMAL SAREE DRAPING | \$80+\n"),
-                        TextSpan(
-                            text: "- DUPATTA / VEIL SAREE DRAPING | \$50+\n"),
-                      ],
                     ),
-                  ),
-                  // const SizedBox(height: 20.0),
-                  const BodyText(
-                    text: "Travel Fee: according to location",
-                    size: 18.0,
-                    color: AppColorConstant.subHeadingColor,
-                  ),
-                  const SizedBox(height: 20.0),
-                  SizedBox(
-                    width: 300,
-                    child: ButtonCard(
-                      text: 'BOOK APPOINTMENT',
-                      press: () {
-                        Navigator.pushNamed(context, WebsiteRoute.bookRoute);
-                      },
+                    // const SizedBox(height: 20.0),
+                    const BodyText(
+                      text: "Travel Fee: according to location",
+                      size: 18.0,
+                      color: AppColorConstant.subHeadingColor,
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20.0),
+                    SizedBox(
+                      width: 300,
+                      child: ButtonCard(
+                        text: 'BOOK APPOINTMENT',
+                        press: () {
+                          Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -131,7 +133,7 @@ class SareeDrapingServiceSectionState
             child: Image.asset(
               'assets/images/service4.jpg',
               width: screenSize.width,
-              height: screenSize.height * 0.5,
+              height: screenSize.height,
               fit: BoxFit.cover,
             ),
           ),
@@ -186,7 +188,7 @@ class SareeDrapingServiceSectionState
                             text: "- SOUTH INDIAN SAREE DRAPING | \$100+\n"),
                         TextSpan(text: "- NORMAL SAREE DRAPING | \$80+\n"),
                         TextSpan(
-                            text: "- DUPATTA / VEIL SAREE DRAPING | \$50+\n"),
+                            text: "- DUPATTA / VEIL SAREE DRAPING | \$50+"),
                       ],
                     ),
                   ),

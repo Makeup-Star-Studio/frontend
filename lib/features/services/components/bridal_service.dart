@@ -294,64 +294,68 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
               vertical: 10.0,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ClipRect(
-                  child: Image.asset(
-                    'assets/images/service1.jpg',
-                    width: 500,
-                    height: screenSize.height,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                // const SizedBox(width: 20.0),
-                Container(
-                  width: 500,
-                  height: screenSize.height,
-                  decoration: BoxDecoration(
-                    color: AppColorConstant.white,
-                    border: Border.all(
-                      color: AppColorConstant.secondaryColor,
-                      width: 1,
+                Expanded(
+                  child: ClipRect(
+                    child: Image.asset(
+                      'assets/images/service1.jpg',
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const BigText(
-                          text: 'All about the bride',
-                          height: 1.0,
-                          size: 30.0,
-                        ),
-                        const SubHeadingSlanted(
-                          text: "what's included",
-                          height: 1.0,
-                        ),
-                        const SizedBox(height: 20.0),
-
-                        // get the data from api
-                        _buildServiceList(provider.services),
-
-                        const BodyText(
-                          text: "Travel Fee: according to location",
-                          size: 18.0,
-                          color: AppColorConstant.subHeadingColor,
-                        ),
-                        const SizedBox(height: 20.0),
-                        SizedBox(
-                          width: 300,
-                          child: ButtonCard(
-                            text: 'BOOK APPOINTMENT',
-                            press: () {
-                              Navigator.pushNamed(
-                                  context, WebsiteRoute.bookRoute);
-                            },
+                ),
+                const SizedBox(width: 20.0),
+                Expanded(
+                  child: Container(
+                    width: 350,
+                    height: screenSize.height,
+                    decoration: BoxDecoration(
+                      color: AppColorConstant.white,
+                      border: Border.all(
+                        color: AppColorConstant.secondaryColor,
+                        width: 1,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const BigText(
+                            text: 'All about the bride',
+                            height: 1.0,
+                            size: 30.0,
                           ),
-                        ),
-                      ],
+                          const SubHeadingSlanted(
+                            text: "what's included",
+                            height: 1.0,
+                          ),
+                          const SizedBox(height: 20.0),
+
+                          // get the data from api
+                          _buildServiceList(provider.services),
+
+                          const BodyText(
+                            text: "Travel Fee: according to location",
+                            size: 18.0,
+                            color: AppColorConstant.subHeadingColor,
+                          ),
+                          const SizedBox(height: 20.0),
+                          SizedBox(
+                            width: 300,
+                            child: ButtonCard(
+                              text: 'BOOK APPOINTMENT',
+                              press: () {
+                                Navigator.pushNamed(
+                                    context, WebsiteRoute.bookRoute);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

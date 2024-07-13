@@ -23,6 +23,6 @@ class GlobalConfig {
       ? ApiConstant.localUrl
       : ApiConstant.liveUrl;
 
-  static const String baseUrl = '$apiUrl';
+  static const String baseUrl = apiUrl;
 
 }

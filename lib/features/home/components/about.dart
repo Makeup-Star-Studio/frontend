@@ -22,29 +22,26 @@ class AboutSection extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: screenSize.width * 0.1, vertical: 50.0),
+          horizontal: screenSize.width * 0.1, vertical: 20.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 600,
-            child: Expanded(
-              flex: 1,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(250.0),
-                  topLeft: Radius.circular(250.0),
-                ),
-                child: Image.asset(
-                  'assets/images/image.jpeg',
-                  fit: BoxFit.cover,
-                ),
+          Expanded(
+            flex: 1,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(250.0),
+                topLeft: Radius.circular(250.0),
+              ),
+              child: Image.asset(
+                'assets/images/image.jpeg',
+                fit: BoxFit.cover,
+                height: 600,
               ),
             ),
           ),
-          const SizedBox(
-            width: 50.0,
-          ),
+          const SizedBox(width: 50.0),
           Expanded(
             flex: 2,
             child: Column(
@@ -55,7 +52,7 @@ class AboutSection extends StatelessWidget {
                 const SubHeading(
                   text: 'elevating beauty & confidence',
                 ),
-                // const SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 const BodyText(
                   size: 16.0,
                   text:
@@ -83,9 +80,10 @@ class AboutSection extends StatelessWidget {
   }
 
   Widget _buildSmallScreen(BuildContext context) {
-    // final screenSize = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.symmetric(
+          horizontal: screenSize.width * 0.1, vertical: 50.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

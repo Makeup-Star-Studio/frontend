@@ -28,7 +28,7 @@ class WebsiteRoute {
 
   static getApplicationRoute() {
     return {
-      adminRoute : (context) => AdminPage(),
+      adminRoute : (context) => const AdminPage(),
       // splashRoute: (context) => const SplashView(),
       homeRoute: (context) => const HomePage(),
       // loginRoute: (context) => const LoginPageView(),

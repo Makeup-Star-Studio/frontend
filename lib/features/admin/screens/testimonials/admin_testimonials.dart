@@ -8,58 +8,49 @@ import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 
-class AdminServicesView extends StatefulWidget {
-  const AdminServicesView({super.key});
+class AdminTestimonialsView extends StatefulWidget {
+  const AdminTestimonialsView({super.key});
   @override
-  State<AdminServicesView> createState() => _AdminServicesViewState();
+  State<AdminTestimonialsView> createState() => _AdminTestimonialsViewState();
 }
 
-class _AdminServicesViewState extends State<AdminServicesView> {
-  final _servicesFormKey = GlobalKey<FormState>();
+class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
+  final _testimonialKey = GlobalKey<FormState>();
   String selectedFile = '';
-  Uint8List? _image;
-  final _titleController = TextEditingController();
-  final _priceController = TextEditingController();
-  String? _selectedCategory;
-  final List<Service> _services = [];
+  Uint8List? _reviewImage;
+  final _firstNamController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _reviewController = TextEditingController();
+
+  final List<Testimonial> _review = [];
   int? _editingIndex;
 
-  final List<String> _categories = [
-    'Bridal',
-    'Non Bridal Makeup',
-    'Non Bridal Hair',
-    'Henna',
-    'Saree Draping'
-  ];
-
   void _submitForm() {
-    if (_servicesFormKey.currentState!.validate() &&
-        _selectedCategory != null &&
-        _image != null) {
+    if (_testimonialKey.currentState!.validate() && _reviewImage != null) {
       setState(() {
         if (_editingIndex == null) {
-          _services.add(Service(
-            image: _image!,
-            title: _titleController.text,
-            price: double.parse(_priceController.text),
-            category: _selectedCategory!,
+          _review.add(Testimonial(
+            reviewImage: _reviewImage!,
+            fname: _firstNamController.text,
+            lname: _lastNameController.text,
+            review: _reviewController.text,
           ));
         } else {
-          _services[_editingIndex!] = Service(
-            image: _image!,
-            title: _titleController.text,
-            price: double.parse(_priceController.text),
-            category: _selectedCategory!,
+          _review[_editingIndex!] = Testimonial(
+            reviewImage: _reviewImage!,
+            fname: _firstNamController.text,
+            lname: _lastNameController.text,
+            review: _reviewController.text,
           );
           _editingIndex = null;
         }
-        _image = null;
-        _titleController.clear();
-        _priceController.clear();
-        _selectedCategory = null;
+        _reviewImage = null;
+        _firstNamController.clear();
+        _lastNameController.clear();
+        _reviewController.clear();
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Service Added Successfully')),
+        const SnackBar(content: Text('Testimonial Added Successfully')),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -69,22 +60,22 @@ class _AdminServicesViewState extends State<AdminServicesView> {
     }
   }
 
-  void _editService(int index) {
+  void _editMember(int index) {
     setState(() {
       _editingIndex = index;
-      _image = _services[index].image;
-      _titleController.text = _services[index].title;
-      _priceController.text = _services[index].price.toString();
-      _selectedCategory = _services[index].category;
+      _reviewImage = _review[index].reviewImage;
+      _firstNamController.text = _review[index].fname;
+      _lastNameController.text = _review[index].lname;
+      _reviewController.text = _review[index].review;
     });
   }
 
-  void _deleteService(int index) {
+  void _deleteMember(int index) {
     setState(() {
-      _services.removeAt(index);
+      _review.removeAt(index);
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Service Deleted Successfully')),
+      const SnackBar(content: Text('Testimonial Deleted Successfully')),
     );
   }
 
@@ -95,8 +86,9 @@ class _AdminServicesViewState extends State<AdminServicesView> {
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _priceController.dispose();
+    _firstNamController.dispose();
+    _lastNameController.dispose();
+    _reviewController.dispose();
     super.dispose();
   }
 
@@ -106,7 +98,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
           await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
         setState(() {
-          _image = result.files.first.bytes;
+          _reviewImage = result.files.first.bytes;
         });
       }
     } catch (e) {
@@ -122,12 +114,12 @@ class _AdminServicesViewState extends State<AdminServicesView> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Form(
-              key: _servicesFormKey,
+              key: _testimonialKey,
               child: ListView(
                 children: [
                   const Text(
                     textAlign: TextAlign.center,
-                    "Manage Services",
+                    "Manage Testimonials",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -136,18 +128,18 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: _pickImage,
-                    child: _image == null
+                    child: _reviewImage == null
                         ? Container(
                             height: 400,
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.memory(_image!,
+                        : Image.memory(_reviewImage!,
                             height: 500, fit: BoxFit.contain),
                   ),
                   const Text(
                     textAlign: TextAlign.center,
-                    '"Pick One Image"',
+                    '"Select an image of the client to upload"',
                     style: TextStyle(
                       color: AppColorConstant.adminPrimaryColor,
                       fontSize: 18,
@@ -157,7 +149,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                   ),
                   const SizedBox(height: 20),
                   BodyText(
-                    text: "Service Title",
+                    text: "First Name",
                     textAlign: TextAlign.left,
                     size: 16,
                     fontWeight: ResponsiveWidget.isSmallScreen(context)
@@ -166,12 +158,79 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                   ),
                   TextFormInputField(
                     textAlign: TextAlign.left,
-                    controller: _titleController,
+                    controller: _firstNamController,
+                    hintText: " Enter Client First Name",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'required';
+                      }
+                      return null;
+                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  BodyText(
+                    text: "Last Name",
+                    textAlign: TextAlign.left,
+                    size: 16,
+                    fontWeight: ResponsiveWidget.isSmallScreen(context)
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                  TextFormInputField(
+                    textAlign: TextAlign.left,
+                    controller: _lastNameController,
+                    hintText: " Enter Client Last Name",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'required';
+                      }
+                      return null;
+                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  BodyText(
+                    text: "Review",
+                    textAlign: TextAlign.left,
+                    size: 16,
+                    fontWeight: ResponsiveWidget.isSmallScreen(context)
+                        ? FontWeight.bold
+                        : FontWeight.normal,
+                  ),
+                  TextFormInputField(
+                    maxLines: 5,
+                    textAlign: TextAlign.left,
+                    controller: _reviewController,
                     hintText:
-                        "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
+                        "Write or copy a review given by a client from google review",
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';
+                      } else if (value.length < 10 || value.length > 500) {
+                        return 'Review must be between 10 and 500 characters';
                       }
                       return null;
                     },
@@ -188,71 +247,11 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  BodyText(
-                    text: "Service Price",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: ResponsiveWidget.isSmallScreen(context)
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                  TextFormInputField(
-                    textAlign: TextAlign.left,
-                    controller: _priceController,
-                    hintText: "For eg: 5000 or 10000 etc.",
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      try {
-                        double.parse(value);
-                      } catch (_) {
-                        return 'Please enter a valid number';
-                      }
-                      return null;
-                    },
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                    focusBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  BodyText(
-                    text: "Service Category",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: ResponsiveWidget.isSmallScreen(context)
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                  ..._categories.map((category) => RadioListTile<String>(
-                        title: BodyText(
-                          textAlign: TextAlign.left,
-                          text: category,
-                        ),
-                        value: category,
-                        groupValue: _selectedCategory,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedCategory = value;
-                          });
-                        },
-                      )),
                   const SizedBox(height: 20),
                   ModifiedButton(
                       text: _editingIndex == null
-                          ? 'ADD SERVICE'
-                          : 'UPDATE SERVICE',
+                          ? 'ADD TESTIMONIAL'
+                          : 'UPDATE TESTIMONIAL',
                       color: AppColorConstant.adminPrimaryColor,
                       textColor: AppColorConstant.white,
                       press: _submitForm),
@@ -267,7 +266,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             child: Column(
               children: [
                 const Text(
-                  "Displayed Services",
+                  "Displayed Testimonials",
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -275,45 +274,48 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                 ),
                 const SizedBox(height: 20),
                 Expanded(
-                  child: _services.isEmpty
-                      ? const Center(child: Text("No services added"))
+                  child: _review.isEmpty
+                      ? const Center(child: Text("No testimonials added"))
                       : SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: DataTable(
                             columns: const [
                               DataColumn(label: Text('Image')),
-                              DataColumn(label: Text('Title')),
-                              DataColumn(label: Text('Price')),
-                              DataColumn(label: Text('Category')),
+                              DataColumn(label: Text('First Name')),
+                              DataColumn(label: Text('Last Name')),
+                              DataColumn(label: Text('Review')),
                               DataColumn(label: Text('Actions')),
                             ],
-                            rows: _services.asMap().entries.map((entry) {
+                            rows: _review.asMap().entries.map((entry) {
                               int index = entry.key;
-                              Service service = entry.value;
+                              Testimonial review = entry.value;
                               return DataRow(cells: [
-                                DataCell(Image.memory(service.image,
+                                DataCell(Image.memory(review.reviewImage,
                                     width: 50, height: 50)),
+                                DataCell(
+                                  Text(review.fname),
+                                ),
+                                DataCell(Text(review.lname)),
                                 DataCell(
                                   ConstrainedBox(
                                     constraints:
                                         const BoxConstraints(maxWidth: 200),
                                     child: Text(
-                                      service.title,
+                                      maxLines: 2,
+                                      review.review,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ),
-                                DataCell(Text('\$${service.price.toString()}')),
-                                DataCell(Text(service.category)),
                                 DataCell(Row(
                                   children: [
                                     IconButton(
                                       icon: const Icon(Icons.edit),
-                                      onPressed: () => _editService(index),
+                                      onPressed: () => _editMember(index),
                                     ),
                                     IconButton(
                                       icon: const Icon(Icons.delete),
-                                      onPressed: () => _deleteService(index),
+                                      onPressed: () => _deleteMember(index),
                                     ),
                                   ],
                                 )),
@@ -331,16 +333,16 @@ class _AdminServicesViewState extends State<AdminServicesView> {
   }
 }
 
-class Service {
-  final Uint8List image;
-  final String title;
-  final double price;
-  final String category;
+class Testimonial {
+  final Uint8List reviewImage;
+  final String fname;
+  final String lname;
+  final String review;
 
-  Service({
-    required this.image,
-    required this.title,
-    required this.price,
-    required this.category,
+  Testimonial({
+    required this.reviewImage,
+    required this.fname,
+    required this.lname,
+    required this.review,
   });
 }
