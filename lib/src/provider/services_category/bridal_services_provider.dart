@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/src/api/api_service.dart';
+import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
@@ -28,7 +28,9 @@ class ServicesProvider extends ChangeNotifier {
       if (apiResponse.status == true && apiResponse.data != null) {
         // Handling nested structure
         var servicesData = apiResponse.data['services'] as List;
-        _services = servicesData.map((serviceJson) => Service.fromJson(serviceJson)).toList();
+        _services = servicesData
+            .map((serviceJson) => Service.fromJson(serviceJson))
+            .toList();
         _filteredServices = _services;
       }
 

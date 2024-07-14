@@ -1,4 +1,5 @@
 import 'package:makeupstarstudio/features/about/about.dart';
+import 'package:makeupstarstudio/features/admin/screens/dashboard/components/header.dart';
 import 'package:makeupstarstudio/features/admin/screens/login/admin_login.dart';
 import 'package:makeupstarstudio/features/booking/booking.dart';
 import 'package:makeupstarstudio/features/bridal/bridal.dart';
@@ -23,6 +24,7 @@ class WebsiteRoute {
   static const String galleryRoute = '/gallery';
   static const String contactRoute = '/contact';
   static const String bookRoute = '/book';
+  static const String headerRoute = '/header';
   // static const String editProfile = '/editProfile';
   // static const String changePassword= '/changePassword';
 
@@ -40,6 +42,7 @@ class WebsiteRoute {
       galleryRoute: (context) => const GalleryPage(),
       contactRoute: (context) => const ContactPage(),
       bookRoute: (context) => const BookingPage(),
+      headerRoute: (context) => const Header(),
       // editProfile: (context) => const UpdateProfileView(),
       // changePassword: (context) => const ChangePasswordView(),
     };
