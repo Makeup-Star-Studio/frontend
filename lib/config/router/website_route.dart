@@ -1,5 +1,5 @@
 import 'package:makeupstarstudio/features/about/about.dart';
-import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
+import 'package:makeupstarstudio/features/admin/screens/login/admin_login.dart';
 import 'package:makeupstarstudio/features/booking/booking.dart';
 import 'package:makeupstarstudio/features/bridal/bridal.dart';
 import 'package:makeupstarstudio/features/contact/contact.dart';
@@ -28,7 +28,7 @@ class WebsiteRoute {
 
   static getApplicationRoute() {
     return {
-      adminRoute : (context) => const AdminPage(),
+      adminRoute : (context) => const AdminLoginScreen(),
       // splashRoute: (context) => const SplashView(),
       homeRoute: (context) => const HomePage(),
       // loginRoute: (context) => const LoginPageView(),
