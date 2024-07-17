@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/core/app.dart';
+import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:makeupstarstudio/src/provider/services_category/bridal_services_provider.dart';
 
@@ -8,6 +9,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ServicesProvider()),
+         ChangeNotifierProvider(create: (_) => LoginProvider()),
       ],
       child: const MyApp(),
     ),

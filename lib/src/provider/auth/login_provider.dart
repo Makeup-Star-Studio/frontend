@@ -6,19 +6,21 @@ import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class LoginProvider with ChangeNotifier {
   Future<void> loginUser(
-      BuildContext context, String email, String password) async {
+      BuildContext context, String username, String password) async {
     final HttpRepo _httpRepo = HttpServices();
     final SharedPreferencesService _sharedPrefs = SharedPreferencesService();
 
     try {
-      // Show a loading indicator
+     
       showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) => AlertDialog(
           content: Row(
             children: <Widget>[
-              CircularProgressIndicator(),
+              CircularProgressIndicator(
+                color: Colors.black,
+              ),
               SizedBox(width: 20),
               Text('Logging in...'),
             ],
@@ -26,25 +28,25 @@ class LoginProvider with ChangeNotifier {
         ),
       );
 
-      // Prepare the request body
       Map<String, String> body = <String, String>{
-        'wallet_id': email,
-        'wallet_pin': password,
+        'username': username,
+        'password': password,
       };
 
-      // Make the API call
+ 
       var response = await _httpRepo.post(ApiConstant.adminLoginUri, body);
 
-      // Dismiss the loading indicator
+      print('Response body: ${response.data}');
+
+  
       Navigator.of(context).pop();
 
-      // Handle successful login
       if (response != null && response.token != null) {
-        // Save user data to SharedPreferences
+
         await _sharedPrefs.setStringPref('userData', response.toJson());
         await _sharedPrefs.setBoolPref('logged', true);
 
-        // Show success message
+    
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login Successful'),
@@ -52,18 +54,20 @@ class LoginProvider with ChangeNotifier {
           ),
         );
 
-        // Navigate to dashboard
-        Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+       
+        Navigator.pushNamed(context, WebsiteRoute.admindahboard);
       } else {
-        // Handle case where response is not as expected
+        
         throw 'Invalid response from server';
       }
     } catch (e, s) {
-      // Catch and handle errors
+      
+      Navigator.of(context).pop();
+
       print('Error: $e');
       print('Stack trace: $s');
 
-      // Show error message
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: ${e.toString()}'),
