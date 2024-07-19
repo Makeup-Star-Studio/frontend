@@ -26,7 +26,7 @@ class WebsiteRoute {
   static const String contactRoute = '/contact';
   static const String bookRoute = '/book';
   static const String headerRoute = '/header';
-  static const String admindahboard = '/admin-dash';
+  // static const String admindahboard = '/admin-dash';
   // static const String editProfile = '/editProfile';
   // static const String changePassword= '/changePassword';
 
@@ -45,7 +45,7 @@ class WebsiteRoute {
       contactRoute: (context) => const ContactPage(),
       bookRoute: (context) => const BookingPage(),
       headerRoute: (context) => const Header(),
-      admindahboard: (context) => const AdminPage(),
+      // admindahboard: (context) => const AdminPage(),
       // editProfile: (context) => const UpdateProfileView(),
       // changePassword: (context) => const ChangePasswordView(),
     };
