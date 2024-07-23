@@ -6,10 +6,15 @@ class ApiConstant {
   // *********** Don't change anything below if you're not 1000% sure *********** //
 
   /// [AUTH_URL]
-  static const String adminRegisterUri = '/admin/register';
+  // static const String adminRegisterUri = '/admin/register';
   static const String adminLoginUri = '/admin/login';
 
   /// [Services]
-  static const String getbridalServices = '/services/category/bridal';
-  static const String getmakeupServices = '/services/category/makeup';
+  static const String getBridalServices = '/services/category/bridal';
+  static const String getNonBridalMakeupServices = '/services/category/makeup';
+  static const String getNonBridalHairServices = '/services/category/hair';
+  static const String getHennaServices = '/services/category/henna';
+  static const String getDrapingServices = '/services/category/draping';
+
+  /// [Gallery]
 }

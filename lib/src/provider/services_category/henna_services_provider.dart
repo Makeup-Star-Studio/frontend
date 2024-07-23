@@ -4,7 +4,7 @@ import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
-class BridalServicesProvider extends ChangeNotifier {
+class HennaServicesProvider extends ChangeNotifier {
   List<Service> _services = [];
   List<Service> _filteredServices = [];
 
@@ -16,12 +16,12 @@ class BridalServicesProvider extends ChangeNotifier {
 
   final StarStudioApiService _apiService = StarStudioApiService();
 
-  Future<void> fetchBridalServices() async {
+  Future<void> fetchHennaServices() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiService.get(ApiConstant.getBridalServices);
+      final response = await _apiService.get(ApiConstant.getHennaServices);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);

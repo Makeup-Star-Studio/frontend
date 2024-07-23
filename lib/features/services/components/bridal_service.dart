@@ -267,7 +267,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
     super.initState();
     // Fetch services data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ServicesProvider>(context, listen: false).fetchServices();
+      Provider.of<BridalServicesProvider>(context, listen: false).fetchBridalServices();
     });
   }
 
@@ -283,7 +283,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
 
   // Widget to build for large screen
   Widget _buildLargeScreen(Size screenSize, BuildContext context) {
-    return Consumer<ServicesProvider>(
+    return Consumer<BridalServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -395,7 +395,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
 
   // Widget to build for small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-    return Consumer<ServicesProvider>(
+    return Consumer<BridalServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());

@@ -10,6 +10,7 @@ import 'package:makeupstarstudio/core/common/text/button.dart';
 
 class AdminServicesView extends StatefulWidget {
   const AdminServicesView({super.key});
+
   @override
   State<AdminServicesView> createState() => _AdminServicesViewState();
 }
@@ -26,10 +27,10 @@ class _AdminServicesViewState extends State<AdminServicesView> {
 
   final List<String> _categories = [
     'Bridal',
-    'Non Bridal Makeup',
-    'Non Bridal Hair',
+    'Makeup',
+    'Hair',
     'Henna',
-    'Saree Draping'
+    'Draping'
   ];
 
   void _submitForm() {
@@ -42,14 +43,14 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             image: _image!,
             title: _titleController.text,
             price: double.parse(_priceController.text),
-            category: _selectedCategory!,
+            category: _selectedCategory!.toLowerCase(),
           ));
         } else {
           _services[_editingIndex!] = Service(
             image: _image!,
             title: _titleController.text,
             price: double.parse(_priceController.text),
-            category: _selectedCategory!,
+            category: _selectedCategory!.toLowerCase(),
           );
           _editingIndex = null;
         }

@@ -4,6 +4,7 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
+import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:provider/provider.dart';
@@ -176,6 +177,14 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             _usernameController.text,
                             _passwordController.text,
                           );
+/* ------------------ Ayusha --------------------------------- */
+// i have added this code to navigate to admin page after login
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const AdminPage(
+                                        selectedIndex: 0,
+                                      )));
                         }
                       },
                     )
