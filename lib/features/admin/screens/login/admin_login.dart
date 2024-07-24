@@ -177,14 +177,6 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                             _usernameController.text,
                             _passwordController.text,
                           );
-/* ------------------ Ayusha --------------------------------- */
-// i have added this code to navigate to admin page after login
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const AdminPage(
-                                        selectedIndex: 0,
-                                      )));
                         }
                       },
                     )

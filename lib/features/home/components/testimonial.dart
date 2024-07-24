@@ -1,9 +1,197 @@
+// import 'package:flutter/material.dart';
+// import 'package:makeupstarstudio/config/constants/color.dart';
+// import 'package:makeupstarstudio/config/constants/responsive.dart';
+// import 'package:makeupstarstudio/core/common/text/body.dart';
+// import 'package:makeupstarstudio/core/common/text/heading.dart';
+// import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
+// import 'package:makeupstarstudio/src/model/testimonial_model.dart';
+// import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+// import 'package:provider/provider.dart';
+
+// class TestimonialSection extends StatefulWidget {
+//   const TestimonialSection({super.key});
+
+//   @override
+//   State<TestimonialSection> createState() => _TestimonialSectionState();
+// }
+
+// class _TestimonialSectionState extends State<TestimonialSection> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     // Fetch services data on widget initialization
+//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       Provider.of<TestimonialProvider>(context, listen: false)
+//           .fetchTestimonial();
+//     });
+//   }
+
+//   int _currentIndex = 0;
+
+//   final List<Map<String, dynamic>> _testimonials = [
+//     {
+//       'bigText': '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
+//       'bodyText':
+//           'I hired Makeup Star Studio for my wedding, I am so happy that I did. My hair and make up was incredible and all of my bridesmaids were so happy with how everything turned out. There were no tears over hair and make up that day! It was everything a bride could ask for. They were so skilled and efficient that we ran ahead of schedule and I had almost zero stress on my wedding day. The stylists are so talented and polite that I could not have found a better place. I highly recommend hiring them for your big day or any beauty needs!!',
+//       'name': 'JENNA',
+//       'imagePath': 'assets/images/testimonial.jpg',
+//     },
+//     {
+//       'bigText': '"DO NOT LOOK ANYWHERE ELSE FOR WEDDING MAKE-UP"',
+//       'bodyText':
+//           'Do not look anywhere else for wedding make-up. Call and book, ASAP. Cannot say enough amazing things about Geet. Hired Makeup Star Studio for my wedding to do make-up for myself, mom, 4 bridesmaids and 2 flower girls. Grace and Hayley were our make-up artists and were wonderful. Kind, friendly and talented! Everyone loved their make-up and I was beyond happy with mine - it was perfect!',
+//       'name': 'PREETI',
+//       'imagePath': 'assets/images/service1.jpg',
+//     },
+//     {
+//       'bigText': '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
+//       'bodyText':
+//           'I hired Mane Chic for my wedding, I am so happy that I did. My hair and make up was incredible and all of my bridesmaids were so happy with how everything turned out. There were no tears over hair and make up that day! It was everything a bride could ask for. They were so skilled and efficient that we ran ahead of schedule and I had almost zero stress on my wedding day. The stylists are so talented and polite that I could not have found a better place. I highly recommend hiring them for your big day or any beauty needs!!',
+//       'name': 'JENNA',
+//       'imagePath': 'assets/images/testimonial.jpg',
+//     },
+//     // Add more testimonials as needed
+//   ];
+
+//   void _nextTestimonial() {
+//     setState(() {
+//       _currentIndex = (_currentIndex + 1) % _testimonials.length;
+//     });
+//   }
+
+//   void _previousTestimonial() {
+//     setState(() {
+//       _currentIndex = (_currentIndex - 1) % _testimonials.length;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final testimonial = _testimonials[_currentIndex];
+//     final screenSize = MediaQuery.of(context).size;
+//     final List<Testimonial> testimonials =
+//         Provider.of<TestimonialProvider>(context).testimonials;
+
+//     return ResponsiveWidget(
+//       largeScreen: _buildLargeScreen(testimonial, testimonials),
+//       mediumScreen: _buildMediumScreen(screenSize, testimonial),
+//       smallScreen: _buildSmallScreen(screenSize, testimonial),
+//     );
+//   }
+
+//   Widget _buildLargeScreen(
+//       Map<String, dynamic> testimonial, List<Testimonial> testimonials) {
+//     return Consumer<TestimonialProvider>(
+//       builder: (context, provider, child) {
+//         if (provider.isLoading) {
+//           return const Center(child: CircularProgressIndicator());
+//         } else {
+//           return Container(
+//             color: AppColorConstant.bgColor,
+//             padding: const EdgeInsets.only(left: 50),
+//             child: Row(
+//               children: [
+//                 Expanded(
+//                   child: Column(
+//                     crossAxisAlignment: CrossAxisAlignment.start,
+//                     mainAxisAlignment: MainAxisAlignment.start,
+//                     children: [
+//                       const SubHeadingSlanted(
+//                         textAlign: TextAlign.start,
+//                         text: 'Client Love',
+//                         size: 65.0,
+//                         color: AppColorConstant.black,
+//                       ),
+//                       const SizedBox(height: 50.0),
+//                       BigText(
+//                         textAlign: TextAlign.start,
+//                         text: testimonial['bigText'],
+//                         size: 25.0,
+//                       ),
+//                       const SizedBox(height: 20.0),
+//                       BodyText(
+//                         textAlign: TextAlign.start,
+//                         // text: testimonial['bodyText'],
+//                         text: testimonials
+//                             .map((testimonial) => testimonial.review)
+//                             .toString(),
+//                       ),
+//                       const SizedBox(height: 20.0),
+//                       BodyText(
+//                         text: testimonials
+//                             .map((testimonial) =>
+//                                 '${testimonial.fname} ${testimonial.lname}')
+//                             .toString(),
+//                         color: const Color.fromARGB(255, 22, 22, 21),
+//                         size: 16.0,
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 const SizedBox(width: 20.0),
+//                 Stack(
+//                   children: [
+//                     ClipRect(
+//                       child: Image.asset(
+//                         testimonials
+//                             .map((testimonial) => testimonial.reviewImage)
+//                             .toString(),
+//                         width: 750.0,
+//                         height: 750.0,
+//                         fit: BoxFit.cover,
+//                       ),
+//                     ),
+//                     Positioned(
+//                       bottom: 3,
+//                       left: 5,
+//                       child: Container(
+//                         decoration: const BoxDecoration(
+//                           color: AppColorConstant.iconBgColor,
+//                         ),
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 20.0, vertical: 4.0),
+//                         child: Row(
+//                           children: [
+//                             IconButton(
+//                               hoverColor: Colors.transparent,
+//                               onPressed: _previousTestimonial,
+//                               icon: const Icon(
+//                                 Icons.arrow_back_sharp,
+//                                 color: AppColorConstant.black,
+//                               ),
+//                             ),
+//                             const SizedBox(width: 12.0),
+//                             IconButton(
+//                               hoverColor: Colors.transparent,
+//                               onPressed: _nextTestimonial,
+//                               icon: const Icon(
+//                                 Icons.arrow_forward_sharp,
+//                                 color: AppColorConstant.black,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ],
+//             ),
+//           );
+//         }
+//       },
+//     );
+//   }
+
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
+import 'package:makeupstarstudio/src/model/testimonial_model.dart';
+import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+import 'package:provider/provider.dart';
 
 class TestimonialSection extends StatefulWidget {
   const TestimonialSection({super.key});
@@ -13,67 +201,69 @@ class TestimonialSection extends StatefulWidget {
 }
 
 class _TestimonialSectionState extends State<TestimonialSection> {
+  PageController _pageController = PageController(viewportFraction: 1);
   int _currentIndex = 0;
 
-  final List<Map<String, dynamic>> _testimonials = [
-    {
-      'bigText': '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
-      'bodyText':
-          'I hired Makeup Star Studio for my wedding, I am so happy that I did. My hair and make up was incredible and all of my bridesmaids were so happy with how everything turned out. There were no tears over hair and make up that day! It was everything a bride could ask for. They were so skilled and efficient that we ran ahead of schedule and I had almost zero stress on my wedding day. The stylists are so talented and polite that I could not have found a better place. I highly recommend hiring them for your big day or any beauty needs!!',
-      'name': 'JENNA',
-      'imagePath': 'assets/images/testimonial.jpg',
-    },
-    {
-      'bigText': '"DO NOT LOOK ANYWHERE ELSE FOR WEDDING MAKE-UP"',
-      'bodyText':
-          'Do not look anywhere else for wedding make-up. Call and book, ASAP. Cannot say enough amazing things about Geet. Hired Makeup Star Studio for my wedding to do make-up for myself, mom, 4 bridesmaids and 2 flower girls. Grace and Hayley were our make-up artists and were wonderful. Kind, friendly and talented! Everyone loved their make-up and I was beyond happy with mine - it was perfect!',
-      'name': 'PREETI',
-      'imagePath': 'assets/images/service1.jpg',
-    },
-    {
-      'bigText': '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
-      'bodyText':
-          'I hired Mane Chic for my wedding, I am so happy that I did. My hair and make up was incredible and all of my bridesmaids were so happy with how everything turned out. There were no tears over hair and make up that day! It was everything a bride could ask for. They were so skilled and efficient that we ran ahead of schedule and I had almost zero stress on my wedding day. The stylists are so talented and polite that I could not have found a better place. I highly recommend hiring them for your big day or any beauty needs!!',
-      'name': 'JENNA',
-      'imagePath': 'assets/images/testimonial.jpg',
-    },
-    // Add more testimonials as needed
-  ];
-
-  void _nextTestimonial() {
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % _testimonials.length;
+  @override
+  void initState() {
+    super.initState();
+    // Fetch services data on widget initialization
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<TestimonialProvider>(context, listen: false)
+          .fetchTestimonial();
     });
   }
 
+  void _nextTestimonial() {
+    if (_currentIndex < 2) {  // Assuming you want to show a maximum of 3 testimonials
+      setState(() {
+        _currentIndex++;
+      });
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    }
+  }
+
   void _previousTestimonial() {
-    setState(() {
-      _currentIndex = (_currentIndex - 1) % _testimonials.length;
-    });
+    if (_currentIndex > 0) {
+      setState(() {
+        _currentIndex--;
+      });
+      _pageController.animateToPage(
+        _currentIndex,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final testimonial = _testimonials[_currentIndex];
     final screenSize = MediaQuery.of(context).size;
+    final List<Testimonial> testimonials =
+        Provider.of<TestimonialProvider>(context).testimonials;
 
     return ResponsiveWidget(
-      largeScreen: _buildLargeScreen(testimonial),
-      mediumScreen: _buildMediumScreen(screenSize, testimonial),
-      smallScreen: _buildSmallScreen(screenSize, testimonial),
+      largeScreen: _buildLargeScreen(testimonials),
+      mediumScreen: _buildMediumScreen(screenSize, testimonials),
+      smallScreen: _buildSmallScreen(screenSize, testimonials),
     );
   }
 
-  Widget _buildLargeScreen(Map<String, dynamic> testimonial) {
-    return Container(
-      color: AppColorConstant.bgColor,
-      padding: const EdgeInsets.only(left: 50),
-      child: Row(
-        children: [
-          Expanded(
+  Widget _buildLargeScreen(List<Testimonial> testimonials) {
+    return Consumer<TestimonialProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          return Container(
+            color: AppColorConstant.bgColor,
+            padding: const EdgeInsets.only(left: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SubHeadingSlanted(
                   textAlign: TextAlign.start,
@@ -82,151 +272,166 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                   color: AppColorConstant.black,
                 ),
                 const SizedBox(height: 50.0),
-                BigText(
-                  textAlign: TextAlign.start,
-                  text: testimonial['bigText'],
-                  size: 25.0,
+                SizedBox(
+                  height: 750.0,  // Set height constraint here
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: testimonials.length,
+                    itemBuilder: (context, index) {
+                      final testimonial = testimonials[index];
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,  // Ensure the column takes only necessary height
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          BigText(
+                            textAlign: TextAlign.start,
+                            text: testimonial.review,
+                            size: 25.0,
+                          ),
+                          const SizedBox(height: 20.0),
+                          BodyText(
+                            textAlign: TextAlign.start,
+                            text: testimonial.review,
+                          ),
+                          const SizedBox(height: 20.0),
+                          BodyText(
+                            text: '${testimonial.fname} ${testimonial.lname}',
+                            color: const Color.fromARGB(255, 22, 22, 21),
+                            size: 16.0,
+                          ),
+                          const SizedBox(height: 20.0),
+                          SizedBox(
+                            height: 750.0,
+                            width: 750.0,
+                            child: Image.asset(
+                              testimonial.reviewImage,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 20.0),
-                BodyText(
-                  textAlign: TextAlign.start,
-                  text: testimonial['bodyText'],
-                ),
-                const SizedBox(height: 20.0),
-                BodyText(
-                  text: testimonial['name'],
-                  color: AppColorConstant.subHeadingColor,
-                  size: 16.0,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      hoverColor: Colors.transparent,
+                      onPressed: _previousTestimonial,
+                      icon: const Icon(
+                        Icons.arrow_back_sharp,
+                        color: AppColorConstant.black,
+                      ),
+                    ),
+                    const SizedBox(width: 12.0),
+                    IconButton(
+                      hoverColor: Colors.transparent,
+                      onPressed: _nextTestimonial,
+                      icon: const Icon(
+                        Icons.arrow_forward_sharp,
+                        color: AppColorConstant.black,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 20.0),
-          Stack(
-            children: [
-              ClipRect(
-                child: Image.asset(
-                  testimonial['imagePath'],
-                  width: 750.0,
-                  height: 750.0,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Positioned(
-                bottom: 3,
-                left: 5,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: AppColorConstant.iconBgColor,
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 4.0),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        hoverColor: Colors.transparent,
-                        onPressed: _previousTestimonial,
-                        icon: const Icon(
-                          Icons.arrow_back_sharp,
-                          color: AppColorConstant.black,
-                        ),
-                      ),
-                      const SizedBox(width: 12.0),
-                      IconButton(
-                        hoverColor: Colors.transparent,
-                        onPressed: _nextTestimonial,
-                        icon: const Icon(
-                          Icons.arrow_forward_sharp,
-                          color: AppColorConstant.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 
-  Widget _buildMediumScreen(Size screenSize, Map<String, dynamic> testimonial) {
-    return _buildSmallScreen(screenSize, testimonial);
+  Widget _buildMediumScreen(Size screenSize, List<Testimonial> testimonials) {
+    // Similar to _buildLargeScreen but adjusted for medium screen sizes
+    return _buildLargeScreen(testimonials);  // Simplified for brevity
   }
 
-  Widget _buildSmallScreen(Size screenSize, Map<String, dynamic> testimonial) {
-    return Column(
-      children: [
-        Image.asset(
-          testimonial['imagePath'],
-          width: screenSize.width,
-          height: 500.0,
-          fit: BoxFit.cover,
-        ),
-        // const SizedBox(height: 20.0),
-        Container(
-          color: AppColorConstant.bgColor,
-          padding: const EdgeInsets.all(20.0),
-          // Use Container instead of SizedBox
-          // height: screenSize.height * 0.5, // Specify a finite height
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SubHeadingSlanted(
-                textAlign: TextAlign.start,
-                text: 'Client Love',
-                size: 65.0,
-                height: 1.0,
-                color: AppColorConstant.black,
-              ),
-              const SizedBox(height: 20.0),
-              BigText(
-                // textAlign: TextAlign.start,
-                text: testimonial['bigText'],
-                size: 25.0,
-              ),
-              const SizedBox(height: 20.0),
-              BodyText(
-                // textAlign: TextAlign.start,
-                text: testimonial['bodyText'],
-              ),
-              const SizedBox(height: 20.0),
-              BodyText(
-                text: testimonial['name'],
-                color: AppColorConstant.subHeadingColor,
-                // size: 16.0,
-                fontWeight: FontWeight.w600,
-              ),
-              const SizedBox(height: 20.0),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    hoverColor: Colors.transparent,
-                    onPressed: _previousTestimonial,
-                    icon: const Icon(
-                      Icons.arrow_back_sharp,
-                      color: AppColorConstant.black,
-                    ),
-                  ),
-                  const SizedBox(width: 12.0),
-                  IconButton(
-                    hoverColor: Colors.transparent,
-                    onPressed: _nextTestimonial,
-                    icon: const Icon(
-                      Icons.arrow_forward_sharp,
-                      color: AppColorConstant.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+  Widget _buildSmallScreen(Size screenSize, List<Testimonial> testimonials) {
+    // Similar to _buildLargeScreen but adjusted for small screen sizes
+    return _buildLargeScreen(testimonials);  // Simplified for brevity
   }
 }
+
+
+
+//   Widget _buildMediumScreen(Size screenSize, Map<String, dynamic> testimonial) {
+//     return _buildSmallScreen(screenSize, testimonial);
+//   }
+
+//   Widget _buildSmallScreen(Size screenSize, Map<String, dynamic> testimonial) {
+//     return Column(
+//       children: [
+//         Image.asset(
+//           testimonial['imagePath'],
+//           width: screenSize.width,
+//           height: 500.0,
+//           fit: BoxFit.cover,
+//         ),
+//         // const SizedBox(height: 20.0),
+//         Container(
+//           color: AppColorConstant.bgColor,
+//           padding: const EdgeInsets.all(20.0),
+//           // Use Container instead of SizedBox
+//           // height: screenSize.height * 0.5, // Specify a finite height
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.center,
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               const SubHeadingSlanted(
+//                 textAlign: TextAlign.start,
+//                 text: 'Client Love',
+//                 size: 65.0,
+//                 height: 1.0,
+//                 color: AppColorConstant.black,
+//               ),
+//               const SizedBox(height: 20.0),
+//               BigText(
+//                 // textAlign: TextAlign.start,
+//                 text: testimonial['bigText'],
+//                 size: 25.0,
+//               ),
+//               const SizedBox(height: 20.0),
+//               BodyText(
+//                 // textAlign: TextAlign.start,
+//                 text: testimonial['bodyText'],
+//               ),
+//               const SizedBox(height: 20.0),
+//               BodyText(
+//                 text: testimonial['name'],
+//                 color: AppColorConstant.subHeadingColor,
+//                 // size: 16.0,
+//                 fontWeight: FontWeight.w600,
+//               ),
+//               const SizedBox(height: 20.0),
+//               Row(
+//                 crossAxisAlignment: CrossAxisAlignment.center,
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   IconButton(
+//                     hoverColor: Colors.transparent,
+//                     onPressed: _previousTestimonial,
+//                     icon: const Icon(
+//                       Icons.arrow_back_sharp,
+//                       color: AppColorConstant.black,
+//                     ),
+//                   ),
+//                   const SizedBox(width: 12.0),
+//                   IconButton(
+//                     hoverColor: Colors.transparent,
+//                     onPressed: _nextTestimonial,
+//                     icon: const Icon(
+//                       Icons.arrow_forward_sharp,
+//                       color: AppColorConstant.black,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }

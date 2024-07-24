@@ -16,5 +16,7 @@ class ApiConstant {
   static const String getHennaServices = '/services/category/henna';
   static const String getDrapingServices = '/services/category/draping';
 
-  /// [Gallery]
+  /// [Testimonials]
+  static const String getAllTestimonials = '/testimonial';
+  static String getSingleTestimonial(String id) => "/testimonial/$id";
 }
