@@ -49,12 +49,16 @@ class Testimonial {
   final String review;
   final String reviewImage;
 
-  factory Testimonial.fromJson(Map<String, dynamic> json) => Testimonial(
-        fname: json["fname"],
-        lname: json["lname"],
-        review: json["review"],
-        reviewImage: json["reviewImage"],
-      );
+  static const String baseUrl = "http://localhost:3001/testimonial/";
+
+  factory Testimonial.fromJson(Map<String, dynamic> json) {
+    return Testimonial(
+      fname: json["fname"],
+      lname: json["lname"],
+      review: json["review"],
+      reviewImage: baseUrl + json["reviewImage"], // Construct full URL
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "fname": fname,

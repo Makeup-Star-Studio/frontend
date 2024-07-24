@@ -201,27 +201,25 @@ class TestimonialSection extends StatefulWidget {
 }
 
 class _TestimonialSectionState extends State<TestimonialSection> {
-  PageController _pageController = PageController(viewportFraction: 1);
+  final PageController _pageController = PageController(viewportFraction: 1);
   int _currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    // Fetch services data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<TestimonialProvider>(context, listen: false)
-          .fetchTestimonial();
+      Provider.of<TestimonialProvider>(context, listen: false).fetchTestimonial();
     });
   }
 
   void _nextTestimonial() {
-    if (_currentIndex < 2) {  // Assuming you want to show a maximum of 3 testimonials
+    if (_currentIndex < 2) {
       setState(() {
         _currentIndex++;
       });
       _pageController.animateToPage(
         _currentIndex,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     }
@@ -234,7 +232,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
       });
       _pageController.animateToPage(
         _currentIndex,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     }
@@ -243,8 +241,11 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final List<Testimonial> testimonials =
-        Provider.of<TestimonialProvider>(context).testimonials;
+    final List<Testimonial> testimonials = Provider.of<TestimonialProvider>(context).testimonials;
+
+    for (var testimonial in testimonials) {
+      print("Image URL: ${testimonial.reviewImage}");
+    }
 
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(testimonials),
@@ -254,103 +255,113 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   }
 
   Widget _buildLargeScreen(List<Testimonial> testimonials) {
-    return Consumer<TestimonialProvider>(
-      builder: (context, provider, child) {
-        if (provider.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          return Container(
-            color: AppColorConstant.bgColor,
-            padding: const EdgeInsets.only(left: 50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SubHeadingSlanted(
-                  textAlign: TextAlign.start,
-                  text: 'Client Love',
-                  size: 65.0,
-                  color: AppColorConstant.black,
+  return Consumer<TestimonialProvider>(
+    builder: (context, provider, child) {
+      if (provider.isLoading) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        return Container(
+          color: AppColorConstant.bgColor,
+          padding: const EdgeInsets.only(left: 50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SubHeadingSlanted(
+                textAlign: TextAlign.start,
+                text: 'Client Love',
+                size: 65.0,
+                color: AppColorConstant.black,
+              ),
+              const SizedBox(height: 50.0),
+              SizedBox(
+                height: 750.0,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: testimonials.length,
+                  itemBuilder: (context, index) {
+                    final testimonial = testimonials[index];
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const BigText(
+                          textAlign: TextAlign.start,
+                          text: '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
+                          size: 25.0,
+                        ),
+                        const SizedBox(height: 20.0),
+                        BodyText(
+                          textAlign: TextAlign.start,
+                          text: testimonial.review,
+                        ),
+                        const SizedBox(height: 20.0),
+                        BodyText(
+                          text: '${testimonial.fname} ${testimonial.lname}',
+                          color: const Color.fromARGB(255, 22, 22, 21),
+                          size: 16.0,
+                        ),
+                        const SizedBox(height: 20.0),
+                        SizedBox(
+                          height: 200.0,
+                          width: 200.0,
+                          child: Image.network(
+                            testimonial.reviewImage,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              print('Error loading image: $error');
+                              return const Center(
+                                child: Text('Failed to load image'),
+                              );
+                            },
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
-                const SizedBox(height: 50.0),
-                SizedBox(
-                  height: 750.0,  // Set height constraint here
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: testimonials.length,
-                    itemBuilder: (context, index) {
-                      final testimonial = testimonials[index];
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,  // Ensure the column takes only necessary height
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          BigText(
-                            textAlign: TextAlign.start,
-                            text: testimonial.review,
-                            size: 25.0,
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            textAlign: TextAlign.start,
-                            text: testimonial.review,
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            text: '${testimonial.fname} ${testimonial.lname}',
-                            color: const Color.fromARGB(255, 22, 22, 21),
-                            size: 16.0,
-                          ),
-                          const SizedBox(height: 20.0),
-                          SizedBox(
-                            height: 750.0,
-                            width: 750.0,
-                            child: Image.asset(
-                              testimonial.reviewImage,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    onPressed: _previousTestimonial,
+                    icon: const Icon(
+                      Icons.arrow_back_sharp,
+                      color: AppColorConstant.black,
+                    ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _previousTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_back_sharp,
-                        color: AppColorConstant.black,
-                      ),
+                  const SizedBox(width: 12.0),
+                  IconButton(
+                    hoverColor: Colors.transparent,
+                    onPressed: _nextTestimonial,
+                    icon: const Icon(
+                      Icons.arrow_forward_sharp,
+                      color: AppColorConstant.black,
                     ),
-                    const SizedBox(width: 12.0),
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _nextTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_forward_sharp,
-                        color: AppColorConstant.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
 
   Widget _buildMediumScreen(Size screenSize, List<Testimonial> testimonials) {
-    // Similar to _buildLargeScreen but adjusted for medium screen sizes
-    return _buildLargeScreen(testimonials);  // Simplified for brevity
+    return _buildLargeScreen(testimonials);
   }
 
   Widget _buildSmallScreen(Size screenSize, List<Testimonial> testimonials) {
-    // Similar to _buildLargeScreen but adjusted for small screen sizes
-    return _buildLargeScreen(testimonials);  // Simplified for brevity
+    return _buildLargeScreen(testimonials);
   }
 }
 
