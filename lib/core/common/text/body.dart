@@ -11,6 +11,7 @@ class BodyText extends StatelessWidget {
   final TextAlign textAlign;
   final double letterSpacing;
   final FontWeight fontWeight;
+  final FontStyle fontStyle;
   final double height;
 
   const BodyText({
@@ -22,6 +23,7 @@ class BodyText extends StatelessWidget {
     this.size = 16.0,
     this.mediumSize = 16.0,
     this.smallSize = 18.0,
+    this.fontStyle = FontStyle.normal,
     this.height = 1.75,
     this.textAlign = TextAlign.center,
   });
@@ -36,6 +38,7 @@ class BodyText extends StatelessWidget {
       style: TextStyle(
           fontFamily: 'Questrial',
           color: color,
+          fontStyle: fontStyle,
           fontSize: ResponsiveWidget.isSmallScreen(context)
               ? smallSize
               : ResponsiveWidget.isMediumScreen(context)
