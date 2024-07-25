@@ -1,15 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
-import 'package:makeupstarstudio/src/api/api_service.dart';
-import 'package:makeupstarstudio/src/api/response_model.dart';
+import 'package:makeupstarstudio/src/api/login_model.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
 class LoginProvider with ChangeNotifier {
-  Future<void> loginUser(
-      BuildContext context, String username, String password) async {
-    final HttpRepo httpRepo = HttpServices();
+  Future<void> loginUser(BuildContext context, String username, String password) async {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
 
     try {
@@ -32,32 +29,46 @@ class LoginProvider with ChangeNotifier {
         'password': password,
       };
 
-      var response =
-          await httpRepo.post("http://localhost:3001/admin/login/", body);
-
-      print('Response body: ${response.data}');
+     
+      final response = await http.post(
+        Uri.parse('http://localhost:3001/admin/login/'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode(body),
+      );
 
       Navigator.of(context).pop();
 
-      var apiResponse = ApiResponse.fromJson(response.data);
+      // Check the response status
+      if (response.statusCode == 200) {
+        // Print the response body for debugging
+        print('Response body: ${response.body}');
 
-      if (apiResponse.token.isNotEmpty) {
-        await sharedPrefs.setStringPref('userData', json.encode(response.data));
-        await sharedPrefs.setBoolPref('logged', true);
+        // Parse the response
+        var responseData = json.decode(response.body);
+        var apiResponse = LoginModel.fromJson(responseData);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login Successful'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        // Debugging the token
+        print('Retrieved token: ${apiResponse.token}');
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (context) => const AdminPage(selectedIndex: 0)),
-        );
+        if (apiResponse.token != null && apiResponse.token!.isNotEmpty) {
+          await sharedPrefs.setStringPref('userData', response.body);
+          await sharedPrefs.setBoolPref('logged', true);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login Successful'),
+              duration: Duration(seconds: 2),
+            ),
+          );
+
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const AdminPage(selectedIndex: 0)),
+          );
+        } else {
+          throw 'Invalid response from server';
+        }
       } else {
-        throw 'Invalid response from server';
+        throw 'Server error: ${response.statusCode}';
       }
     } catch (e, s) {
       Navigator.of(context).pop();
