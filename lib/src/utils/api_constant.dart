@@ -19,4 +19,6 @@ class ApiConstant {
   /// [Testimonials]
   static const String getAllTestimonials = '/testimonial/';
   static String getSingleTestimonial(String id) => "/testimonial/$id";
+
+  static String postTestimonials = '/testimonial/';
 }

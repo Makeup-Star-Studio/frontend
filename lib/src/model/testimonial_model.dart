@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 class TestimonialsModel {
   TestimonialsModel({
@@ -36,18 +37,19 @@ class Data {
       };
 }
 
+
 class Testimonial {
   Testimonial({
     required this.fname,
     required this.lname,
     required this.review,
-    required this.reviewImage,
+    required this.reviewImage, // Now a filename
   });
 
   final String fname;
   final String lname;
   final String review;
-  final String reviewImage;
+  final String reviewImage; // Update to String
 
   static const String baseUrl = "http://localhost:3001/testimonial/";
 
@@ -56,7 +58,7 @@ class Testimonial {
       fname: json["fname"],
       lname: json["lname"],
       review: json["review"],
-      reviewImage: baseUrl + json["reviewImage"], // Construct full URL
+      reviewImage: json["reviewImage"], // Just a filename
     );
   }
 
@@ -64,6 +66,11 @@ class Testimonial {
         "fname": fname,
         "lname": lname,
         "review": review,
-        "reviewImage": reviewImage,
+        "reviewImage": reviewImage, // Just a filename
       };
+
+  // Construct the image URL
+  String get reviewImageUrl => '$baseUrl$reviewImage';
 }
+
+

@@ -1,88 +1,30 @@
+import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+import 'package:provider/provider.dart'; // Import provider package
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
+import 'package:makeupstarstudio/src/model/testimonial_model.dart'; // Import your model
 
 class AdminTestimonialsView extends StatefulWidget {
   const AdminTestimonialsView({super.key});
+  
   @override
   State<AdminTestimonialsView> createState() => _AdminTestimonialsViewState();
 }
 
 class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   final _testimonialKey = GlobalKey<FormState>();
-  String selectedFile = '';
-  Uint8List? _reviewImage;
+  String? _reviewImageUrl; // Updated to use URL
   final _firstNamController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _reviewController = TextEditingController();
-
-  final List<Testimonial> _review = [];
   int? _editingIndex;
-
-  void _submitForm() {
-    if (_testimonialKey.currentState!.validate() && _reviewImage != null) {
-      setState(() {
-        if (_editingIndex == null) {
-          _review.add(Testimonial(
-            reviewImage: _reviewImage!,
-            fname: _firstNamController.text,
-            lname: _lastNameController.text,
-            review: _reviewController.text,
-          ));
-        } else {
-          _review[_editingIndex!] = Testimonial(
-            reviewImage: _reviewImage!,
-            fname: _firstNamController.text,
-            lname: _lastNameController.text,
-            review: _reviewController.text,
-          );
-          _editingIndex = null;
-        }
-        _reviewImage = null;
-        _firstNamController.clear();
-        _lastNameController.clear();
-        _reviewController.clear();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Testimonial Added Successfully')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Please fill all fields and upload an image')),
-      );
-    }
-  }
-
-  void _editMember(int index) {
-    setState(() {
-      _editingIndex = index;
-      _reviewImage = _review[index].reviewImage;
-      _firstNamController.text = _review[index].fname;
-      _lastNameController.text = _review[index].lname;
-      _reviewController.text = _review[index].review;
-    });
-  }
-
-  void _deleteMember(int index) {
-    setState(() {
-      _review.removeAt(index);
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Testimonial Deleted Successfully')),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -94,16 +36,65 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
   Future<void> _pickImage() async {
     try {
-      FilePickerResult? result =
-          await FilePicker.platform.pickFiles(type: FileType.image);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
+        // Implement your image upload logic here and get the URL
+        String uploadedImageUrl = await uploadImage(result.files.first.bytes!);
+
         setState(() {
-          _reviewImage = result.files.first.bytes;
+          _reviewImageUrl = uploadedImageUrl; // Store URL instead of bytes
         });
       }
     } catch (e) {
       print("File picker error: $e");
     }
+  }
+
+  // Example function to upload the image and get the URL
+  Future<String> uploadImage(Uint8List imageBytes) async {
+    // Implement your image upload logic here
+    // This is a placeholder
+    return "uploaded_image_url";
+  }
+
+  void _submitForm() {
+    if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
+      final testimonial = Testimonial(
+        reviewImage: _reviewImageUrl!, // Use the URL or filename
+        fname: _firstNamController.text,
+        lname: _lastNameController.text,
+        review: _reviewController.text,
+      );
+
+      // Use the provider to post the testimonial
+      Provider.of<TestimonialProvider>(context, listen: false)
+        .postTestimonial(testimonial)
+        .then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Testimonial Added Successfully')),
+          );
+          _clearForm();
+        }).catchError((e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to add testimonial')),
+          );
+          print('Error: $e');
+        });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all fields and upload an image')),
+      );
+    }
+  }
+
+  void _clearForm() {
+    setState(() {
+      _firstNamController.clear();
+      _lastNameController.clear();
+      _reviewController.clear();
+      _reviewImageUrl = null;
+      _editingIndex = null;
+    });
   }
 
   @override
@@ -128,14 +119,13 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                   const SizedBox(height: 20),
                   GestureDetector(
                     onTap: _pickImage,
-                    child: _reviewImage == null
+                    child: _reviewImageUrl == null
                         ? Container(
                             height: 400,
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.memory(_reviewImage!,
-                            height: 500, fit: BoxFit.contain),
+                        : Image.network(_reviewImageUrl!, height: 500, fit: BoxFit.contain), // Use Image.network to load the image from URL
                   ),
                   const Text(
                     textAlign: TextAlign.center,
@@ -263,86 +253,92 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                const Text(
-                  "Displayed Testimonials",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: _review.isEmpty
-                      ? const Center(child: Text("No testimonials added"))
-                      : SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: DataTable(
-                            columns: const [
-                              DataColumn(label: Text('Image')),
-                              DataColumn(label: Text('First Name')),
-                              DataColumn(label: Text('Last Name')),
-                              DataColumn(label: Text('Review')),
-                              DataColumn(label: Text('Actions')),
-                            ],
-                            rows: _review.asMap().entries.map((entry) {
-                              int index = entry.key;
-                              Testimonial review = entry.value;
-                              return DataRow(cells: [
-                                DataCell(Image.memory(review.reviewImage,
-                                    width: 50, height: 50)),
-                                DataCell(
-                                  Text(review.fname),
-                                ),
-                                DataCell(Text(review.lname)),
-                                DataCell(
-                                  ConstrainedBox(
-                                    constraints:
-                                        const BoxConstraints(maxWidth: 200),
-                                    child: Text(
-                                      maxLines: 2,
-                                      review.review,
-                                      overflow: TextOverflow.ellipsis,
+            child: Consumer<TestimonialProvider>(
+              builder: (context, testimonialProvider, child) {
+                final testimonials = testimonialProvider.testimonials; // Ensure you have this property in your provider
+                return Column(
+                  children: [
+                    const Text(
+                      "Displayed Testimonials",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: testimonials.isEmpty
+                          ? const Center(child: Text("No testimonials added"))
+                          : SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                columns: const [
+                                  DataColumn(label: Text('Image')),
+                                  DataColumn(label: Text('First Name')),
+                                  DataColumn(label: Text('Last Name')),
+                                  DataColumn(label: Text('Review')),
+                                  DataColumn(label: Text('Actions')),
+                                ],
+                                rows: testimonials.asMap().entries.map((entry) {
+                                  int index = entry.key;
+                                  Testimonial testimonial = entry.value;
+                                  return DataRow(cells: [
+                                    DataCell(Image.network(testimonial.reviewImageUrl, width: 50, height: 50)),
+                                    DataCell(Text(testimonial.fname)),
+                                    DataCell(Text(testimonial.lname)),
+                                    DataCell(
+                                      ConstrainedBox(
+                                        constraints: const BoxConstraints(maxWidth: 200),
+                                        child: Text(
+                                          testimonial.review,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                DataCell(Row(
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () => _editMember(index),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      onPressed: () => _deleteMember(index),
-                                    ),
-                                  ],
-                                )),
-                              ]);
-                            }).toList(),
-                          ),
-                        ),
-                ),
-              ],
+                                    DataCell(Row(
+                                      children: [
+                                        IconButton(
+                                          icon: const Icon(Icons.edit),
+                                          onPressed: () => _editMember(index),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete),
+                                          onPressed: () => _deleteMember(index),
+                                        ),
+                                      ],
+                                    )),
+                                  ]);
+                                }).toList(),
+                              ),
+                            ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         ),
       ],
     );
   }
-}
 
-class Testimonial {
-  final Uint8List reviewImage;
-  final String fname;
-  final String lname;
-  final String review;
+  void _editMember(int index) {
+    final testimonial = Provider.of<TestimonialProvider>(context, listen: false).testimonials[index];
+    setState(() {
+      _firstNamController.text = testimonial.fname;
+      _lastNameController.text = testimonial.lname;
+      _reviewController.text = testimonial.review;
+      _reviewImageUrl = testimonial.reviewImage; // Set URL for editing
+      _editingIndex = index;
+    });
+  }
 
-  Testimonial({
-    required this.reviewImage,
-    required this.fname,
-    required this.lname,
-    required this.review,
-  });
+  void _deleteMember(int index) {
+    // final testimonialProvider = Provider.of<TestimonialProvider>(context, listen: false);
+    // testimonialProvider.deleteTestimonial(index);
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   const SnackBar(content: Text('Testimonial Deleted Successfully')),
+    // );
+  }
 }
