@@ -3,13 +3,13 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
-import 'package:provider/provider.dart'; // Import provider package
+import 'package:provider/provider.dart'; 
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
-import 'package:makeupstarstudio/src/model/testimonial_model.dart'; // Import your model
+import 'package:makeupstarstudio/src/model/testimonial_model.dart'; 
 
 class AdminTestimonialsView extends StatefulWidget {
   const AdminTestimonialsView({super.key});
@@ -20,7 +20,7 @@ class AdminTestimonialsView extends StatefulWidget {
 
 class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   final _testimonialKey = GlobalKey<FormState>();
-  String? _reviewImageUrl; // Updated to use URL
+  String? _reviewImageUrl; 
   final _firstNamController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _reviewController = TextEditingController();
@@ -38,11 +38,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
-        // Implement your image upload logic here and get the URL
+      
         String uploadedImageUrl = await uploadImage(result.files.first.bytes!);
 
         setState(() {
-          _reviewImageUrl = uploadedImageUrl; // Store URL instead of bytes
+          _reviewImageUrl = uploadedImageUrl;
         });
       }
     } catch (e) {
@@ -50,17 +50,16 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-  // Example function to upload the image and get the URL
+
   Future<String> uploadImage(Uint8List imageBytes) async {
-    // Implement your image upload logic here
-    // This is a placeholder
+
     return "uploaded_image_url";
   }
 
   void _submitForm() {
     if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
       final testimonial = Testimonial(
-        reviewImage: _reviewImageUrl!, // Use the URL or filename
+        reviewImage: _reviewImageUrl!,
         fname: _firstNamController.text,
         lname: _lastNameController.text,
         review: _reviewController.text,
@@ -125,7 +124,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.network(_reviewImageUrl!, height: 500, fit: BoxFit.contain), // Use Image.network to load the image from URL
+                        : Image.network(_reviewImageUrl!, height: 500, fit: BoxFit.contain),
                   ),
                   const Text(
                     textAlign: TextAlign.center,
@@ -255,7 +254,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
             padding: const EdgeInsets.all(16.0),
             child: Consumer<TestimonialProvider>(
               builder: (context, testimonialProvider, child) {
-                final testimonials = testimonialProvider.testimonials; // Ensure you have this property in your provider
+                final testimonials = testimonialProvider.testimonials;
                 return Column(
                   children: [
                     const Text(
@@ -329,7 +328,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
       _firstNamController.text = testimonial.fname;
       _lastNameController.text = testimonial.lname;
       _reviewController.text = testimonial.review;
-      _reviewImageUrl = testimonial.reviewImage; // Set URL for editing
+      _reviewImageUrl = testimonial.reviewImage; 
       _editingIndex = index;
     });
   }

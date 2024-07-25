@@ -6,6 +6,10 @@ import 'package:makeupstarstudio/src/api/login_model.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
 class LoginProvider with ChangeNotifier {
+  String? _errorMessage;
+
+  String? get errorMessage => _errorMessage;
+
   Future<void> loginUser(BuildContext context, String username, String password) async {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
 
@@ -29,7 +33,6 @@ class LoginProvider with ChangeNotifier {
         'password': password,
       };
 
-     
       final response = await http.post(
         Uri.parse('http://localhost:3001/admin/login/'),
         headers: {'Content-Type': 'application/json'},
@@ -38,16 +41,11 @@ class LoginProvider with ChangeNotifier {
 
       Navigator.of(context).pop();
 
-      // Check the response status
       if (response.statusCode == 200) {
-        // Print the response body for debugging
         print('Response body: ${response.body}');
-
-        // Parse the response
         var responseData = json.decode(response.body);
         var apiResponse = LoginModel.fromJson(responseData);
 
-        // Debugging the token
         print('Retrieved token: ${apiResponse.token}');
 
         if (apiResponse.token != null && apiResponse.token!.isNotEmpty) {
@@ -67,21 +65,19 @@ class LoginProvider with ChangeNotifier {
         } else {
           throw 'Invalid response from server';
         }
+      } else if (response.statusCode == 401) {
+        _errorMessage = 'Invalid credentials. Please type the correct one.';
+        notifyListeners(); 
       } else {
-        throw 'Server error: ${response.statusCode}';
+        _errorMessage = 'Server error: ${response.statusCode}';
+        notifyListeners(); 
       }
     } catch (e, s) {
       Navigator.of(context).pop();
-
+      _errorMessage = 'An unexpected error occurred';
+      notifyListeners(); 
       print('Error: $e');
       print('Stack trace: $s');
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: ${e.toString()}'),
-          duration: const Duration(seconds: 2),
-        ),
-      );
     }
   }
 }
