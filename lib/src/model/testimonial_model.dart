@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 class TestimonialsModel {
   TestimonialsModel({
@@ -43,15 +42,15 @@ class Testimonial {
     required this.fname,
     required this.lname,
     required this.review,
-    required this.reviewImage, // Now a filename
+    this.reviewImage, // Now a filename
   });
 
   final String fname;
   final String lname;
   final String review;
-  final String reviewImage; // Update to String
+  final String? reviewImage; // Update to String
 
-  static const String baseUrl = "http://localhost:3001/testimonial/";
+  // static const String baseUrl = "http://localhost:3001/testimonial/";
 
   factory Testimonial.fromJson(Map<String, dynamic> json) {
     return Testimonial(
@@ -69,8 +68,8 @@ class Testimonial {
         "reviewImage": reviewImage, // Just a filename
       };
 
-  // Construct the image URL
-  String get reviewImageUrl => '$baseUrl$reviewImage';
+  // // Construct the image URL
+  // String get reviewImageUrl => '$baseUrl$reviewImage';
 }
 
 

@@ -1,26 +1,27 @@
-import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
-import 'package:provider/provider.dart'; 
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
-import 'package:makeupstarstudio/src/model/testimonial_model.dart'; 
+import 'package:makeupstarstudio/src/model/testimonial_model.dart';
+import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+import 'package:makeupstarstudio/src/utils/api_constant.dart';
+import 'package:provider/provider.dart';
 
 class AdminTestimonialsView extends StatefulWidget {
   const AdminTestimonialsView({super.key});
-  
+
   @override
   State<AdminTestimonialsView> createState() => _AdminTestimonialsViewState();
 }
 
 class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   final _testimonialKey = GlobalKey<FormState>();
-  String? _reviewImageUrl; 
+  String? _reviewImageUrl;
   final _firstNamController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _reviewController = TextEditingController();
@@ -36,9 +37,9 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
   Future<void> _pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+      FilePickerResult? result =
+          await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
-      
         String uploadedImageUrl = await uploadImage(result.files.first.bytes!);
 
         setState(() {
@@ -50,9 +51,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-
   Future<String> uploadImage(Uint8List imageBytes) async {
-
     return "uploaded_image_url";
   }
 
@@ -67,21 +66,22 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
       // Use the provider to post the testimonial
       Provider.of<TestimonialProvider>(context, listen: false)
-        .postTestimonial(testimonial)
-        .then((_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Testimonial Added Successfully')),
-          );
-          _clearForm();
-        }).catchError((e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to add testimonial')),
-          );
-          print('Error: $e');
-        });
+          .postTestimonial(testimonial)
+          .then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Testimonial Added Successfully')),
+        );
+        _clearForm();
+      }).catchError((e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to add testimonial')),
+        );
+        print('Error: $e');
+      });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields and upload an image')),
+        const SnackBar(
+            content: Text('Please fill all fields and upload an image')),
       );
     }
   }
@@ -124,7 +124,8 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.network(_reviewImageUrl!, height: 500, fit: BoxFit.contain),
+                        : Image.network(_reviewImageUrl!,
+                            height: 500, fit: BoxFit.contain),
                   ),
                   const Text(
                     textAlign: TextAlign.center,
@@ -282,12 +283,16 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                                   int index = entry.key;
                                   Testimonial testimonial = entry.value;
                                   return DataRow(cells: [
-                                    DataCell(Image.network(testimonial.reviewImageUrl, width: 50, height: 50)),
+                                    DataCell(Image.network(
+                                        '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
+                                        width: 50,
+                                        height: 50)),
                                     DataCell(Text(testimonial.fname)),
                                     DataCell(Text(testimonial.lname)),
                                     DataCell(
                                       ConstrainedBox(
-                                        constraints: const BoxConstraints(maxWidth: 200),
+                                        constraints:
+                                            const BoxConstraints(maxWidth: 200),
                                         child: Text(
                                           testimonial.review,
                                           maxLines: 2,
@@ -323,12 +328,13 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   }
 
   void _editMember(int index) {
-    final testimonial = Provider.of<TestimonialProvider>(context, listen: false).testimonials[index];
+    final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
+        .testimonials[index];
     setState(() {
       _firstNamController.text = testimonial.fname;
       _lastNameController.text = testimonial.lname;
       _reviewController.text = testimonial.review;
-      _reviewImageUrl = testimonial.reviewImage; 
+      _reviewImageUrl = testimonial.reviewImage;
       _editingIndex = index;
     });
   }

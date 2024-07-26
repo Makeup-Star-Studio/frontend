@@ -191,6 +191,7 @@ import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/src/model/testimonial_model.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class TestimonialSection extends StatefulWidget {
@@ -296,9 +297,9 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                           const SizedBox(height: 20.0),
                           SizedBox(
                             height: 500.0,
-                            width: double.infinity,
+                            width: 500,
                             child: Image.network(
-                              testimonial.reviewImage,
+                              '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 print('Error loading image: $error');
@@ -364,7 +365,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   }
 
   Widget _buildMediumScreen(Size screenSize, List<Testimonial> testimonials) {
-    return _buildLargeScreen(testimonials);
+    return _buildSmallScreen(screenSize, testimonials);
   }
 
   Widget _buildSmallScreen(Size screenSize, List<Testimonial> testimonials) {
@@ -414,8 +415,8 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                             height: 250.0,
                             width: double.infinity,
                             child: Image.network(
-                              testimonial.reviewImage,
-                              fit: BoxFit.cover,
+                              '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
+                              fit: BoxFit.contain,
                               errorBuilder: (context, error, stackTrace) {
                                 print('Error loading image: $error');
                                 return const Center(

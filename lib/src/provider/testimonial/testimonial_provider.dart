@@ -19,6 +19,9 @@ class TestimonialProvider extends ChangeNotifier {
 
   Future<void> fetchTestimonial() async {
     try {
+      _isLoading = true;
+      notifyListeners();
+
       final response = await _apiTestimonial.get(ApiConstant.getAllTestimonials);
       print("Response: $response");
 
@@ -43,21 +46,21 @@ class TestimonialProvider extends ChangeNotifier {
     }
   }
 
-  Future<String> uploadImage(File imageFile) async {
-    final uri = Uri.parse('http://localhost:3001/testimonial/uploadReviewPhoto');
-    final request = http.MultipartRequest('POST', uri)
-      ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
+  // Future<String> uploadImage(File imageFile) async {
+  //   final uri = Uri.parse('http://localhost:3001/testimonial/uploadReviewPhoto');
+  //   final request = http.MultipartRequest('POST', uri)
+  //     ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
     
-    final response = await request.send();
+  //   final response = await request.send();
     
-    if (response.statusCode == 200) {
-      final responseBody = await response.stream.bytesToString();
-      final jsonResponse = jsonDecode(responseBody);
-      return jsonResponse['imageUrl']; // Assuming the response contains the image URL
-    } else {
-      throw Exception('Failed to upload image');
-    }
-  }
+  //   if (response.statusCode == 200) {
+  //     final responseBody = await response.stream.bytesToString();
+  //     final jsonResponse = jsonDecode(responseBody);
+  //     return jsonResponse['imageUrl']; // Assuming the response contains the image URL
+  //   } else {
+  //     throw Exception('Failed to upload image');
+  //   }
+  // }
 
 Future<void> postTestimonial(Testimonial testimonial) async {
   try {
