@@ -80,4 +80,15 @@ class LoginProvider with ChangeNotifier {
       print('Stack trace: $s');
     }
   }
+
+  Future<void> checkLoginStatus(BuildContext context) async {
+    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+    bool isLogged = await sharedPrefs.getBoolPref('logged') ?? false;
+
+    if (isLogged) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const AdminPage(selectedIndex: 0)),
+      );
+    }
+  }
 }

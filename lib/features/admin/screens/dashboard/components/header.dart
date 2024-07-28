@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
+import 'package:makeupstarstudio/features/admin/screens/logout_screen.dart';
 
 class Header extends StatelessWidget {
   const Header({
@@ -164,8 +165,7 @@ class _ProfileCardState extends State<ProfileCard> {
               right: 0,
               child: GestureDetector(
                 onTap: () {
-                  // Implement your logout functionality here
-                  // print("Logout tapped");
+                  showLogoutConfirmationDialog(context);
                 },
                 child: Container(
                   width: 120,
