@@ -28,6 +28,15 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   int? _editingIndex;
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<TestimonialProvider>(context, listen: false)
+          .fetchTestimonial();
+    });
+  }
+
+  @override
   void dispose() {
     _firstNamController.dispose();
     _lastNameController.dispose();
@@ -250,6 +259,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
             ),
           ),
         ),
+/* ---------------------- Displayed Testimonials ---------------------- */
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16.0),

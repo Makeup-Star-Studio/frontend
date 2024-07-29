@@ -1,3 +1,4 @@
+
 // import 'package:flutter/material.dart';
 // import 'package:makeupstarstudio/config/constants/color.dart';
 // import 'package:makeupstarstudio/config/constants/responsive.dart';
@@ -266,97 +267,89 @@ class _TestimonialSectionState extends State<TestimonialSection> {
           return Container(
             color: AppColorConstant.bgColor,
             padding: const EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SubHeadingSlanted(
-                  // textAlign: TextAlign.start,
-                  text: 'Client Love',
-                  size: 65.0,
-                  color: AppColorConstant.black,
-                ),
-                // const SizedBox(height: 50.0),
-                SizedBox(
-                  height: 750.0,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: testimonials.length,
-                    itemBuilder: (context, index) {
-                      final testimonial = testimonials[index];
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const BigText(
-                            // textAlign: TextAlign.start,
-                            text:
-                                '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
-                            size: 20.0,
-                            height: 1.3,
-                          ),
-                          const SizedBox(height: 20.0),
-                          SizedBox(
-                            height: 500.0,
-                            width: 500,
-                            child: Image.network(
-                              '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                print('Error loading image: $error');
-                                return const Center(
-                                  child: Text('Failed to load image'),
-                                );
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            // textAlign: TextAlign.center,
-                            text: testimonial.review,
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            text: '- ${testimonial.fname} ${testimonial.lname}',
-                            color: const Color.fromARGB(255, 22, 22, 21),
-                            size: 16.0,
-                            fontStyle: FontStyle.italic,
-                          ),
-                          const SizedBox(height: 20.0),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+            height: MediaQuery.of(context).size.height / 1.2,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: testimonials.length,
+              itemBuilder: (context, index) {
+                final testimonial = testimonials[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _previousTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_back_sharp,
-                        color: AppColorConstant.black,
+                    const SubHeadingSlanted(
+                      // textAlign: TextAlign.start,
+                      text: 'Client Love',
+                      size: 65.0,
+                      color: AppColorConstant.black,
+                    ),
+                    // const SizedBox(height: 50.0),
+                    const BigText(
+                      // textAlign: TextAlign.start,
+                      text:
+                          '"Real Stories, Real Glam: Hear From Our Happy Clients"',
+                      size: 28.0,
+                      mediumSize: 25.0,
+                      height: 1.3,
+                    ),
+                    const SizedBox(height: 20.0),
+                    Flexible(
+                      child: Image.network(
+                        '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
+                        fit: BoxFit.fitHeight,
+                        width: 500.0,
+                        height: 500.0,
+                        errorBuilder: (context, error, stackTrace) {
+                          print('Error loading image: $error');
+                          return const Center(
+                            child: Text('Failed to load image'),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(width: 12.0),
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _nextTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_forward_sharp,
-                        color: AppColorConstant.black,
-                      ),
+                    const SizedBox(height: 20.0),
+                    BodyText(
+                      // textAlign: TextAlign.center,
+                      size: 18.0,
+                      text: testimonial.review,
+                    ),
+                    const SizedBox(height: 20.0),
+                    BodyText(
+                      text: '- ${testimonial.fname} ${testimonial.lname}',
+                      color: const Color.fromARGB(255, 22, 22, 21),
+                      fontStyle: FontStyle.italic,
+                    ),
+                    const SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          hoverColor: Colors.transparent,
+                          onPressed: _previousTestimonial,
+                          icon: const Icon(
+                            Icons.arrow_back_sharp,
+                            color: AppColorConstant.black,
+                          ),
+                        ),
+                        const SizedBox(width: 12.0),
+                        IconButton(
+                          hoverColor: Colors.transparent,
+                          onPressed: _nextTestimonial,
+                          icon: const Icon(
+                            Icons.arrow_forward_sharp,
+                            color: AppColorConstant.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-              ],
+                );
+              },
             ),
           );
         }
@@ -365,7 +358,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   }
 
   Widget _buildMediumScreen(Size screenSize, List<Testimonial> testimonials) {
-    return _buildSmallScreen(screenSize, testimonials);
+    return _buildLargeScreen(testimonials);
   }
 
   Widget _buildSmallScreen(Size screenSize, List<Testimonial> testimonials) {
@@ -377,96 +370,90 @@ class _TestimonialSectionState extends State<TestimonialSection> {
           return Container(
             color: AppColorConstant.bgColor,
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SubHeadingSlanted(
-                  textAlign: TextAlign.start,
-                  text: 'Client Love',
-                  size: 65.0,
-                  color: AppColorConstant.black,
-                ),
-                // const SizedBox(height: 50.0),
-                SizedBox(
-                  height: 750.0,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: testimonials.length,
-                    itemBuilder: (context, index) {
-                      final testimonial = testimonials[index];
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const BigText(
-                            // textAlign: TextAlign.start,
-                            text:
-                                '"THERE WERE NO TEARS OVER HAIR & MAKEUP THAT DAY!"',
-                            size: 20.0,
-                            height: 1.3,
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            // textAlign: TextAlign.center,
-                            text: testimonial.review,
-                          ),
-                          const SizedBox(height: 20.0),
-                          SizedBox(
-                            height: 250.0,
-                            width: double.infinity,
-                            child: Image.network(
-                              '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
-                              fit: BoxFit.contain,
-                              errorBuilder: (context, error, stackTrace) {
-                                print('Error loading image: $error');
-                                return const Center(
-                                  child: Text('Failed to load image'),
-                                );
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                            ),
-                          ),
-                          const SizedBox(height: 20.0),
-                          BodyText(
-                            text: '- ${testimonial.fname} ${testimonial.lname}',
-                            color: const Color.fromARGB(255, 22, 22, 21),
-                            size: 16.0,
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            height: screenSize.height,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: testimonials.length,
+              itemBuilder: (context, index) {
+                final testimonial = testimonials[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _previousTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_back_sharp,
-                        color: AppColorConstant.black,
+                    const SubHeadingSlanted(
+                      text: 'Client Love',
+                      size: 65.0,
+                      color: AppColorConstant.black,
+                    ),
+                    // const SizedBox(height: 50.0),
+                    const BigText(
+                      // textAlign: TextAlign.start,
+                      text:
+                          '"Real Stories, Real Glam: Hear From Our Happy Clients"',
+                      smallSize: 26.0,
+                      height: 1.3,
+                    ),
+                    const SizedBox(height: 20.0),
+                    BodyText(
+                      // textAlign: TextAlign.center,
+                      text: testimonial.review,
+                      smallSize: 16.0,
+                      height: 1.2,
+                    ),
+                    const SizedBox(height: 20.0),
+                    Flexible(
+                      child: Image.network(
+                        '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
+                        fit: BoxFit.fitHeight,
+                        width: 250.0,
+                        height: 200.0,
+                        errorBuilder: (context, error, stackTrace) {
+                          print('Error loading image: $error');
+                          return const Center(
+                            child: Text('Failed to load image'),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
                     ),
-                    const SizedBox(width: 12.0),
-                    IconButton(
-                      hoverColor: Colors.transparent,
-                      onPressed: _nextTestimonial,
-                      icon: const Icon(
-                        Icons.arrow_forward_sharp,
-                        color: AppColorConstant.black,
-                      ),
+                    // const SizedBox(height: 20.0),
+                    BodyText(
+                      text: '- ${testimonial.fname} ${testimonial.lname}',
+                      color: const Color.fromARGB(255, 22, 22, 21),
+                      size: 16.0,
+                      fontStyle: FontStyle.italic,
                     ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            iconColor: AppColorConstant.black,
+                            foregroundColor: AppColorConstant.black,
+                          ),
+                          onPressed: _previousTestimonial,
+                          label: const Text('Previous Page'),
+                          icon: const Icon(Icons.arrow_back_sharp),
+                        ),
+                        TextButton.icon(
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColorConstant.black,
+                            iconColor: AppColorConstant.black,
+                          ),
+                          onPressed: _nextTestimonial,
+                          label: const Text('Next Page'),
+                          icon: const Icon(Icons.arrow_forward_sharp),
+                        ),
+                      ],
+                    )
                   ],
-                ),
-              ],
+                );
+              },
             ),
           );
         }
@@ -474,3 +461,4 @@ class _TestimonialSectionState extends State<TestimonialSection> {
     );
   }
 }
+
