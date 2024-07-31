@@ -43,6 +43,7 @@ class _ContactUsSectionState extends State<ContactUsSection> {
               const SubHeadingSlanted(
                 text: 'bay area & beyond',
                 size: 60.0,
+                smallSize: 50.0,
                 height: 1.0,
               ),
               const SizedBox(height: 20.0),
