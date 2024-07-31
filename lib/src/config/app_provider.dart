@@ -10,38 +10,43 @@ import 'package:provider/provider.dart';
 class AppProvider {
   static final loginProvider = LoginProvider();
   static final bridalServiceProvider = BridalServicesProvider();
-  static final nonBridalMakeupServiceProvider = NonBridalMakeupServicesProvider();
+  static final nonBridalMakeupServiceProvider =
+      NonBridalMakeupServicesProvider();
   static final nonBridalHairServiceProvider = NonBridalHairServicesProvider();
   static final hennaServiceProvider = HennaServicesProvider();
   static final drapingServiceProvider = DrapingServicesProvider();
   static final testimonialProvider = TestimonialProvider();
-  
 
   static final List<ChangeNotifierProvider> providers = [
-  
-       ChangeNotifierProvider<LoginProvider>(
-      create: (context) => loginProvider
-      ),
-      ChangeNotifierProvider<BridalServicesProvider>(create: (context) => bridalServiceProvider,
-      ),
-     ChangeNotifierProvider<NonBridalMakeupServicesProvider>(create: (context) => nonBridalMakeupServiceProvider,
-      ),
-       ChangeNotifierProvider<NonBridalHairServicesProvider>(create: (context) => nonBridalHairServiceProvider,
-      ),
-       ChangeNotifierProvider<HennaServicesProvider>(create: (context) => hennaServiceProvider,
-      ),
-       ChangeNotifierProvider<DrapingServicesProvider>(create: (context) => drapingServiceProvider,
-      ),
-       ChangeNotifierProvider<TestimonialProvider>(create: (context) => testimonialProvider,
-      ),
- 
-    
+    ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
+    ChangeNotifierProvider<BridalServicesProvider>(
+      create: (context) => bridalServiceProvider,
+    ),
+    ChangeNotifierProvider<NonBridalMakeupServicesProvider>(
+      create: (context) => nonBridalMakeupServiceProvider,
+    ),
+    ChangeNotifierProvider<NonBridalHairServicesProvider>(
+      create: (context) => nonBridalHairServiceProvider,
+    ),
+    ChangeNotifierProvider<HennaServicesProvider>(
+      create: (context) => hennaServiceProvider,
+    ),
+    ChangeNotifierProvider<DrapingServicesProvider>(
+      create: (context) => drapingServiceProvider,
+    ),
+    ChangeNotifierProvider<TestimonialProvider>(
+      create: (context) => testimonialProvider,
+    ),
   ];
 
   static void dispose() {
-
     loginProvider.dispose();
-   
+    bridalServiceProvider.dispose();
+    nonBridalMakeupServiceProvider.dispose();
+    nonBridalHairServiceProvider.dispose();
+    hennaServiceProvider.dispose();
+    drapingServiceProvider.dispose();
+    testimonialProvider.dispose();
   }
 
   /// Singleton factory
