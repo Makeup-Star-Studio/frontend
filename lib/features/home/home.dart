@@ -37,22 +37,24 @@ class HomePage extends StatelessWidget {
               child: const HomeTopBarContents(),
             ),
       drawer: const MenuDrawer(),
-      body: ListView(
-        children: const [
-          AboutSection(),
-          ServiceSection(),
-          SizedBox(height: 20.0),
-          WorkingSection(),
-          SizedBox(height: 40.0),
-          TestimonialSection(),
-          MissionSection(),
-          SizedBox(height: 40.0),
-          SubscriptionSection(),
-          SizedBox(height: 10.0),
-          InfoSection(),
-          SizedBox(height: 40.0),
-          FooterSection(),
-        ],
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            AboutSection(),
+            ServiceSection(),
+            SizedBox(height: 20.0),
+            WorkingSection(),
+            SizedBox(height: 40.0),
+            TestimonialSection(),
+            MissionSection(),
+            SizedBox(height: 40.0),
+            SubscriptionSection(),
+            SizedBox(height: 10.0),
+            InfoSection(),
+            SizedBox(height: 40.0),
+            FooterSection(),
+          ],
+        ),
       ),
     );
   }

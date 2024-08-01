@@ -21,7 +21,8 @@ class AdminTestimonialsView extends StatefulWidget {
 
 class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   final _testimonialKey = GlobalKey<FormState>();
-  String? _reviewImageUrl;
+  String selectedFile = '';
+  Uint8List? _reviewImageUrl;
   final _firstNamController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _reviewController = TextEditingController();
@@ -49,10 +50,8 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
       FilePickerResult? result =
           await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
-        String uploadedImageUrl = await uploadImage(result.files.first.bytes!);
-
         setState(() {
-          _reviewImageUrl = uploadedImageUrl;
+          _reviewImageUrl = result.files.single.bytes;
         });
       }
     } catch (e) {
@@ -60,14 +59,14 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-  Future<String> uploadImage(Uint8List imageBytes) async {
-    return "uploaded_image_url";
-  }
+  // Future<String> uploadImage(Uint8List imageBytes) async {
+  //   return "uploaded_image_url";
+  // }
 
   void _submitForm() {
     if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
       final testimonial = Testimonial(
-        reviewImage: _reviewImageUrl!,
+        reviewImage: _reviewImageUrl!.toString(),
         fname: _firstNamController.text,
         lname: _lastNameController.text,
         review: _reviewController.text,
@@ -133,7 +132,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.network(_reviewImageUrl!,
+                        : Image.memory(_reviewImageUrl!,
                             height: 500, fit: BoxFit.contain),
                   ),
                   const Text(
@@ -338,15 +337,15 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   }
 
   void _editMember(int index) {
-    final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
-        .testimonials[index];
-    setState(() {
-      _firstNamController.text = testimonial.fname;
-      _lastNameController.text = testimonial.lname;
-      _reviewController.text = testimonial.review;
-      _reviewImageUrl = testimonial.reviewImage;
-      _editingIndex = index;
-    });
+    // final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
+    //     .testimonials[index];
+    // setState(() {
+    //   _firstNamController.text = testimonial.fname;
+    //   _lastNameController.text = testimonial.lname;
+    //   _reviewController.text = testimonial.review;
+    //   _reviewImageUrl = testimonial.reviewImage;
+    //   _editingIndex = index;
+    // });
   }
 
   void _deleteMember(int index) {

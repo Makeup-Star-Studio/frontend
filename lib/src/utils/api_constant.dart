@@ -21,4 +21,7 @@ class ApiConstant {
   static String getSingleTestimonial(String id) => "/testimonial/$id";
 
   static String postTestimonials = '/testimonial/';
+  static const String imageUrl = "http://localhost:3001/testimonial/";
+
+  static String uploadReviewPhoto = '/testimonial/uploadReviewPhoto';
 }
