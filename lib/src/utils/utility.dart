@@ -15,6 +15,16 @@ class Utility {
     );
   }
 
+  static  Future<bool> isLoggedIn() async {
+    final SharedPreferencesService sharedPref = SharedPreferencesService();
+
+    var data = await sharedPref.getStringPref('userData');
+    bool logged = await sharedPref.getBoolPref('logged');
+    bool isLoggedIn = data != null && logged;
+    return isLoggedIn;
+  }
+
+
 static logout() async {
   try {
     var context = navigatorKey.currentContext as BuildContext;

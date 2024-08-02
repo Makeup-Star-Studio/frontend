@@ -1,3 +1,4 @@
+import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/provider/services_category/bridal_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services_category/draping_services_provider.dart';
@@ -16,6 +17,7 @@ class AppProvider {
   static final hennaServiceProvider = HennaServicesProvider();
   static final drapingServiceProvider = DrapingServicesProvider();
   static final testimonialProvider = TestimonialProvider();
+  static final checkLoginProvider = CheckLoginProvider();
 
   static final List<ChangeNotifierProvider> providers = [
     ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
@@ -36,6 +38,9 @@ class AppProvider {
     ),
     ChangeNotifierProvider<TestimonialProvider>(
       create: (context) => testimonialProvider,
+    ),
+   ChangeNotifierProvider<CheckLoginProvider>(
+      create: (context) => checkLoginProvider,
     ),
   ];
 
