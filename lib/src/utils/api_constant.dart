@@ -1,6 +1,8 @@
 class ApiConstant {
   // *********************** INSTANCE *********************** //
-static const String localUrl = 'https://backend-jckk.onrender.com/';
+// static const String localUrl = 'https://backend-jckk.onrender.com/';
+//   static const String liveUrl = 'https://backend-jckk.onrender.com/';
+  static const String localUrl = 'http://localhost:3001';
   static const String liveUrl = 'https://backend-jckk.onrender.com/';
 
   // *********** Don't change anything below if you're not 1000% sure *********** //
