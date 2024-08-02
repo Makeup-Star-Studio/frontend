@@ -52,6 +52,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
       if (result != null) {
         setState(() {
           _reviewImageUrl = result.files.single.bytes;
+          selectedFile = result.files.single.name;
         });
       }
     } catch (e) {
@@ -63,36 +64,34 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   //   return "uploaded_image_url";
   // }
 
-  void _submitForm() {
-    if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
-      final testimonial = Testimonial(
-        reviewImage: _reviewImageUrl!.toString(),
-        fname: _firstNamController.text,
-        lname: _lastNameController.text,
-        review: _reviewController.text,
-      );
-
-      // Use the provider to post the testimonial
-      Provider.of<TestimonialProvider>(context, listen: false)
-          .postTestimonial(testimonial)
-          .then((_) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Testimonial Added Successfully')),
-        );
-        _clearForm();
-      }).catchError((e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Failed to add testimonial')),
-        );
-        print('Error: $e');
-      });
-    } else {
+void _submitForm() {
+  if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
+    Provider.of<TestimonialProvider>(context, listen: false)
+        .postTestimonial(
+          fname: _firstNamController.text,
+          lname: _lastNameController.text,
+          review: _reviewController.text,
+          imageBytes: _reviewImageUrl!,
+          imageName: selectedFile,
+        )
+        .then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Please fill all fields and upload an image')),
+        const SnackBar(content: Text('Testimonial Added Successfully')),
       );
-    }
+      _clearForm();
+    }).catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Failed to add testimonial')),
+      );
+      print('Error: $e');
+    });
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill all fields and upload an image')),
+    );
   }
+}
+
 
   void _clearForm() {
     setState(() {
@@ -132,8 +131,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                             color: Colors.grey[200],
                             child: const Icon(Icons.add_a_photo, size: 100),
                           )
-                        : Image.memory(_reviewImageUrl!,
-                            height: 500, fit: BoxFit.contain),
+                        : Image.memory(
+                            _reviewImageUrl!,
+                            height: 500,
+                            fit: BoxFit.contain,
+                          ),
                   ),
                   const Text(
                     textAlign: TextAlign.center,

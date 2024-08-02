@@ -7,8 +7,8 @@ import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
-import 'package:makeupstarstudio/src/provider/services_category/bridal_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services_category/henna_services_provider.dart';
+import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class HennaServiceSection extends StatefulWidget {
@@ -32,6 +32,12 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+        final List<Service> hennaServices =
+        Provider.of<HennaServicesProvider>(context).filteredServices;
+
+    for (var hennaService in hennaServices) {
+      print("Image URL: ${hennaService.image}");
+    }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),
@@ -46,6 +52,13 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          // Ensure `bridalServices` is not empty
+          if (provider.filteredServices.isEmpty) {
+            return const Center(child: Text('No services available.'));
+          }
+
+          // Assuming you want to display the first service image here
+          final hennaService = provider.filteredServices.first;
           return Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: screenSize.width * 0.15, vertical: 10.0),
@@ -128,11 +141,23 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
                 const SizedBox(width: 20.0),
                 Expanded(
                   child: ClipRRect(
-                    child: Image.asset(
-                      'assets/images/service3.jpg',
+                    child: Image.network(
+                      '${ApiConstant.localUrl}/services/${hennaService.image}',
                       fit: BoxFit.cover,
-                      width: 350,
+                      width: 500.0,
                       height: screenSize.height,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading image: $error');
+                        return const Center(
+                          child: Text('Failed to load image'),
+                        );
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -172,23 +197,42 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
 
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-    return Consumer<HennaServicesProvider>(
+     return Consumer<HennaServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          // Ensure `bridalServices` is not empty
+          if (provider.filteredServices.isEmpty) {
+            return const Center(child: Text('No services available.'));
+          }
+
+          // Assuming you want to display the first service image here
+          final heenaService = provider.filteredServices.first;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipRect(
-                  child: Image.asset(
-                    'assets/images/service3.jpg',
-                    width: screenSize.width,
-                    height: screenSize.height,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.network(
+                      '${ApiConstant.localUrl}/services/${heenaService.image}',
+                      fit: BoxFit.cover,
+                      width: screenSize.width,
+                      height: screenSize.height,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading image: $error');
+                        return const Center(
+                          child: Text('Failed to load image'),
+                        );
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
+                    ),
                 ),
                 Container(
                   width: screenSize.width,

@@ -1,7 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/model/testimonial_model.dart';
@@ -9,7 +11,6 @@ import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class TestimonialProvider extends ChangeNotifier {
   List<Testimonial> _testimonials = [];
-
   List<Testimonial> get testimonials => _testimonials;
 
   bool _isLoading = true;
@@ -22,7 +23,8 @@ class TestimonialProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiTestimonial.get(ApiConstant.getAllTestimonials);
+      final response =
+          await _apiTestimonial.get(ApiConstant.getAllTestimonials);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
@@ -46,38 +48,63 @@ class TestimonialProvider extends ChangeNotifier {
     }
   }
 
-  // Future<String> uploadImage(File imageFile) async {
-  //   final uri = Uri.parse('http://localhost:3001/testimonial/uploadReviewPhoto');
-  //   final request = http.MultipartRequest('POST', uri)
-  //     ..files.add(await http.MultipartFile.fromPath('file', imageFile.path));
-    
-  //   final response = await request.send();
-    
-  //   if (response.statusCode == 200) {
-  //     final responseBody = await response.stream.bytesToString();
-  //     final jsonResponse = jsonDecode(responseBody);
-  //     return jsonResponse['imageUrl']; // Assuming the response contains the image URL
-  //   } else {
-  //     throw Exception('Failed to upload image');
-  //   }
-  // }
-
-Future<void> postTestimonial(Testimonial testimonial) async {
+Future<void> postTestimonial({
+  required String fname,
+  required String lname,
+  required String review,
+  required Uint8List imageBytes,
+  required String imageName,
+}) async {
   try {
-    final testimonialJson = testimonial.toJson(); 
-    final response = await _apiTestimonial.post(
-      ApiConstant.postTestimonials, 
-      testimonialJson,
-    );
-    print("Post Response: $response");
+    final uri = Uri.parse(ApiConstant.postTestimonials);
 
+    // Determine the correct content type for the image
+    String mimeType;
+    String extension = imageName.split('.').last.toLowerCase();
 
-    var apiResponse = ApiResponse.fromJson(response);
-    print("API Response: ${apiResponse.toJson()}");
+    switch (extension) {
+      case 'jpeg':
+      case 'jpg':
+        mimeType = 'image/jpeg';
+        break;
+      case 'png':
+        mimeType = 'image/png';
+        break;
+      case 'heic':
+        mimeType = 'image/heic';
+        break;
+      case 'gif':
+        mimeType = 'image/gif';
+        break;
+      default:
+        throw Exception('Unsupported image format');
+    }
 
-    if (apiResponse.status == true) {
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['fname'] = fname
+      ..fields['lname'] = lname
+      ..fields['review'] = review
+      ..files.add(http.MultipartFile.fromBytes(
+        'reviewImage',
+        imageBytes,
+        filename: imageName,
+        contentType: MediaType.parse(mimeType),
+      ));
 
-      await fetchTestimonial();
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+    print("Post Response: ${response.body}");
+
+    if (response.statusCode == 201) {
+      var apiResponse = ApiResponse.fromJson(json.decode(response.body));
+      print("API Response: ${apiResponse.toJson()}");
+
+      if (apiResponse.status == true) {
+        await fetchTestimonial();
+      }
+    } else {
+      print('Failed to post testimonial. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
     }
     
     _isLoading = false;
@@ -90,6 +117,8 @@ Future<void> postTestimonial(Testimonial testimonial) async {
     notifyListeners();
   }
 }
+
+
   void handleSubmissionError(error) {
     print(error);
   }

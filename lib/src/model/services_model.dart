@@ -41,21 +41,25 @@ class Service {
     required this.title,
     required this.price,
     required this.category,
+    required this.image,
   });
 
   final String title;
   final double price;
   final String category;
+  final String image;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
         title: json["title"],
         price: json["price"].toDouble(),
         category: json["category"],
+        image: json["image"],
       );
 
   Map<String, dynamic> toJson() => {
         "title": title,
         "price": price,
         "category": category,
+        "image": image,
       };
 }

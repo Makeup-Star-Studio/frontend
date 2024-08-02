@@ -252,6 +252,7 @@ import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/provider/services_category/bridal_services_provider.dart';
+import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class BridalServiceSection extends StatefulWidget {
@@ -267,13 +268,20 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
     super.initState();
     // Fetch services data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<BridalServicesProvider>(context, listen: false).fetchBridalServices();
+      Provider.of<BridalServicesProvider>(context, listen: false)
+          .fetchBridalServices();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final List<Service> bridalServices =
+        Provider.of<BridalServicesProvider>(context).filteredServices;
+
+    for (var bridalService in bridalServices) {
+      print("Image URL: ${bridalService.image}");
+    }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),
@@ -288,6 +296,14 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          // Ensure `bridalServices` is not empty
+          if (provider.filteredServices.isEmpty) {
+            return const Center(child: Text('No services available.'));
+          }
+
+          // Assuming you want to display the first service image here
+          final bridalService = provider.filteredServices.first;
+
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: screenSize.width * 0.15,
@@ -298,11 +314,23 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
               children: [
                 Expanded(
                   child: ClipRect(
-                    child: Image.asset(
-                      'assets/images/service1.jpg',
-                      width: screenSize.width,
-                      height: screenSize.height,
+                    child: Image.network(
+                      '${ApiConstant.localUrl}/services/${bridalService.image}',
                       fit: BoxFit.cover,
+                      width: 500.0,
+                      height: screenSize.height,
+                      errorBuilder: (context, error, stackTrace) {
+                        print('Error loading image: $error');
+                        return const Center(
+                          child: Text('Failed to load image'),
+                        );
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -334,10 +362,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                             height: 1.0,
                           ),
                           const SizedBox(height: 20.0),
-
-                          // get the data from api
-                          _buildServiceList(provider.services),
-
+                          _buildServiceList(provider.filteredServices),
                           const BodyText(
                             text: "Travel Fee: according to location",
                             size: 18.0,
@@ -400,17 +425,36 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          // Ensure `bridalServices` is not empty
+          if (provider.filteredServices.isEmpty) {
+            return const Center(child: Text('No services available.'));
+          }
+
+          // Assuming you want to display the first service image here
+          final bridalService = provider.filteredServices.first;
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ClipRect(
-                  child: Image.asset(
-                    'assets/images/service1.jpg',
+                  child: Image.network(
+                    '${ApiConstant.localUrl}/services/${bridalService.image}',
+                    fit: BoxFit.cover,
                     width: screenSize.width,
                     height: screenSize.height,
-                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      print('Error loading image: $error');
+                      return const Center(
+                        child: Text('Failed to load image'),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
                   ),
                 ),
                 // const SizedBox(width: 20.0),
