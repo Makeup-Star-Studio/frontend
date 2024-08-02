@@ -20,5 +20,5 @@ class ApiConstant {
   static const String getAllTestimonials = '/testimonial/';
   static String getSingleTestimonial(String id) => "/testimonial/$id";
 
-  static const String postTestimonials = '/testimonial/';
+  static const String postTestimonials = 'http://localhost:3001/testimonial/';
 }

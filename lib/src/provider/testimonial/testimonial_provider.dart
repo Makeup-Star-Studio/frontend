@@ -47,7 +47,6 @@ class TestimonialProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 Future<void> postTestimonial({
   required String fname,
   required String lname,
@@ -57,6 +56,7 @@ Future<void> postTestimonial({
 }) async {
   try {
     final uri = Uri.parse(ApiConstant.postTestimonials);
+    print('Posting to URL: $uri');
 
     // Determine the correct content type for the image
     String mimeType;
@@ -89,11 +89,13 @@ Future<void> postTestimonial({
         imageBytes,
         filename: imageName,
         contentType: MediaType.parse(mimeType),
-      ));
+      ))
+      ..headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjI1Nzc3NDUsImV4cCI6MTcyMzQ0MTc0NX0.NK0C_G_jLclEcKotZlmJTRTDTFMN6cXf6N2hj7nEDf4';
 
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    print("Post Response: ${response.body}");
+    print("Post Response Status Code: ${response.statusCode}");
+    print("Post Response Body: ${response.body}");
 
     if (response.statusCode == 201) {
       var apiResponse = ApiResponse.fromJson(json.decode(response.body));
@@ -106,7 +108,7 @@ Future<void> postTestimonial({
       print('Failed to post testimonial. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');
     }
-    
+
     _isLoading = false;
     notifyListeners();
   } catch (e, s) {
@@ -117,6 +119,8 @@ Future<void> postTestimonial({
     notifyListeners();
   }
 }
+
+
 
 
   void handleSubmissionError(error) {
