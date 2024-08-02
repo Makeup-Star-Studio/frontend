@@ -12,7 +12,7 @@ import 'package:makeupstarstudio/features/services/services.dart';
 class WebsiteRoute {
   WebsiteRoute._();
 
-  static const String adminRoute = '/admin';
+  // static const String adminRoute = '/admin';
   static const String homeRoute = '/home';
   static const String loginRoute = '/login';
   static const String aboutRoute = '/about';
@@ -24,7 +24,7 @@ class WebsiteRoute {
 
   static Map<String, WidgetBuilder> getApplicationRoute() {
     return {
-      adminRoute: (context) => const AdminPage(),
+      // adminRoute: (context) => const AdminPage(),
       homeRoute: (context) => const HomePage(),
       loginRoute: (context) => const AdminLoginScreen(),
       aboutRoute: (context) => const AboutPage(),

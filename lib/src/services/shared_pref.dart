@@ -32,6 +32,19 @@ class SharedPreferencesService {
     }
   }
 
+    Future<dynamic> getTokenPref(String key) async {
+    await init();
+    if (prefs.containsKey(key)) {
+      final value = prefs.getString(key);
+      if (value != null) {
+        return (value);
+      }
+      return null;
+    } else {
+      return null;
+    }
+  }
+
   setBoolPref(String key, bool value) async {
     await init();
     await prefs.setBool(key, value);

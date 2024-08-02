@@ -7,6 +7,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/model/testimonial_model.dart';
+import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class TestimonialProvider extends ChangeNotifier {
@@ -55,10 +56,16 @@ Future<void> postTestimonial({
   required String imageName,
 }) async {
   try {
+    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+    String? token = await sharedPrefs.getTokenPref('userToken');
+
+    if (token == null) {
+      print('No token found');
+      return;
+    }
     final uri = Uri.parse(ApiConstant.postTestimonials);
     print('Posting to URL: $uri');
 
-    // Determine the correct content type for the image
     String mimeType;
     String extension = imageName.split('.').last.toLowerCase();
 
@@ -90,7 +97,7 @@ Future<void> postTestimonial({
         filename: imageName,
         contentType: MediaType.parse(mimeType),
       ))
-      ..headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MjI1Nzc3NDUsImV4cCI6MTcyMzQ0MTc0NX0.NK0C_G_jLclEcKotZlmJTRTDTFMN6cXf6N2hj7nEDf4';
+      ..headers['Authorization'] = 'Bearer $token';
 
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
