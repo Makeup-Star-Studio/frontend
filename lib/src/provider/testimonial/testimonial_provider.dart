@@ -48,87 +48,87 @@ class TestimonialProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-Future<void> postTestimonial({
-  required String fname,
-  required String lname,
-  required String review,
-  required Uint8List imageBytes,
-  required String imageName,
-}) async {
-  try {
-    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
-    String? token = await sharedPrefs.getTokenPref('userToken');
 
-    if (token == null) {
-      print('No token found');
-      return;
-    }
-    final uri = Uri.parse(ApiConstant.postTestimonials);
-    print('Posting to URL: $uri');
+  Future<void> postTestimonial({
+    required String fname,
+    required String lname,
+    required String review,
+    required Uint8List imageBytes,
+    required String imageName,
+  }) async {
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      print('Retrieved token: $token');
 
-    String mimeType;
-    String extension = imageName.split('.').last.toLowerCase();
-
-    switch (extension) {
-      case 'jpeg':
-      case 'jpg':
-        mimeType = 'image/jpeg';
-        break;
-      case 'png':
-        mimeType = 'image/png';
-        break;
-      case 'heic':
-        mimeType = 'image/heic';
-        break;
-      case 'gif':
-        mimeType = 'image/gif';
-        break;
-      default:
-        throw Exception('Unsupported image format');
-    }
-
-    var request = http.MultipartRequest('POST', uri)
-      ..fields['fname'] = fname
-      ..fields['lname'] = lname
-      ..fields['review'] = review
-      ..files.add(http.MultipartFile.fromBytes(
-        'reviewImage',
-        imageBytes,
-        filename: imageName,
-        contentType: MediaType.parse(mimeType),
-      ))
-      ..headers['Authorization'] = 'Bearer $token';
-
-    var streamedResponse = await request.send();
-    var response = await http.Response.fromStream(streamedResponse);
-    print("Post Response Status Code: ${response.statusCode}");
-    print("Post Response Body: ${response.body}");
-
-    if (response.statusCode == 201) {
-      var apiResponse = ApiResponse.fromJson(json.decode(response.body));
-      print("API Response: ${apiResponse.toJson()}");
-
-      if (apiResponse.status == true) {
-        await fetchTestimonial();
+      if (token == null) {
+        print('No token found');
+        return;
       }
-    } else {
-      print('Failed to post testimonial. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
+
+      final uri = Uri.parse(ApiConstant.postTestimonials);
+      print('Posting to URL: $uri');
+
+      String mimeType;
+      String extension = imageName.split('.').last.toLowerCase();
+
+      switch (extension) {
+        case 'jpeg':
+        case 'jpg':
+          mimeType = 'image/jpeg';
+          break;
+        case 'png':
+          mimeType = 'image/png';
+          break;
+        case 'heic':
+          mimeType = 'image/heic';
+          break;
+        case 'gif':
+          mimeType = 'image/gif';
+          break;
+        default:
+          throw Exception('Unsupported image format');
+      }
+
+      var request = http.MultipartRequest('POST', uri)
+        ..fields['fname'] = fname
+        ..fields['lname'] = lname
+        ..fields['review'] = review
+        ..files.add(http.MultipartFile.fromBytes(
+          'reviewImage',
+          imageBytes,
+          filename: imageName,
+          contentType: MediaType.parse(mimeType),
+        ))
+        ..headers['Authorization'] = 'Bearer $token';
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+      print("Post Response Status Code: ${response.statusCode}");
+      print("Post Response Body: ${response.body}");
+
+      if (response.statusCode == 201) {
+        var apiResponse = ApiResponse.fromJson(json.decode(response.body));
+        print("API Response: ${apiResponse.toJson()}");
+
+        if (apiResponse.status == true) {
+          await fetchTestimonial();
+        }
+      } else {
+        print('Failed to post testimonial. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
+      handleSubmissionError(e);
+      notifyListeners();
     }
-
-    _isLoading = false;
-    notifyListeners();
-  } catch (e, s) {
-    print('Error: $e');
-    print('Stack trace: $s');
-    _isLoading = false;
-    handleSubmissionError(e);
-    notifyListeners();
   }
-}
-
-
-
 
   void handleSubmissionError(error) {
     print(error);

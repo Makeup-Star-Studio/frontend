@@ -49,7 +49,7 @@ class LoginProvider with ChangeNotifier {
         print('Retrieved token: ${apiResponse.token}');
 
         if (apiResponse.token != null && apiResponse.token!.isNotEmpty) {
-          await sharedPrefs.setStringPref('userData', response.body);
+          await sharedPrefs.setStringPref('userToken', apiResponse.token);
           await sharedPrefs.setBoolPref('logged', true);
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -81,7 +81,7 @@ class LoginProvider with ChangeNotifier {
     }
   }
 
-  Future<void> checkLoginStatus(BuildContext context) async {
+    Future<void> checkLoginStatus(BuildContext context) async {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
     bool isLogged = await sharedPrefs.getBoolPref('logged') ?? false;
 
