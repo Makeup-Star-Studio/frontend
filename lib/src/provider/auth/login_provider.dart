@@ -1,16 +1,20 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
 import 'package:makeupstarstudio/src/api/login_model.dart';
+import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
+import 'package:provider/provider.dart';
 
 class LoginProvider with ChangeNotifier {
   String? _errorMessage;
 
   String? get errorMessage => _errorMessage;
 
-  Future<void> loginUser(BuildContext context, String username, String password) async {
+  Future<void> loginUser(
+      BuildContext context, String username, String password) async {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
 
     try {
@@ -48,9 +52,11 @@ class LoginProvider with ChangeNotifier {
 
         print('Retrieved token: ${apiResponse.token}');
 
-        if (apiResponse.token != null && apiResponse.token!.isNotEmpty) {
+        if (apiResponse.token.isNotEmpty) {
           await sharedPrefs.setStringPref('userToken', apiResponse.token);
           await sharedPrefs.setBoolPref('logged', true);
+
+          context.read<CheckLoginProvider>().setLoggedIn(true);
 
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -59,35 +65,39 @@ class LoginProvider with ChangeNotifier {
             ),
           );
 
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const AdminPage(selectedIndex: 0)),
-          );
+          // Navigator.of(context).pushReplacement(
+          //   MaterialPageRoute(
+          //       builder: (context) => const AdminPage(selectedIndex: 0)),
+          // );
+          Navigator.pushNamed(context, '/admin');
         } else {
           throw 'Invalid response from server';
         }
       } else if (response.statusCode == 401) {
         _errorMessage = 'Invalid credentials. Please type the correct one.';
-        notifyListeners(); 
+        notifyListeners();
       } else {
         _errorMessage = 'Server error: ${response.statusCode}';
-        notifyListeners(); 
+        notifyListeners();
       }
     } catch (e, s) {
       Navigator.of(context).pop();
       _errorMessage = 'An unexpected error occurred';
-      notifyListeners(); 
+      notifyListeners();
       print('Error: $e');
       print('Stack trace: $s');
     }
   }
 
-    Future<void> checkLoginStatus(BuildContext context) async {
+  Future<void> checkLoginStatus(BuildContext context) async {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
     bool isLogged = await sharedPrefs.getBoolPref('logged') ?? false;
 
     if (isLogged) {
+      context.read<CheckLoginProvider>().setLoggedIn(true);
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const AdminPage(selectedIndex: 0)),
+        MaterialPageRoute(
+            builder: (context) => const AdminPage(selectedIndex: 0)),
       );
     }
   }

@@ -4,7 +4,6 @@ import 'package:makeupstarstudio/features/admin/screens/login/admin_login.dart';
 import 'package:makeupstarstudio/navigator_key.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
-
 class Utility {
   // Navigate through routes
   static Future navigate(BuildContext context, String route,
@@ -15,7 +14,7 @@ class Utility {
     );
   }
 
-  static  Future<bool> isLoggedIn() async {
+  static Future<bool> isLoggedIn() async {
     final SharedPreferencesService sharedPref = SharedPreferencesService();
 
     var data = await sharedPref.getStringPref('userData');
@@ -24,48 +23,51 @@ class Utility {
     return isLoggedIn;
   }
 
+  static Future<void> logout() async {
+    try {
+      var context = navigatorKey.currentState?.context;
+      if (context == null) {
+        print('Context is null');
+        return;
+      }
 
-static logout() async {
-  try {
-    var context = navigatorKey.currentContext as BuildContext;
+      // Show a standard dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false, // User must tap a button to close the dialog
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Row(
+              children: <Widget>[
+                CircularProgressIndicator(),
+                SizedBox(width: 16),
+                Text('Logging out...'),
+              ],
+            ),
+          );
+        },
+      );
 
-    // Show a standard dialog
-    showDialog(
-      context: context,
-      barrierDismissible: false, // User must tap a button to close the dialog
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Row(
-            children: <Widget>[
-              CircularProgressIndicator(),
-              SizedBox(width: 16),
-              Text('Logging out...'),
-            ],
-          ),
-        );
-      },
-    );
+      // Perform logout actions
+      await SharedPreferencesService().deleteSharedPref('logged');
+      await SharedPreferencesService().deleteSharedPref('userData');
 
-    // Perform logout actions
-    await SharedPreferencesService().deleteSharedPref('logged');
-    await SharedPreferencesService().deleteSharedPref('userData');
+      // Close the dialog
+      Navigator.of(context).pop();
 
-    // Close the dialog
-    Navigator.of(context).pop();
-
-    // Navigate to the login screen
-    Navigator.of(context).pushAndRemoveUntil(
-      CupertinoPageRoute(
-        builder: (context) => AdminLoginScreen(),
-      ),
-      (_) => false,
-    );
-  } catch (e) {
-    // Handle any errors here
-    print('Logout failed: $e');
+      // Navigate to the login screen
+      // Navigator.of(context).pushAndRemoveUntil(
+      //   CupertinoPageRoute(
+      //     builder: (context) => AdminLoginScreen(),
+      //   ),
+      //   (_) => false,
+      // );
+       Navigator.pushNamed(context, '/login');
+    } catch (e) {
+      // Handle any errors here
+      print('Logout failed: $e');
+    }
   }
-}
-
 }
 
 // // Navigates through screen

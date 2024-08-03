@@ -8,11 +8,12 @@ import 'package:makeupstarstudio/features/contact/contact.dart';
 import 'package:makeupstarstudio/features/gallery/gallery.dart';
 import 'package:makeupstarstudio/features/home/home.dart';
 import 'package:makeupstarstudio/features/services/services.dart';
+import 'package:makeupstarstudio/src/config/route_guard.dart';
 
 class WebsiteRoute {
   WebsiteRoute._();
 
-  // static const String adminRoute = '/admin';
+  static const String adminRoute = '/admin';
   static const String homeRoute = '/home';
   static const String loginRoute = '/login';
   static const String aboutRoute = '/about';
@@ -24,7 +25,10 @@ class WebsiteRoute {
 
   static Map<String, WidgetBuilder> getApplicationRoute() {
     return {
-      // adminRoute: (context) => const AdminPage(),
+      adminRoute: (context) => RouteGuard(
+        builder: (context) => const AdminPage(selectedIndex: 0),
+        redirectTo: loginRoute,
+      ),
       homeRoute: (context) => const HomePage(),
       loginRoute: (context) => const AdminLoginScreen(),
       aboutRoute: (context) => const AboutPage(),
