@@ -3,7 +3,7 @@ class ApiConstant {
 // static const String localUrl = 'https://backend-jckk.onrender.com/';
 //   static const String liveUrl = 'https://backend-jckk.onrender.com/';
   static const String localUrl = 'http://localhost:3001';
-  static const String liveUrl = 'https://backend-jckk.onrender.com/';
+  static const String liveUrl = '';
 
   // *********** Don't change anything below if you're not 1000% sure *********** //
 
@@ -21,6 +21,8 @@ class ApiConstant {
   /// [Testimonials]
   static const String getAllTestimonials = '/testimonial/';
   static String getSingleTestimonial(String id) => "/testimonial/$id";
+  static String updateTestimonial(String id) => "/testimonial/$id";
+  static String deleteTestimonial(String id) => "/testimonial/$id";
 
   static const String postTestimonials = 'http://localhost:3001/testimonial/';
 }

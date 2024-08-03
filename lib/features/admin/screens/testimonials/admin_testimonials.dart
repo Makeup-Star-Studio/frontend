@@ -63,35 +63,66 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   // Future<String> uploadImage(Uint8List imageBytes) async {
   //   return "uploaded_image_url";
   // }
-
-void _submitForm() {
-  if (_testimonialKey.currentState!.validate() && _reviewImageUrl != null) {
-    Provider.of<TestimonialProvider>(context, listen: false)
-        .postTestimonial(
+  void _submitForm() {
+    if (_testimonialKey.currentState!.validate() &&
+        (_reviewImageUrl != null || _editingIndex != null)) {
+      if (_editingIndex == null) {
+        // Add testimonial
+        Provider.of<TestimonialProvider>(context, listen: false)
+            .postTestimonial(
           fname: _firstNamController.text,
           lname: _lastNameController.text,
           review: _reviewController.text,
           imageBytes: _reviewImageUrl!,
           imageName: selectedFile,
         )
-        .then((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Testimonial Added Successfully')),
-      );
-      _clearForm();
-    }).catchError((e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Failed to add testimonial')),
-      );
-      print('Error: $e');
-    });
-  } else {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please fill all fields and upload an image')),
-    );
-  }
-}
+            .then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Testimonial Added Successfully')),
+          );
+          _clearForm();
+        }).catchError((e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to add testimonial')),
+          );
+          print('Error: $e');
+        });
+      } else {
+        // Update testimonial
+        final testimonial =
+            Provider.of<TestimonialProvider>(context, listen: false)
+                .testimonials[_editingIndex!];
 
+        Provider.of<TestimonialProvider>(context, listen: false)
+            .updateTestimonial(
+          testimonial.id ?? '',
+          Testimonial(
+            id: testimonial.id,
+            fname: _firstNamController.text,
+            lname: _lastNameController.text,
+            review: _reviewController.text,
+            reviewImage: selectedFile,
+          ),
+        )
+            .then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Testimonial Updated Successfully')),
+          );
+          _clearForm();
+        }).catchError((e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Failed to update testimonial')),
+          );
+          print('Error: $e');
+        });
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('Please fill all fields and upload an image')),
+      );
+    }
+  }
 
   void _clearForm() {
     setState(() {
@@ -101,6 +132,62 @@ void _submitForm() {
       _reviewImageUrl = null;
       _editingIndex = null;
     });
+  }
+
+  void _editTestimonial(int index) {
+    final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
+        .testimonials[index];
+
+    setState(() {
+      _firstNamController.text = testimonial.fname;
+      _lastNameController.text = testimonial.lname;
+      _reviewController.text = testimonial.review;
+      // Optionally load the existing image
+      // _reviewImageUrl = ...;
+      _editingIndex = index;
+    });
+  }
+
+  void _deleteTestimonial(int index) async {
+    final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
+        .testimonials[index];
+    final id = testimonial.id;
+
+    final shouldDelete = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Deletion'),
+          content:
+              const Text('Are you sure you want to delete this testimonial?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDelete) {
+      await Provider.of<TestimonialProvider>(context, listen: false)
+          .deleteTestimonial(id ?? '')
+          .then((_) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Testimonial Deleted Successfully')),
+        );
+      }).catchError((e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to delete testimonial')),
+        );
+        print('Error: $e');
+      });
+    }
   }
 
   @override
@@ -315,11 +402,15 @@ void _submitForm() {
                                       children: [
                                         IconButton(
                                           icon: const Icon(Icons.edit),
-                                          onPressed: () => _editMember(index),
+                                          color: AppColorConstant.successColor,
+                                          onPressed: () =>
+                                              _editTestimonial(index),
                                         ),
                                         IconButton(
                                           icon: const Icon(Icons.delete),
-                                          onPressed: () => _deleteMember(index),
+                                          color: AppColorConstant.errorColor,
+                                          onPressed: () =>
+                                              _deleteTestimonial(index),
                                         ),
                                       ],
                                     )),
@@ -336,25 +427,5 @@ void _submitForm() {
         ),
       ],
     );
-  }
-
-  void _editMember(int index) {
-    // final testimonial = Provider.of<TestimonialProvider>(context, listen: false)
-    //     .testimonials[index];
-    // setState(() {
-    //   _firstNamController.text = testimonial.fname;
-    //   _lastNameController.text = testimonial.lname;
-    //   _reviewController.text = testimonial.review;
-    //   _reviewImageUrl = testimonial.reviewImage;
-    //   _editingIndex = index;
-    // });
-  }
-
-  void _deleteMember(int index) {
-    // final testimonialProvider = Provider.of<TestimonialProvider>(context, listen: false);
-    // testimonialProvider.deleteTestimonial(index);
-    // ScaffoldMessenger.of(context).showSnackBar(
-    //   const SnackBar(content: Text('Testimonial Deleted Successfully')),
-    // );
   }
 }

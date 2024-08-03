@@ -7,11 +7,13 @@ class TestimonialsModel {
 
   final Data data;
 
-  factory TestimonialsModel.fromRawJson(String str) => TestimonialsModel.fromJson(json.decode(str));
+  factory TestimonialsModel.fromRawJson(String str) =>
+      TestimonialsModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory TestimonialsModel.fromJson(Map<String, dynamic> json) => TestimonialsModel(
+  factory TestimonialsModel.fromJson(Map<String, dynamic> json) =>
+      TestimonialsModel(
         data: Data.fromJson(json["data"]),
       );
 
@@ -28,7 +30,8 @@ class Data {
   final List<Testimonial> testimonials;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        testimonials: List<Testimonial>.from(json["testimonials"].map((x) => Testimonial.fromJson(x))),
+        testimonials: List<Testimonial>.from(
+            json["testimonials"].map((x) => Testimonial.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,15 +39,16 @@ class Data {
       };
 }
 
-
 class Testimonial {
   Testimonial({
+    this.id,
     required this.fname,
     required this.lname,
     required this.review,
     this.reviewImage, // Now a filename
   });
 
+  final String? id;
   final String fname;
   final String lname;
   final String review;
@@ -54,6 +58,7 @@ class Testimonial {
 
   factory Testimonial.fromJson(Map<String, dynamic> json) {
     return Testimonial(
+      id: json["id"],
       fname: json["fname"],
       lname: json["lname"],
       review: json["review"],
@@ -62,6 +67,7 @@ class Testimonial {
   }
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "fname": fname,
         "lname": lname,
         "review": review,
@@ -71,5 +77,3 @@ class Testimonial {
   // // Construct the image URL
   // String get reviewImageUrl => '$baseUrl$reviewImage';
 }
-
-

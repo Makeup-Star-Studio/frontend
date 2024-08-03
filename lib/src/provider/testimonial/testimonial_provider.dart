@@ -36,6 +36,8 @@ class TestimonialProvider extends ChangeNotifier {
         _testimonials = testimonialsData
             .map((testimonialJson) => Testimonial.fromJson(testimonialJson))
             .toList();
+        _testimonials =
+            _testimonials.reversed.toList(); // Reverse to show latest first
       }
 
       _isLoading = false;
@@ -112,11 +114,129 @@ class TestimonialProvider extends ChangeNotifier {
         print("API Response: ${apiResponse.toJson()}");
 
         if (apiResponse.status == true) {
+          // Create a new Testimonial object
+          Testimonial newTestimonial = Testimonial(
+            fname: fname,
+            lname: lname,
+            review: review,
+            reviewImage: imageName, // Assuming the imageName is saved as is
+          );
+
+          // Insert the new testimonial at the beginning of the list
+          _testimonials.insert(0, newTestimonial);
+          notifyListeners();
+        }
+
+        if (apiResponse.status == true) {
           await fetchTestimonial();
         }
       } else {
-        print('Failed to post testimonial. Status code: ${response.statusCode}');
+        print(
+            'Failed to post testimonial. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
+      handleSubmissionError(e);
+      notifyListeners();
+    }
+  }
+
+// update the posted testimonial
+Future<void> updateTestimonial(String id, Testimonial testimonial) async {
+  _isLoading = true;
+  notifyListeners();
+  try {
+    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+    String? token = await sharedPrefs.getTokenPref('userToken');
+    print('Retrieved token: $token');
+
+    if (token == null) {
+      print('No token found');
+      _isLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    final response = await http.put(
+      Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'fname': testimonial.fname,
+        'lname': testimonial.lname,
+        'review': testimonial.review,
+        // Exclude image as per requirements
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = json.decode(response.body);
+      // Update local state
+      _testimonials = _testimonials.map((item) {
+        if (item.id == id) {
+          return Testimonial.fromJson(responseData['data']['testimonial']);
+        }
+        return item;
+      }).toList();
+      print('Testimonial updated: ${responseData['data']['testimonial']}');
+    } else {
+      final responseBody = json.decode(response.body);
+      // Extract the error message if available
+      final errorMessage = responseBody['message'] ?? 'An unknown error occurred';
+      throw Exception('Failed to update testimonial: $errorMessage');
+    }
+  } catch (e, s) {
+    print('Error: $e');
+    print('Stack trace: $s');
+    _isLoading = false;
+    handleSubmissionError(e);
+    notifyListeners();
+  } finally {
+    _isLoading = false;
+    notifyListeners();
+  }
+}
+
+
+  /*---------------------------------Delete Testimonial---------------------------------*/
+
+  Future<void> deleteTestimonial(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      print('Retrieved token: $token');
+
+      if (token == null) {
+        print('No token found');
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      final response = await http.delete(
+        Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 204) {
+        _testimonials.removeWhere((testimonial) => testimonial.id == id);
+      } else {
+        final responseBody = json.decode(response.body);
+        throw Exception(
+            'Failed to delete testimonial: ${responseBody['message']}');
       }
 
       _isLoading = false;
