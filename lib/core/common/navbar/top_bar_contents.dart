@@ -24,7 +24,6 @@ class TopNavigationBar extends StatelessWidget {
           const NavBarItem(title: 'Home', index: 0),
           const NavBarItem(title: 'About', index: 1),
           const NavBarItem(title: 'Services', index: 2),
-          const NavBarItem(title: 'Bridal', index: 3),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: InkWell(
@@ -41,9 +40,9 @@ class TopNavigationBar extends StatelessWidget {
               ),
             ),
           ),
+          const NavBarItem(title: 'Bridal', index: 3),
           const NavBarItem(title: 'Gallery', index: 4),
-          const NavBarItem(title: 'Contact', index: 5),
-          const NavBarItem(title: 'Book Now', index: 6),
+          const NavBarItem(title: 'Book Now', index: 5),
         ],
       ),
     );
@@ -85,9 +84,6 @@ class _NavBarItemState extends State<NavBarItem> {
         Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
         break;
       case 5:
-        Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-        break;
-      case 6:
         Navigator.pushNamed(context, WebsiteRoute.bookRoute);
         break;
       default:
@@ -111,7 +107,7 @@ class _NavBarItemState extends State<NavBarItem> {
         child: BodyText(
           text: widget.title,
           letterSpacing: ResponsiveWidget.isLargeScreen(context) ? 2.0 : 0.0,
-          size: ResponsiveWidget.isLargeScreen(context) ? 16.0 : 14.0,
+          size: ResponsiveWidget.isLargeScreen(context) ? 18.0 : 14.0,
           color: _isHovering ? AppColorConstant.secondaryColor : Colors.black,
           fontWeight: _isHovering ? FontWeight.bold : FontWeight.normal,
         ),

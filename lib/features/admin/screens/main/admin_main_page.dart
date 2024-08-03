@@ -4,9 +4,10 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/features/admin/screens/bookings/admin_booking_view.dart';
 import 'package:makeupstarstudio/features/admin/screens/dashboard/dashboard_screen.dart';
+import 'package:makeupstarstudio/features/admin/screens/portfolio/admin_portfolio.dart';
 import 'package:makeupstarstudio/features/admin/screens/services/admin_services.dart';
 import 'package:makeupstarstudio/features/admin/screens/settings/settings.dart';
-import 'package:makeupstarstudio/features/admin/screens/team/team.dart';
+// import 'package:makeupstarstudio/features/admin/screens/team/team.dart';
 import 'package:makeupstarstudio/features/admin/screens/testimonials/admin_testimonials.dart';
 
 import 'components/side_menu.dart';
@@ -25,7 +26,7 @@ class _AdminPageState extends State<AdminPage> {
     const DashboardScreen(),
     const AdminBookingViewPage(),
     const AdminServicesView(),
-    const AdminGlamTeamView(),
+    const AdminPortfolioView(),
     const AdminTestimonialsView(),
     const AdminSettings(),
   ];

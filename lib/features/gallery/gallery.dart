@@ -3,11 +3,8 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
-import 'package:makeupstarstudio/features/gallery/components/galler_slide_three.dart';
 import 'package:makeupstarstudio/features/gallery/components/gallery_header_content.dart';
-import 'package:makeupstarstudio/features/gallery/components/gallery_slide_four.dart';
 import 'package:makeupstarstudio/features/gallery/components/gallery_slide_one.dart';
-import 'package:makeupstarstudio/features/gallery/components/gallery_slide_two.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
 import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
@@ -42,10 +39,10 @@ class GalleryPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             GalleryHeaderSection(),
-            GallerySlide1(),
-            GallerySlide2(),
-            GallerySlide3(),
-            GallerySlide4(),
+            GalleryCarousel(),
+            // GallerySlide2(),
+            // GallerySlide3(),
+            // GallerySlide4(),
             const SizedBox(height: 40.0),
             const SubscriptionSection(),
             const SizedBox(height: 10.0),

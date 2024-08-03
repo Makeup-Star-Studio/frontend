@@ -68,9 +68,9 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
                   const SizedBox(height: 20.0),
                   ButtonCard(
                     press: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                      Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
                     },
-                    text: 'CONTACT US',
+                    text: 'ABOUT US',
                   ),
                 ],
               ),
@@ -142,7 +142,7 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           const SizedBox(height: 20.0),
           ButtonCard(
             press: () {
-              Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+              // Navigator.pushNamed(context, WebsiteRoute.contactRoute);
             },
             text: 'CONTACT US',
           ),

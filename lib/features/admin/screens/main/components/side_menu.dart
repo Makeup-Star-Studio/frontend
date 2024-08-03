@@ -57,7 +57,7 @@ class SideMenu extends StatelessWidget {
             },
           ),
           DrawerListTile(
-            title: "Glam Team",
+            title: "Portfolio",
             svgSrc: "assets/svgs/menu_doc.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {

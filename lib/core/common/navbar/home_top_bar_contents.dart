@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/button_card.dart';
 
@@ -52,7 +53,7 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                 InkWell(
                   hoverColor: Colors.transparent,
                   onTap: () {
-                    Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+                    Navigator.pushNamed(context, WebsiteRoute.homeRoute);
                   },
                   onHover: (value) {
                     setState(() {
@@ -63,12 +64,14 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'ABOUT',
+                        'HOME',
                         style: TextStyle(
                           color: _isHovering[0]
                               ? AppColorConstant.secondaryColor
                               : Colors.black,
-                          fontSize: 14.0,
+                          fontSize: ResponsiveWidget.isSmallScreen(context)
+                              ? 14.0
+                              : 18.0,
                           letterSpacing: 2.0,
                         ),
                       ),
@@ -78,24 +81,26 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                 SizedBox(width: screenSize.width / 30),
                 InkWell(
                   hoverColor: Colors.transparent,
+                  onTap: () {
+                    Navigator.pushNamed(context, WebsiteRoute.aboutRoute);
+                  },
                   onHover: (value) {
                     setState(() {
                       _isHovering[1] = value;
                     });
                   },
-                  onTap: () {
-                    Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
-                  },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'SERVICES',
+                        'ABOUT',
                         style: TextStyle(
                           color: _isHovering[1]
                               ? AppColorConstant.secondaryColor
                               : Colors.black,
-                          fontSize: 14.0,
+                          fontSize: ResponsiveWidget.isSmallScreen(context)
+                              ? 14.0
+                              : 18.0,
                           letterSpacing: 2.0,
                         ),
                       ),
@@ -111,18 +116,20 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     });
                   },
                   onTap: () {
-                    Navigator.pushNamed(context, WebsiteRoute.homeRoute);
+                    Navigator.pushNamed(context, WebsiteRoute.servicesRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'BRIDAL',
+                        'SERVICES',
                         style: TextStyle(
                           color: _isHovering[2]
                               ? AppColorConstant.secondaryColor
                               : Colors.black,
-                          fontSize: 14.0,
+                          fontSize: ResponsiveWidget.isSmallScreen(context)
+                              ? 14.0
+                              : 18.0,
                           letterSpacing: 2.0,
                         ),
                       ),
@@ -138,18 +145,20 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     });
                   },
                   onTap: () {
-                    Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
+                    Navigator.pushNamed(context, WebsiteRoute.bridalRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'GALLERY',
+                        'BRIDAL',
                         style: TextStyle(
                           color: _isHovering[3]
                               ? AppColorConstant.secondaryColor
                               : Colors.black,
-                          fontSize: 14.0,
+                          fontSize: ResponsiveWidget.isSmallScreen(context)
+                              ? 14.0
+                              : 18.0,
                           letterSpacing: 2.0,
                         ),
                       ),
@@ -165,24 +174,53 @@ class _HomeTopBarContentsState extends State<HomeTopBarContents> {
                     });
                   },
                   onTap: () {
-                    Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                    Navigator.pushNamed(context, WebsiteRoute.galleryRoute);
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'CONTACT',
+                        'GALLERY',
                         style: TextStyle(
                           color: _isHovering[4]
                               ? AppColorConstant.secondaryColor
                               : Colors.black,
-                          fontSize: 14.0,
+                          fontSize: ResponsiveWidget.isSmallScreen(context)
+                              ? 14.0
+                              : 18.0,
                           letterSpacing: 2.0,
                         ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(width: screenSize.width / 30),
+                // InkWell(
+                //   hoverColor: Colors.transparent,
+                //   onHover: (value) {
+                //     setState(() {
+                //       _isHovering[4] = value;
+                //     });
+                //   },
+                //   onTap: () {
+                //     Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                //   },
+                //   child: Column(
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Text(
+                //         'CONTACT',
+                //         style: TextStyle(
+                //           color: _isHovering[4]
+                //               ? AppColorConstant.secondaryColor
+                //               : Colors.black,
+                //           fontSize: 14.0,
+                //           letterSpacing: 2.0,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
             InkWell(

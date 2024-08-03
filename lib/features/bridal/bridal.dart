@@ -36,28 +36,30 @@ class BridalPage extends StatelessWidget {
               child: const TopNavigationBar(),
             ),
       drawer: const MenuDrawer(),
-      body: ListView(
-        children: [
-          BridalHeaderSection(),
-          const BridalTextSection(),
-          const SizedBox(height: 20.0),
-          const Center(
-            child: BodyText(
-              text: '"Click on the images to view full size"',
-              color: AppColorConstant.errorColor,
-              size: 22.0,
-              smallSize: 20.0,
-              mediumSize: 20.0,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            BridalHeaderSection(),
+            const BridalTextSection(),
+            const SizedBox(height: 20.0),
+            const Center(
+              child: BodyText(
+                text: '"Click on the images to view full size"',
+                color: AppColorConstant.errorColor,
+                size: 22.0,
+                smallSize: 20.0,
+                mediumSize: 20.0,
+              ),
             ),
-          ),
-          BridalGallery(),
-          const SizedBox(height: 20.0),
-          const SubscriptionSection(),
-          const SizedBox(height: 10.0),
-          const InfoSection(),
-          const SizedBox(height: 40.0),
-          const FooterSection(),
-        ],
+            const BridalGallery(),
+            const SizedBox(height: 20.0),
+            const SubscriptionSection(),
+            const SizedBox(height: 10.0),
+            const InfoSection(),
+            const SizedBox(height: 40.0),
+            const FooterSection(),
+          ],
+        ),
       ),
     );
   }

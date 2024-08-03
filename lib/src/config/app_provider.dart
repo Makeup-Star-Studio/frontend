@@ -1,5 +1,8 @@
 import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/gallery_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/portfolio_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/bridal_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/draping_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/henna_services_provider.dart';
@@ -19,6 +22,9 @@ class AppProvider {
   static final hennaServiceProvider = HennaServicesProvider();
   static final drapingServiceProvider = DrapingServicesProvider();
   static final testimonialProvider = TestimonialProvider();
+  static final bridalPortfolioProvider = BridalPortfolioProvider();
+  static final galleryProvider = GalleryProvider();
+  static final portfolioProvider = PortfolioProvider();
   static final checkLoginProvider = CheckLoginProvider();
 
   static final List<ChangeNotifierProvider> providers = [
@@ -44,7 +50,16 @@ class AppProvider {
     ChangeNotifierProvider<TestimonialProvider>(
       create: (context) => testimonialProvider,
     ),
-   ChangeNotifierProvider<CheckLoginProvider>(
+    ChangeNotifierProvider<BridalPortfolioProvider>(
+      create: (context) => bridalPortfolioProvider,
+    ), 
+    ChangeNotifierProvider<GalleryProvider>(
+      create: (context) => galleryProvider,
+    ), 
+    ChangeNotifierProvider<PortfolioProvider>(
+      create: (context) => portfolioProvider,
+    ),
+    ChangeNotifierProvider<CheckLoginProvider>(
       create: (context) => checkLoginProvider,
     ),
   ];
@@ -58,6 +73,9 @@ class AppProvider {
     hennaServiceProvider.dispose();
     drapingServiceProvider.dispose();
     testimonialProvider.dispose();
+    bridalPortfolioProvider.dispose();
+    galleryProvider.dispose();
+    portfolioProvider.dispose();
   }
 
   /// Singleton factory

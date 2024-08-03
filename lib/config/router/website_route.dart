@@ -4,7 +4,7 @@ import 'package:makeupstarstudio/features/admin/screens/login/admin_login.dart';
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
 import 'package:makeupstarstudio/features/booking/booking.dart';
 import 'package:makeupstarstudio/features/bridal/bridal.dart';
-import 'package:makeupstarstudio/features/contact/contact.dart';
+// import 'package:makeupstarstudio/features/contact/contact.dart';
 import 'package:makeupstarstudio/features/gallery/gallery.dart';
 import 'package:makeupstarstudio/features/home/home.dart';
 import 'package:makeupstarstudio/features/services/services.dart';
@@ -20,7 +20,7 @@ class WebsiteRoute {
   static const String servicesRoute = '/services';
   static const String bridalRoute = '/bridal';
   static const String galleryRoute = '/gallery';
-  static const String contactRoute = '/contact';
+  // static const String contactRoute = '/contact';
   static const String bookRoute = '/book';
 
   static Map<String, WidgetBuilder> getApplicationRoute() {
@@ -35,7 +35,7 @@ class WebsiteRoute {
       servicesRoute: (context) => const ServicesPage(),
       bridalRoute: (context) => const BridalPage(),
       galleryRoute: (context) => const GalleryPage(),
-      contactRoute: (context) => const ContactPage(),
+      // contactRoute: (context) => const ContactPage(),
       bookRoute: (context) => const BookingPage(),
     };
   }

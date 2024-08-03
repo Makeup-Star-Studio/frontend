@@ -31,6 +31,7 @@ class BridalHeaderSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
+        // First expanded section
         Expanded(
           child: Container(
             height: 659,
@@ -41,7 +42,7 @@ class BridalHeaderSection extends StatelessWidget {
             ),
           ),
         ),
-        //text
+        // Text section
         Expanded(
           child: Container(
             height: 659,
@@ -63,23 +64,23 @@ class BridalHeaderSection extends StatelessWidget {
                   size: 80.0,
                   height: 0.5,
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 40),
                 const BodyText(
                   text:
                       'Geet has a decade of experience in the hair and makeup industry, including as a freelance artist.\n Geet is incredibly passionate about her craft, and in ensuring that each of Makeup Star Studio\'s brides look and feel their best with every look that she creates!',
                 ),
                 const SizedBox(height: 20),
                 ModifiedButton(
-                    text: 'Get in Touch',
-                    press: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-                    }),
+                  text: 'Get in Touch',
+                  press: () {
+                    Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                  },
+                ),
               ],
             ),
           ),
         ),
+        // Second expanded section
         Expanded(
           child: Container(
             height: 659,
@@ -120,36 +121,34 @@ class BridalHeaderSection extends StatelessWidget {
             color: AppColorConstant.buttonColor,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const BigText(
-                  text: 'bridal makeup & hair',
-                  // size: 30.0,
-                  height: 1.0,
-                ),
-                const SubHeadingSlanted(
-                  text: 'by Geet',
-                  color: AppColorConstant.black,
-                  // size: 80.0,
-                  height: 0.5,
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const BodyText(
-                  text:
-                      'Geet has a decade of experience in the hair and makeup industry, including as a freelance artist.\n Geet is incredibly passionate about her craft, and in ensuring that each of Makeup Star Studio\'s brides look and feel their best with every look that she creates!',
-                ),
-                const SizedBox(height: 20),
-                ModifiedButton(
-                    text: 'Get in Touch',
-                    press: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-                    }),
-              ],
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const BigText(
+                text: 'bridal makeup & hair',
+                // size: 30.0,
+                height: 1.0,
+              ),
+              const SubHeadingSlanted(
+                text: 'by Geet',
+                color: AppColorConstant.black,
+                // size: 80.0,
+                height: 0.5,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const BodyText(
+                text:
+                    'Geet has a decade of experience in the hair and makeup industry, including as a freelance artist.\n Geet is incredibly passionate about her craft, and in ensuring that each of Makeup Star Studio\'s brides look and feel their best with every look that she creates!',
+              ),
+              const SizedBox(height: 20),
+              ModifiedButton(
+                  text: 'Get in Touch',
+                  press: () {
+                    Navigator.pushNamed(context, WebsiteRoute.bookRoute);
+                  }),
+            ],
           ),
         ),
       ],

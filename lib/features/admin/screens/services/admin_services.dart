@@ -237,6 +237,16 @@ class _AdminServicesViewState extends State<AdminServicesView> {
 
   @override
   Widget build(BuildContext context) {
+    // Determine if the screen is small or large
+    bool isSmallScreen = ResponsiveWidget.isSmallScreen(context);
+
+    // Return the appropriate layout based on screen size
+    return isSmallScreen
+        ? _buildSmallScreen(context)
+        : _buildLargeScreen(context);
+  }
+
+  Widget _buildLargeScreen(BuildContext context) {
     return Row(
       children: [
         Expanded(
@@ -391,7 +401,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             ),
           ),
         ),
-/* ----------------- Services List ----------------- */
+        /* ----------------- Services List ----------------- */
         const VerticalDivider(thickness: 2, color: Colors.grey),
         Expanded(
           child: Padding(
@@ -470,6 +480,237 @@ class _AdminServicesViewState extends State<AdminServicesView> {
           ),
         ),
       ],
+    );
+  }
+
+/*----------------- Small Screen Layout -----------------*/
+  Widget _buildSmallScreen(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if (!ResponsiveWidget.isLargeScreen(context))
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: AppColorConstant.adminMenuColor,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.menu, color: Colors.white),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
+                  const SizedBox(width: 16),
+                  const Text(
+                    'Manage Service',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _servicesFormKey,
+              child: Column(
+                children: [
+                  const Text(
+                    "Post Services",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: _imageUrl == null
+                        ? Container(
+                            width: 500,
+                            height: 500,
+                            color: Colors.grey[200],
+                            child: const Icon(Icons.add_a_photo, size: 100),
+                          )
+                        : Image.memory(_imageUrl!, fit: BoxFit.cover),
+                  ),
+                  const Text(
+                    textAlign: TextAlign.center,
+                    '"Pick One Image"',
+                    style: TextStyle(
+                      color: AppColorConstant.adminPrimaryColor,
+                      fontSize: 18,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const BodyText(
+                    text: "Service Title",
+                    textAlign: TextAlign.left,
+                    size: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  TextFormInputField(
+                    textAlign: TextAlign.left,
+                    controller: _titleController,
+                    hintText:
+                        "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'required';
+                      }
+                      return null;
+                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const BodyText(
+                    text: "Service Price",
+                    textAlign: TextAlign.left,
+                    size: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  TextFormInputField(
+                    textAlign: TextAlign.left,
+                    controller: _priceController,
+                    hintText: "For eg: 5000 or 8000 or 10000 etc.",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'required';
+                      }
+                      final n = num.tryParse(value);
+                      if (n == null) {
+                        return '"$value" is not a valid number';
+                      }
+                      return null;
+                    },
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const BodyText(
+                    text: "Service Category",
+                    textAlign: TextAlign.left,
+                    size: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    hint: const Text("Select Category"),
+                    items: _categories.map((String category) {
+                      return DropdownMenuItem<String>(
+                        value: category,
+                        child: Text(category),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                    validator: (value) => value == null ? 'required' : null,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: const BorderSide(
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ModifiedButton(
+                      text: _editingIndex == null
+                          ? 'ADD SERVICE'
+                          : 'UPDATE SERVICE',
+                      color: AppColorConstant.adminPrimaryColor,
+                      textColor: AppColorConstant.white,
+                      press: _submitForm),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Consumer<ServicesProvider>(
+              builder: (context, serviceProvider, child) {
+                final services = serviceProvider.services;
+                return Column(
+                  children: [
+                    const Text(
+                      "Displayed Services",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    services.isEmpty
+                        ? const Center(child: Text("No services added"))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: services.length,
+                            itemBuilder: (context, index) {
+                              final service = services[index];
+                              return ListTile(
+                                leading: Image.network(
+                                    '${ApiConstant.localUrl}/services/${service.image}',
+                                    width: 50,
+                                    height: 50),
+                                title: Text(service.title),
+                                subtitle: Text(
+                                    '${service.price} - ${service.category}'),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      icon: const Icon(Icons.edit),
+                                      color: AppColorConstant.successColor,
+                                      onPressed: () => _editService(index),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      color: AppColorConstant.errorColor,
+                                      onPressed: () => _deleteService(index),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

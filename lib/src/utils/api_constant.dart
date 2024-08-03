@@ -20,10 +20,13 @@ class ApiConstant {
   static const String getNonBridalHairServices = '/services/category/hair';
   static const String getHennaServices = '/services/category/henna';
   static const String getDrapingServices = '/services/category/draping';
+
   /// [POST]
   static const String postServices = 'http://localhost:3001/services/';
+
   /// [UPDATE]
   static String updateService(String id) => "/services/edit/$id";
+
   /// [DELETE]
   static const String deleteServices = "/services/remove/";
   static String deleteService(String id) => "/services/remove/$id";
@@ -33,10 +36,23 @@ class ApiConstant {
   /// [GET]
   static const String getAllTestimonials = '/testimonial/';
   static String getSingleTestimonial(String id) => "/testimonial/$id";
+
   /// [POST]
   static const String postTestimonials = 'http://localhost:3001/testimonial/';
+
   /// [UPDATE]
   static String updateTestimonial(String id) => "/testimonial/$id";
+
   /// [DELETE]
   static String deleteTestimonial(String id) => "/testimonial/$id";
+
+/*--------------------------------- Portfolio ---------------------------------*/
+  /// [Portfolio]
+  /// [GET]
+  static const String getAllPortfolio = '/portfolio/';
+  static const String getBridalPortfolio = '/portfolio/bridal';
+  static const String getGallery = '/portfolio/gallery';
+
+  /// [POST]
+  static const String postPortfolio = 'http://localhost:3001/portfolio/';
 }

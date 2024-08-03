@@ -80,7 +80,7 @@ class AboutMissionSection extends StatelessWidget {
                 ModifiedButton(
                   press: () {
                     // Handle navigation here
-                    Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                    Navigator.pushNamed(context, WebsiteRoute.bookRoute);
                   },
                   text: 'GET IN TOUCH',
                   fontWeight: FontWeight.normal,
@@ -139,7 +139,7 @@ class AboutMissionSection extends StatelessWidget {
           ModifiedButton(
             press: () {
               // Handle navigation here
-              Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+              Navigator.pushNamed(context, WebsiteRoute.bookRoute);
             },
             text: 'GET IN TOUCH',
             fontWeight: FontWeight.normal,

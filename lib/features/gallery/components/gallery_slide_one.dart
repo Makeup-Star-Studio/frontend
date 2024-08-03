@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 
-class GallerySlide1 extends StatelessWidget {
+class GalleryCarousel extends StatelessWidget {
   final List<String> imageUrls = [
     'assets/images/image.jpeg',
     'assets/images/contact.png',
@@ -12,7 +12,7 @@ class GallerySlide1 extends StatelessWidget {
     'assets/images/service4.jpg',
   ];
 
-  GallerySlide1({super.key});
+  GalleryCarousel({super.key});
 
   @override
   Widget build(BuildContext context) {

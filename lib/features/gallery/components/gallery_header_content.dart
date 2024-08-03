@@ -80,7 +80,7 @@ class GalleryHeaderSection extends StatelessWidget {
                 ModifiedButton(
                     text: 'Get in Touch',
                     press: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                      Navigator.pushNamed(context, WebsiteRoute.bookRoute);
                     }),
               ],
             ),
@@ -160,7 +160,7 @@ class GalleryHeaderSection extends StatelessWidget {
                 ModifiedButton(
                     text: 'Get in Touch',
                     press: () {
-                      Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+                      Navigator.pushNamed(context, WebsiteRoute.bookRoute);
                     }),
               ],
             ),

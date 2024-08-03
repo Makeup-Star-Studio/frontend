@@ -106,18 +106,18 @@ class MenuDrawer extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, WebsiteRoute.contactRoute);
-                },
-                child: const Text(
-                  'Contact',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     Navigator.pushNamed(context, WebsiteRoute.contactRoute);
+              //   },
+              //   child: const Text(
+              //     'Contact',
+              //     style: TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
