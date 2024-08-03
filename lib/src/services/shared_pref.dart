@@ -3,77 +3,67 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesService {
-  static SharedPreferences prefs = '' as SharedPreferences;
+  static SharedPreferences? _prefs;
 
-  Future<void> init() async {
-    prefs = await SharedPreferences.getInstance();
+  Future<void> _init() async {
+    _prefs ??= await SharedPreferences.getInstance();
   }
 
-  setStringPref(String key, value) async {
+  Future<void> setStringPref(String key, dynamic value) async {
     try {
-      await init();
+      await _init();
       String stringValue = value is String ? value : json.encode(value);
-      await prefs.setString(key, stringValue);
+      await _prefs?.setString(key, stringValue);
     } catch (error) {
       rethrow;
     }
   }
 
   Future<dynamic> getStringPref(String key) async {
-    await init();
-    if (prefs.containsKey(key)) {
-      final value = prefs.getString(key);
+    await _init();
+    if (_prefs?.containsKey(key) ?? false) {
+      final value = _prefs?.getString(key);
       if (value != null) {
         return json.decode(value);
       }
-      return null;
-    } else {
-      return null;
     }
+    return null;
   }
 
-    Future<dynamic> getTokenPref(String key) async {
-    await init();
-    if (prefs.containsKey(key)) {
-      final value = prefs.getString(key);
-      if (value != null) {
-        return (value);
-      }
-      return null;
-    } else {
-      return null;
+  Future<String?> getTokenPref(String key) async {
+    await _init();
+    if (_prefs?.containsKey(key) ?? false) {
+      return _prefs?.getString(key);
     }
+    return null;
   }
 
-  setBoolPref(String key, bool value) async {
-    await init();
-    await prefs.setBool(key, value);
+  Future<void> setBoolPref(String key, bool value) async {
+    await _init();
+    await _prefs?.setBool(key, value);
   }
 
-  getBoolPref(String key) async {
-    await init();
-    if (prefs.containsKey(key)) {
-      return prefs.getBool(key) ?? false;
-    } else {
-      return false;
-    }
+  Future<bool> getBoolPref(String key) async {
+    await _init();
+    return _prefs?.getBool(key) ?? false;
   }
 
-  deleteSharedPref(dynamic key) async {
-    await init();
+  Future<void> deleteSharedPref(dynamic key) async {
+    await _init();
     if (key is String) {
-      if (prefs.containsKey(key)) {
-        await prefs.remove(key);
+      if (_prefs?.containsKey(key) ?? false) {
+        await _prefs?.remove(key);
       }
-    } else {
-      key.forEach((element) async {
-        if (prefs.containsKey(element)) {
-          await prefs.remove(element);
+    } else if (key is List<String>) {
+      for (var element in key) {
+        if (_prefs?.containsKey(element) ?? false) {
+          await _prefs?.remove(element);
         }
-      });
+      }
     }
   }
 }
+
 
 
 // import 'dart:convert';

@@ -4,30 +4,30 @@ import 'package:makeupstarstudio/src/utils/utility.dart';
 Future<void> showLogoutConfirmationDialog(BuildContext context) async {
   return showDialog(
     context: context,
-    barrierDismissible: false, // User must tap a button to close the dialog
+    barrierDismissible: false, 
     builder: (BuildContext context) {
       return AlertDialog(
         title: Row(
           children: <Widget>[
-            Icon(Icons.error_outline, color: Colors.red), // Replace with Assets.sadLogout
+            Icon(Icons.error_outline, color: Colors.red), 
             SizedBox(width: 16),
             Text('Logout'),
           ],
         ),
-        content: Text('Are you sure you want to logout?'), // Replace with AppString.sureLogout
+        content: Text('Are you sure you want to logout?'), 
         actions: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-              Utility.logout(); // Perform the logout
+              Navigator.of(context).pop(); 
+              Utility.logout(); 
             },
-            child: Text('Yes'), // Replace with a localized string if needed
+            child: Text('Yes'), 
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog without logging out
+              Navigator.of(context).pop(); 
             },
-            child: Text('No'), // Replace with a localized string if needed
+            child: Text('No'), 
           ),
         ],
       );

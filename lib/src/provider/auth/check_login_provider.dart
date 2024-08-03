@@ -12,4 +12,9 @@ class CheckLoginProvider extends ChangeNotifier {
     _isLoggedIn = isLogged;
     notifyListeners();
   }
+
+  void setLoggedIn(bool loggedIn) {
+    _isLoggedIn = loggedIn;
+    notifyListeners();
+  }
 }
