@@ -19,6 +19,7 @@ class TestimonialProvider extends ChangeNotifier {
 
   final StarStudioApiService _apiTestimonial = StarStudioApiService();
 
+/*---------------------------------Fetch Testimonial---------------------------------*/
   Future<void> fetchTestimonial() async {
     try {
       _isLoading = true;
@@ -51,6 +52,7 @@ class TestimonialProvider extends ChangeNotifier {
     }
   }
 
+/*---------------------------------Post Testimonial---------------------------------*/
   Future<void> postTestimonial({
     required String fname,
     required String lname,
@@ -147,6 +149,7 @@ class TestimonialProvider extends ChangeNotifier {
     }
   }
 
+/*---------------------------------Update Testimonial---------------------------------*/
 // update the posted testimonial
 Future<void> updateTestimonial(String id, Testimonial testimonial) async {
   _isLoading = true;
@@ -186,6 +189,8 @@ Future<void> updateTestimonial(String id, Testimonial testimonial) async {
         }
         return item;
       }).toList();
+                await fetchTestimonial();
+
       print('Testimonial updated: ${responseData['data']['testimonial']}');
     } else {
       final responseBody = json.decode(response.body);
@@ -233,7 +238,11 @@ Future<void> updateTestimonial(String id, Testimonial testimonial) async {
 
       if (response.statusCode == 204) {
         _testimonials.removeWhere((testimonial) => testimonial.id == id);
-      } else {
+
+          await fetchTestimonial();
+      
+      } 
+      else {
         final responseBody = json.decode(response.body);
         throw Exception(
             'Failed to delete testimonial: ${responseBody['message']}');

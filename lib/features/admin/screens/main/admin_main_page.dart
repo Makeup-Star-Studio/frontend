@@ -4,7 +4,7 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/features/admin/screens/bookings/admin_booking_view.dart';
 import 'package:makeupstarstudio/features/admin/screens/dashboard/dashboard_screen.dart';
-import 'package:makeupstarstudio/features/admin/screens/services/services.dart';
+import 'package:makeupstarstudio/features/admin/screens/services/admin_services.dart';
 import 'package:makeupstarstudio/features/admin/screens/settings/settings.dart';
 import 'package:makeupstarstudio/features/admin/screens/team/team.dart';
 import 'package:makeupstarstudio/features/admin/screens/testimonials/admin_testimonials.dart';

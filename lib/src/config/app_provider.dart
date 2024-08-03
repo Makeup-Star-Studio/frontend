@@ -1,15 +1,17 @@
 import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
-import 'package:makeupstarstudio/src/provider/services_category/bridal_services_provider.dart';
-import 'package:makeupstarstudio/src/provider/services_category/draping_services_provider.dart';
-import 'package:makeupstarstudio/src/provider/services_category/henna_services_provider.dart';
-import 'package:makeupstarstudio/src/provider/services_category/non_bridal_hair_services.dart';
-import 'package:makeupstarstudio/src/provider/services_category/non_bridal_makeup_services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services/bridal_services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services/draping_services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services/henna_services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services/non_bridal_hair_services.dart';
+import 'package:makeupstarstudio/src/provider/services/non_bridal_makeup_services_provider.dart';
+import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppProvider {
   static final loginProvider = LoginProvider();
+  static final serviceProvider = ServicesProvider();
   static final bridalServiceProvider = BridalServicesProvider();
   static final nonBridalMakeupServiceProvider =
       NonBridalMakeupServicesProvider();
@@ -21,6 +23,9 @@ class AppProvider {
 
   static final List<ChangeNotifierProvider> providers = [
     ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
+    ChangeNotifierProvider<ServicesProvider>(
+      create: (context) => serviceProvider,
+    ),
     ChangeNotifierProvider<BridalServicesProvider>(
       create: (context) => bridalServiceProvider,
     ),
@@ -46,6 +51,7 @@ class AppProvider {
 
   static void dispose() {
     loginProvider.dispose();
+    serviceProvider.dispose();
     bridalServiceProvider.dispose();
     nonBridalMakeupServiceProvider.dispose();
     nonBridalHairServiceProvider.dispose();

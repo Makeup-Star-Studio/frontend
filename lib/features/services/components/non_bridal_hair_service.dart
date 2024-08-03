@@ -7,7 +7,7 @@ import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
-import 'package:makeupstarstudio/src/provider/services_category/non_bridal_hair_services.dart';
+import 'package:makeupstarstudio/src/provider/services/non_bridal_hair_services.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 

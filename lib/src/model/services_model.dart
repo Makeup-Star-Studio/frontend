@@ -38,18 +38,21 @@ class Data {
 
 class Service {
   Service({
+    this.id,
     required this.title,
     required this.price,
     required this.category,
     required this.image,
   });
 
+  final String? id;
   final String title;
   final double price;
   final String category;
   final String image;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
+        id: json["id"],
         title: json["title"],
         price: json["price"].toDouble(),
         category: json["category"],
@@ -57,6 +60,7 @@ class Service {
       );
 
   Map<String, dynamic> toJson() => {
+        "id": id,
         "title": title,
         "price": price,
         "category": category,
