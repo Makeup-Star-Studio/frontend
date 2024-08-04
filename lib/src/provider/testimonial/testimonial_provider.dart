@@ -70,8 +70,7 @@ class TestimonialProvider extends ChangeNotifier {
         return;
       }
 
-      final uri = Uri.parse(ApiConstant.postTestimonials);
-      print('Posting to URL: $uri');
+  final uri = Uri.parse('${ApiConstant.localUrl}/testimonial/');      print('Posting to URL: $uri');
 
       String mimeType;
       String extension = imageName.split('.').last.toLowerCase();

@@ -78,7 +78,7 @@ class ServicesProvider extends ChangeNotifier {
       String? existingImageUrl =
           existingService.image.isNotEmpty ? existingService.image : null;
 
-      final uri = Uri.parse(ApiConstant.postServices);
+     final uri = Uri.parse('${ApiConstant.localUrl}/services/');
       print('Posting to URL: $uri');
 
       var request = http.MultipartRequest('POST', uri)

@@ -22,7 +22,7 @@ class ApiConstant {
   static const String getDrapingServices = '/services/category/draping';
 
   /// [POST]
-  static const String postServices = 'http://localhost:3001/services/';
+  static const String postServices = '/services/';
 
   /// [UPDATE]
   static String updateService(String id) => "/services/edit/$id";
@@ -38,7 +38,7 @@ class ApiConstant {
   static String getSingleTestimonial(String id) => "/testimonial/$id";
 
   /// [POST]
-  static const String postTestimonials = 'http://localhost:3001/testimonial/';
+  static const String postTestimonials = '/testimonial/';
 
   /// [UPDATE]
   static String updateTestimonial(String id) => "/testimonial/$id";
