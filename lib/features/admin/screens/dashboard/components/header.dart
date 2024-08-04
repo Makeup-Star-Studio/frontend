@@ -160,7 +160,7 @@ class _ProfileCardState extends State<ProfileCard> {
             ],
           ),
           if (_isLogoutVisible)
-           Positioned(
+     Positioned(
   top: 0,
   right: 0,
   child: GestureDetector(
@@ -191,6 +191,7 @@ class _ProfileCardState extends State<ProfileCard> {
     ),
   ),
 ),
+
 
 
         ],

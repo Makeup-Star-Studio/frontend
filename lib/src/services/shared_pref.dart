@@ -38,6 +38,15 @@ class SharedPreferencesService {
     return null;
   }
 
+
+
+   Future<void> logout(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(key);  
+  }
+
+
+
   Future<void> setBoolPref(String key, bool value) async {
     await _init();
     await _prefs?.setBool(key, value);

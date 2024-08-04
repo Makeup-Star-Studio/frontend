@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/features/admin/screens/login/admin_login.dart';
 import 'package:makeupstarstudio/navigator_key.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
 class Utility {
-  // Navigate through routes
+
   static Future navigate(BuildContext context, String route,
       {dynamic arguments}) {
     return Navigator.of(context).pushNamed(
@@ -31,10 +30,10 @@ class Utility {
         return;
       }
 
-      // Show a standard dialog
+    
       showDialog(
         context: context,
-        barrierDismissible: false, // User must tap a button to close the dialog
+        barrierDismissible: false, 
         builder: (BuildContext context) {
           return AlertDialog(
             content: Row(
@@ -48,21 +47,20 @@ class Utility {
         },
       );
 
-      // Perform logout actions
+      
       await SharedPreferencesService().deleteSharedPref('logged');
       await SharedPreferencesService().deleteSharedPref('userData');
+      await SharedPreferencesService().deleteSharedPref('authToken'); 
 
-      // Close the dialog
+      
       Navigator.of(context).pop();
 
-      // Navigate to the login screen
-      // Navigator.of(context).pushAndRemoveUntil(
-      //   CupertinoPageRoute(
-      //     builder: (context) => AdminLoginScreen(),
-      //   ),
-      //   (_) => false,
-      // );
-       Navigator.pushNamed(context, '/login');
+  
+      Navigator.pushNamedAndRemoveUntil(
+        context, 
+        '/login', 
+        (Route<dynamic> route) => false,
+      );
     } catch (e) {
       // Handle any errors here
       print('Logout failed: $e');
