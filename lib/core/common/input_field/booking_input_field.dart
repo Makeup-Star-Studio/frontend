@@ -11,6 +11,7 @@ class BookingInputField extends StatefulWidget {
   final InputBorder border;
   final InputBorder focusBorder;
   final int maxLines;
+  final TextInputType keyboardType;
 
   const BookingInputField({
     super.key,
@@ -19,6 +20,7 @@ class BookingInputField extends StatefulWidget {
     required this.hintText,
     this.isTextRequired = true,
     this.isFormFieldRequired = true,
+    this.keyboardType = TextInputType.text,
     this.border = const UnderlineInputBorder(
       borderSide: BorderSide(color: AppColorConstant.subHeadingColor),
     ),
@@ -65,6 +67,7 @@ class _BookingInputFieldState extends State<BookingInputField> {
         ),
         if (widget.isFormFieldRequired)
           TextFormInputField(
+            keyboardType: widget.keyboardType,
             maxLines: widget.maxLines,
             textAlign: TextAlign.start,
             controller: widget.controller,

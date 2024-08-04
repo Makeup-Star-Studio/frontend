@@ -76,18 +76,18 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   void initState() {
     super.initState();
     _booking = Booking(
-      fname: '',
-      lname: '',
-      email: '',
-      phoneNumber: '',
-      eventDate: '',
+      fname: 'Ayusha',
+      lname: 'Shrestha',
+      email: 'ayushastha003@gmail.com',
+      phoneNumber: '+9779865258566',
+      eventDate: DateTime.now(),
       eventType: [],
       serviceType: [],
       eventLocation: '',
-      totalPeopleMakeup: 0,
-      totalPeopleHair: 0,
-      totalPeopleHenna: 0,
-      totalPeopleDraping: 0,
+      totalPeopleMakeup: 1,
+      totalPeopleHair: 1,
+      totalPeopleHenna: 1,
+      totalPeopleDraping: 1,
       howDidYouHear: '',
       premiumService: '',
       servicePricing: [],
@@ -95,22 +95,46 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   }
 
   late Booking _booking;
-
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      // Convert the selectedEndingDate to the device's local timezone
+      DateTime localBookingDate = selectedEventDate.toLocal();
+
+      // Update the booking object with the formatted date
+      _booking = Booking(
+        fname: _firstNameController.text,
+        lname: _lastNameController.text,
+        email: _emailController.text,
+        phoneNumber: _phoneController.text,
+        eventDate: localBookingDate, // Use the formatted event date
+        eventType: selectedEventTypes,
+        serviceType: selectedEventTypes,
+        eventLocation: _locationController.text,
+        totalPeopleMakeup: int.tryParse(_makeupController.text) ?? 0,
+        totalPeopleHair: int.tryParse(_hairController.text) ?? 0,
+        totalPeopleHenna: int.tryParse(_hennaController.text) ?? 0,
+        totalPeopleDraping: int.tryParse(_drapingController.text) ?? 0,
+        howDidYouHear: selectedSourceOptions,
+        premiumService: selectedArtistOptions,
+        servicePricing: selectedPricingTypes,
+      );
+
       Provider.of<BookingProvider>(context, listen: false)
           .postBooking(_booking)
           .then((_) {
         // Navigator.of(context).pop();
       });
-      // show success message
+
+      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Booking submitted successfully!'),
           backgroundColor: AppColorConstant.successColor,
         ),
       );
+
       _clearForm();
     }
   }
@@ -261,6 +285,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                   BookingInputField(
                     labelText: 'Email:',
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     hintText: 'E.g. myemail@emial.com',
                   ),
                   const SizedBox(height: 20),
@@ -286,6 +311,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                         "Event Date (it's showing current date and time, please select your date and time)",
                     controller: _eventDateController,
                     hintText: 'MM/DD/YYYY HH:MM AM/PM',
+                    keyboardType: TextInputType.datetime,
                     isFormFieldRequired: false,
                   ),
                   Container(
@@ -296,28 +322,16 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                         ),
                       ),
                     ),
-                    child: ListTile(
-                      leading: TextButton(
-                        onPressed: () async {
-                          DateTime? newDate = await showDatePicker(
-                            context: context,
-                            initialDate: selectedEventDate,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(3000),
-                            builder: (BuildContext context, Widget? child) {
-                              return Theme(
-                                data: ThemeData.light(),
-                                child: child!,
-                              );
-                            },
-                          );
-                          if (newDate != null) {
-                            // ignore: use_build_context_synchronously
-                            TimeOfDay? newTime = await showTimePicker(
-                              // ignore: use_build_context_synchronously
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          onTap: () async {
+                            DateTime? newDate = await showDatePicker(
                               context: context,
-                              initialTime:
-                                  TimeOfDay.fromDateTime(selectedEventDate),
+                              initialDate: selectedEventDate,
+                              firstDate: DateTime(1900),
+                              lastDate: DateTime(3000),
                               builder: (BuildContext context, Widget? child) {
                                 return Theme(
                                   data: ThemeData.light(),
@@ -325,29 +339,48 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                                 );
                               },
                             );
-                            if (newTime != null) {
-                              setState(() {
-                                selectedEventDate = DateTime(
-                                  newDate.month,
-                                  newDate.year,
-                                  newDate.day,
-                                  newTime.hour,
-                                  newTime.minute,
-                                );
-                              });
+                            if (newDate != null) {
+                              // ignore: use_build_context_synchronously
+                              TimeOfDay? newTime = await showTimePicker(
+                                // ignore: use_build_context_synchronously
+                                context: context,
+                                initialTime:
+                                    TimeOfDay.fromDateTime(selectedEventDate),
+                                builder: (BuildContext context, Widget? child) {
+                                  return Theme(
+                                    data: ThemeData.light(),
+                                    child: child!,
+                                  );
+                                },
+                              );
+                              if (newTime != null) {
+                                setState(() {
+                                  selectedEventDate = DateTime(
+                                    newDate.year,
+                                    newDate.month,
+                                    newDate.day,
+                                    newTime.hour,
+                                    newTime.minute,
+                                  );
+                                });
+                              }
                             }
-                          }
-                        },
-                        child: BodyText(
-                          text: DateFormat('MM/dd/yyyy hh:mm a', 'en_US')
-                              .format(selectedEventDate.toLocal()),
-                          color: AppColorConstant.black.withOpacity(0.6),
+                          },
+                          child: BodyText(
+                            // date format should be 'MM/dd/yyyy hh:mm a'
+                            text: DateFormat('MM/dd/yyyy hh:mm a', 'en_US')
+                                .format(
+                              selectedEventDate.toLocal(),
+                            ),
+
+                            color: AppColorConstant.black,
+                          ),
                         ),
-                      ),
-                      trailing: const Icon(
-                        Icons.calendar_month_outlined,
-                        color: AppColorConstant.black,
-                      ),
+                        const Icon(
+                          Icons.calendar_month_outlined,
+                          color: AppColorConstant.black,
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -421,28 +454,32 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                   BookingInputField(
                     labelText: 'How many people will be needing makeup?',
                     controller: _makeupController,
-                    hintText: 'E.g. self, 1, 2, 3, etc',
+                    hintText: 'E.g. 1, 2, 3, etc',
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
                   // hair
                   BookingInputField(
                     labelText: 'How many people will be needing hair styling?',
                     controller: _hairController,
-                    hintText: 'E.g. self, 1, 2, none, etc',
+                    hintText: 'E.g. 1, 2, 3, etc',
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
                   // henna
                   BookingInputField(
                     labelText: 'How many people will be needing henna?',
                     controller: _hennaController,
-                    hintText: 'E.g. self, 1, 2, none, etc',
+                    hintText: 'E.g. 1, 2, etc',
+                    keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 20),
                   // draping
                   BookingInputField(
                     labelText: 'How many people will be needing draping?',
                     controller: _drapingController,
-                    hintText: 'E.g. self, 1, 2, none, etc',
+                    keyboardType: TextInputType.number,
+                    hintText: 'E.g. 1, 2, etc',
                   ),
                   const SizedBox(height: 20),
                   // how did you hear about us
@@ -546,7 +583,8 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                     labelText:
                         "Let's chat! Feel free to include any details regarding the services you're interested in, the event or occasion, location, and of course, any questions you might have for our team. We look forward to working with you!\n",
                     controller: _messageController,
-                    hintText: 'What do I need to know about the project?',
+                    hintText:
+                        'Any extra questions or information, you can add here?',
                     isTextRequired: false,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(0.0),

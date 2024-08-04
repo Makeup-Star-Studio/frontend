@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
+import 'package:intl/intl.dart';
 import 'package:makeupstarstudio/src/api/api_services.dart';
 import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/model/booking_model.dart';
@@ -66,13 +65,15 @@ class BookingProvider extends ChangeNotifier {
     }
   }
 
- Future<void> postBooking(Booking booking) async {
+  Future<void> postBooking(Booking booking) async {
     try {
       _isLoading = true;
       notifyListeners();
 
+      final bookingData = booking.toJson();
       final response = await http.post(
-        Uri.parse('${ApiConstant.localUrl}${ApiConstant.postBooking}'),
+        Uri.parse(ApiConstant.postBooking),
+        body: json.encode(bookingData),
       );
 
       if (response.statusCode == 201) {

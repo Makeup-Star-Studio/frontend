@@ -61,8 +61,10 @@ class ApiConstant {
   /// [GET]
   static const String getAllBookings = '/api/booking/';
   static String getSingleBooking(String id) => "/api/booking/$id";
+
   /// [POST]
-  static const String postBooking = '/api/booking/';
+  static const String postBooking = 'http://localhost:3001/api/booking/';
+
   /// [DELETE]
   static String deleteBooking(String id) => "/api/booking/$id";
 }

@@ -70,7 +70,8 @@ class TestimonialProvider extends ChangeNotifier {
         return;
       }
 
-  final uri = Uri.parse('${ApiConstant.localUrl}/testimonial/');      print('Posting to URL: $uri');
+      final uri = Uri.parse('${ApiConstant.localUrl}/testimonial/');
+      print('Posting to URL: $uri');
 
       String mimeType;
       String extension = imageName.split('.').last.toLowerCase();
@@ -150,65 +151,65 @@ class TestimonialProvider extends ChangeNotifier {
 
 /*---------------------------------Update Testimonial---------------------------------*/
 // update the posted testimonial
-Future<void> updateTestimonial(String id, Testimonial testimonial) async {
-  _isLoading = true;
-  notifyListeners();
-  try {
-    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
-    String? token = await sharedPrefs.getTokenPref('userToken');
-    print('Retrieved token: $token');
+  Future<void> updateTestimonial(String id, Testimonial testimonial) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      print('Retrieved token: $token');
 
-    if (token == null) {
-      print('No token found');
+      if (token == null) {
+        print('No token found');
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      final response = await http.put(
+        Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'fname': testimonial.fname,
+          'lname': testimonial.lname,
+          'review': testimonial.review,
+          // Exclude image as per requirements
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = json.decode(response.body);
+        // Update local state
+        _testimonials = _testimonials.map((item) {
+          if (item.id == id) {
+            return Testimonial.fromJson(responseData['data']['testimonial']);
+          }
+          return item;
+        }).toList();
+        await fetchTestimonial();
+
+        print('Testimonial updated: ${responseData['data']['testimonial']}');
+      } else {
+        final responseBody = json.decode(response.body);
+        // Extract the error message if available
+        final errorMessage =
+            responseBody['message'] ?? 'An unknown error occurred';
+        throw Exception('Failed to update testimonial: $errorMessage');
+      }
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
+      handleSubmissionError(e);
+      notifyListeners();
+    } finally {
       _isLoading = false;
       notifyListeners();
-      return;
     }
-
-    final response = await http.put(
-      Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: json.encode({
-        'fname': testimonial.fname,
-        'lname': testimonial.lname,
-        'review': testimonial.review,
-        // Exclude image as per requirements
-      }),
-    );
-
-    if (response.statusCode == 200) {
-      final responseData = json.decode(response.body);
-      // Update local state
-      _testimonials = _testimonials.map((item) {
-        if (item.id == id) {
-          return Testimonial.fromJson(responseData['data']['testimonial']);
-        }
-        return item;
-      }).toList();
-                await fetchTestimonial();
-
-      print('Testimonial updated: ${responseData['data']['testimonial']}');
-    } else {
-      final responseBody = json.decode(response.body);
-      // Extract the error message if available
-      final errorMessage = responseBody['message'] ?? 'An unknown error occurred';
-      throw Exception('Failed to update testimonial: $errorMessage');
-    }
-  } catch (e, s) {
-    print('Error: $e');
-    print('Stack trace: $s');
-    _isLoading = false;
-    handleSubmissionError(e);
-    notifyListeners();
-  } finally {
-    _isLoading = false;
-    notifyListeners();
   }
-}
-
 
   /*---------------------------------Delete Testimonial---------------------------------*/
 
@@ -238,10 +239,8 @@ Future<void> updateTestimonial(String id, Testimonial testimonial) async {
       if (response.statusCode == 204) {
         _testimonials.removeWhere((testimonial) => testimonial.id == id);
 
-          await fetchTestimonial();
-      
-      } 
-      else {
+        await fetchTestimonial();
+      } else {
         final responseBody = json.decode(response.body);
         throw Exception(
             'Failed to delete testimonial: ${responseBody['message']}');

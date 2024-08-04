@@ -177,7 +177,9 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
         style: const TextStyle(
           fontFamily: 'Questrial',
           height: 1.75,
-          fontSize: 16.0,
+          fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+
         ),
         children: services
             .map((service) => TextSpan(

@@ -27,8 +27,8 @@ class Booking {
   final String lname;
   final String email;
   final String phoneNumber;
-  final List<SocialMedia>? socialMedia;
-  final String eventDate; // Formatted as String in 'MM/DD/YYYY hh:mm A'
+  final String? socialMedia;
+  final DateTime eventDate; // This is a DateTime object now
   final List<String> eventType;
   final List<String> serviceType;
   final String eventLocation;
@@ -41,8 +41,7 @@ class Booking {
   final List<String> servicePricing;
   final String? addedQuestionsOrInfo;
 
-  factory Booking.fromRawJson(String str) =>
-      Booking.fromJson(json.decode(str));
+  factory Booking.fromRawJson(String str) => Booking.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
@@ -52,9 +51,9 @@ class Booking {
         lname: json["lname"],
         email: json["email"],
         phoneNumber: json["phoneNumber"],
-        socialMedia: List<SocialMedia>.from(
-            json["socialMedia"].map((x) => SocialMedia.fromJson(x))),
-        eventDate: json["eventDate"],
+        socialMedia: json["socialMedia"],
+        eventDate:
+            DateTime.parse(json["eventDate"]), // Parse date string to DateTime
         eventType: List<String>.from(json["eventType"]),
         serviceType: List<String>.from(json["serviceType"]),
         eventLocation: json["eventLocation"],
@@ -74,8 +73,9 @@ class Booking {
         "lname": lname,
         "email": email,
         "phoneNumber": phoneNumber,
-        "socialMedia": List<dynamic>.from(socialMedia!.map((x) => x.toJson())),
-        "eventDate": eventDate,
+        "socialMedia": socialMedia,
+        "eventDate":
+            eventDate.toIso8601String(), // Convert DateTime to ISO 8601 String
         "eventType": List<dynamic>.from(eventType.map((x) => x)),
         "serviceType": List<dynamic>.from(serviceType.map((x) => x)),
         "eventLocation": eventLocation,
@@ -87,25 +87,5 @@ class Booking {
         "premiumService": premiumService,
         "servicePricing": List<dynamic>.from(servicePricing.map((x) => x)),
         "addedQuestionsOrInfo": addedQuestionsOrInfo,
-      };
-}
-
-class SocialMedia {
-  SocialMedia({
-    required this.type,
-    required this.url,
-  });
-
-  final String type;
-  final String url;
-
-  factory SocialMedia.fromJson(Map<String, dynamic> json) => SocialMedia(
-        type: json["type"],
-        url: json["url"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "type": type,
-        "url": url,
       };
 }

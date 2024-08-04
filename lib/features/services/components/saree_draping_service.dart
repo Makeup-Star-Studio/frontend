@@ -34,7 +34,7 @@ class SareeDrapingServiceSectionState
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-        final List<Service> sareeDrapingServices =
+    final List<Service> sareeDrapingServices =
         Provider.of<DrapingServicesProvider>(context).filteredServices;
 
     for (var sareeDrapingService in sareeDrapingServices) {
@@ -49,7 +49,7 @@ class SareeDrapingServiceSectionState
 
   // large screen
   Widget _buildLargeScreen(Size screenSize, BuildContext context) {
-      return Consumer<DrapingServicesProvider>(
+    return Consumer<DrapingServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -176,7 +176,8 @@ class SareeDrapingServiceSectionState
         style: const TextStyle(
           fontFamily: 'Questrial',
           height: 1.75,
-          fontSize: 16.0,
+          fontSize: 18.0,
+          fontWeight: FontWeight.bold,
         ),
         children: services
             .map((service) => TextSpan(
@@ -196,18 +197,18 @@ class SareeDrapingServiceSectionState
 
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-     return Consumer<DrapingServicesProvider>(
-      builder: (context, provider, child) {
-        if (provider.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else {
-          // Ensure `bridalServices` is not empty
-          if (provider.filteredServices.isEmpty) {
-            return const Center(child: Text('No services available.'));
-          }
+    return Consumer<DrapingServicesProvider>(
+        builder: (context, provider, child) {
+      if (provider.isLoading) {
+        return const Center(child: CircularProgressIndicator());
+      } else {
+        // Ensure `bridalServices` is not empty
+        if (provider.filteredServices.isEmpty) {
+          return const Center(child: Text('No services available.'));
+        }
 
-          // Assuming you want to display the first service image here
-          final drapingService = provider.filteredServices.first;
+        // Assuming you want to display the first service image here
+        final drapingService = provider.filteredServices.first;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
@@ -215,23 +216,23 @@ class SareeDrapingServiceSectionState
             children: [
               ClipRect(
                 child: Image.network(
-                      '${ApiConstant.localUrl}/services/${drapingService.image}',
-                      fit: BoxFit.cover,
-                      width: screenSize.width,
-                      height: screenSize.height,
-                      errorBuilder: (context, error, stackTrace) {
-                        print('Error loading image: $error');
-                        return const Center(
-                          child: Text('Failed to load image'),
-                        );
-                      },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
+                  '${ApiConstant.localUrl}/services/${drapingService.image}',
+                  fit: BoxFit.cover,
+                  width: screenSize.width,
+                  height: screenSize.height,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Error loading image: $error');
+                    return const Center(
+                      child: Text('Failed to load image'),
+                    );
+                  },
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
               ),
               // const SizedBox(width: 20.0),
               Container(
