@@ -28,7 +28,7 @@ class Booking {
   final String email;
   final String phoneNumber;
   final String? socialMedia;
-  final DateTime eventDate; // This is a DateTime object now
+  final String eventDate; 
   final List<String> eventType;
   final List<String> serviceType;
   final String eventLocation;
@@ -52,8 +52,7 @@ class Booking {
         email: json["email"],
         phoneNumber: json["phoneNumber"],
         socialMedia: json["socialMedia"],
-        eventDate:
-            DateTime.parse(json["eventDate"]), // Parse date string to DateTime
+        eventDate: json["eventDate"], // No need to parse date string to DateTime
         eventType: List<String>.from(json["eventType"]),
         serviceType: List<String>.from(json["serviceType"]),
         eventLocation: json["eventLocation"],
@@ -74,8 +73,7 @@ class Booking {
         "email": email,
         "phoneNumber": phoneNumber,
         "socialMedia": socialMedia,
-        "eventDate":
-            eventDate.toIso8601String(), // Convert DateTime to ISO 8601 String
+        "eventDate": eventDate, // Just use the string
         "eventType": List<dynamic>.from(eventType.map((x) => x)),
         "serviceType": List<dynamic>.from(serviceType.map((x) => x)),
         "eventLocation": eventLocation,
@@ -89,3 +87,5 @@ class Booking {
         "addedQuestionsOrInfo": addedQuestionsOrInfo,
       };
 }
+
+

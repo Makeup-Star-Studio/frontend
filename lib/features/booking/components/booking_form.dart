@@ -80,7 +80,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
       lname: 'Shrestha',
       email: 'ayushastha003@gmail.com',
       phoneNumber: '+9779865258566',
-      eventDate: DateTime.now(),
+      eventDate: DateTime.now().toString(),
       eventType: [],
       serviceType: [],
       eventLocation: '',
@@ -95,49 +95,51 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   }
 
   late Booking _booking;
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+void _submitForm() {
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-      // Convert the selectedEndingDate to the device's local timezone
-      DateTime localBookingDate = selectedEventDate.toLocal();
+    DateTime localBookingDate = selectedEventDate.toLocal();
 
-      // Update the booking object with the formatted date
-      _booking = Booking(
-        fname: _firstNameController.text,
-        lname: _lastNameController.text,
-        email: _emailController.text,
-        phoneNumber: _phoneController.text,
-        eventDate: localBookingDate, // Use the formatted event date
-        eventType: selectedEventTypes,
-        serviceType: selectedEventTypes,
-        eventLocation: _locationController.text,
-        totalPeopleMakeup: int.tryParse(_makeupController.text) ?? 0,
-        totalPeopleHair: int.tryParse(_hairController.text) ?? 0,
-        totalPeopleHenna: int.tryParse(_hennaController.text) ?? 0,
-        totalPeopleDraping: int.tryParse(_drapingController.text) ?? 0,
-        howDidYouHear: selectedSourceOptions,
-        premiumService: selectedArtistOptions,
-        servicePricing: selectedPricingTypes,
-      );
+    String formattedDate = DateFormat('MM/dd/yyyy hh:mm a').format(localBookingDate).toUpperCase();
 
-      Provider.of<BookingProvider>(context, listen: false)
-          .postBooking(_booking)
-          .then((_) {
-        // Navigator.of(context).pop();
-      });
+  
+    _booking = Booking(
+      fname: _firstNameController.text,
+      lname: _lastNameController.text,
+      email: _emailController.text,
+      phoneNumber: _phoneController.text,
+      eventDate: formattedDate,
+      eventType: selectedEventTypes,
+      serviceType: selectedEventTypes,
+      eventLocation: _locationController.text,
+      totalPeopleMakeup: int.tryParse(_makeupController.text) ?? 0,
+      totalPeopleHair: int.tryParse(_hairController.text) ?? 0,
+      totalPeopleHenna: int.tryParse(_hennaController.text) ?? 0,
+      totalPeopleDraping: int.tryParse(_drapingController.text) ?? 0,
+      howDidYouHear: selectedSourceOptions,
+      premiumService: selectedArtistOptions,
+      servicePricing: selectedPricingTypes,
+    );
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Booking submitted successfully!'),
-          backgroundColor: AppColorConstant.successColor,
-        ),
-      );
+    Provider.of<BookingProvider>(context, listen: false)
+        .postBooking(_booking)
+        .then((_) {
+      // Navigator.of(context).pop();
+    });
+    print("Formatted Date: $formattedDate");
 
-      _clearForm();
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Booking submitted successfully!'),
+        backgroundColor: AppColorConstant.successColor,
+      ),
+    );
+
+    _clearForm();
   }
+}
+
 
   void _clearForm() {
     _formKey.currentState!.reset();
