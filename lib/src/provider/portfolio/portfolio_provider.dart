@@ -69,7 +69,7 @@ class PortfolioProvider extends ChangeNotifier {
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/portfolio');
+      final uri = Uri.parse('${ApiConstant.localUrl}/portfolio/');
       print('Posting to URL: $uri');
 
       var request = http.MultipartRequest('POST', uri)
@@ -119,10 +119,7 @@ class PortfolioProvider extends ChangeNotifier {
         var apiResponse = ApiResponse.fromJson(json.decode(response.body));
         print("API Response: ${apiResponse.toJson()}");
 
-        if (apiResponse.status == true) {
-          // Fetch all portfolios to update the list
-          await fetchAllPortfolios();
-        } else {
+        if (apiResponse.status == false) {
           print('Failed to post portfolio: ${apiResponse.message}');
         }
       } else {

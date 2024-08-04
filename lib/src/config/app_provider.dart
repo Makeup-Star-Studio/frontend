@@ -1,5 +1,6 @@
 import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
+import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/gallery_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/portfolio_provider.dart';
@@ -25,6 +26,7 @@ class AppProvider {
   static final bridalPortfolioProvider = BridalPortfolioProvider();
   static final galleryProvider = GalleryProvider();
   static final portfolioProvider = PortfolioProvider();
+  static final bookingProvider = BookingProvider();
   static final checkLoginProvider = CheckLoginProvider();
 
   static final List<ChangeNotifierProvider> providers = [
@@ -58,6 +60,9 @@ class AppProvider {
     ), 
     ChangeNotifierProvider<PortfolioProvider>(
       create: (context) => portfolioProvider,
+    ),  
+    ChangeNotifierProvider<BookingProvider>(
+      create: (context) => bookingProvider,
     ),
     ChangeNotifierProvider<CheckLoginProvider>(
       create: (context) => checkLoginProvider,
@@ -76,6 +81,7 @@ class AppProvider {
     bridalPortfolioProvider.dispose();
     galleryProvider.dispose();
     portfolioProvider.dispose();
+    bookingProvider.dispose();
   }
 
   /// Singleton factory

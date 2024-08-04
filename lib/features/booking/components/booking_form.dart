@@ -6,6 +6,9 @@ import 'package:makeupstarstudio/core/common/input_field/booking_input_field.dar
 import 'package:makeupstarstudio/core/common/input_field/checkbox.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
+import 'package:makeupstarstudio/src/model/booking_model.dart';
+import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookingFormSection extends StatefulWidget {
@@ -20,7 +23,8 @@ class _BookingFormSectionState extends State<BookingFormSection> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _socialMediaController = TextEditingController();
@@ -67,6 +71,92 @@ class _BookingFormSectionState extends State<BookingFormSection> {
     "NA / No Preference",
   ];
   String selectedArtistOptions = "Yes, Exclusive with Geet";
+
+  @override
+  void initState() {
+    super.initState();
+    _booking = Booking(
+      fname: '',
+      lname: '',
+      email: '',
+      phoneNumber: '',
+      eventDate: '',
+      eventType: [],
+      serviceType: [],
+      eventLocation: '',
+      totalPeopleMakeup: 0,
+      totalPeopleHair: 0,
+      totalPeopleHenna: 0,
+      totalPeopleDraping: 0,
+      howDidYouHear: '',
+      premiumService: '',
+      servicePricing: [],
+    );
+  }
+
+  late Booking _booking;
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      Provider.of<BookingProvider>(context, listen: false)
+          .postBooking(_booking)
+          .then((_) {
+        // Navigator.of(context).pop();
+      });
+      // show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Booking submitted successfully!'),
+          backgroundColor: AppColorConstant.successColor,
+        ),
+      );
+      _clearForm();
+    }
+  }
+
+  void _clearForm() {
+    _formKey.currentState!.reset();
+    _firstNameController.clear();
+    _lastNameController.clear();
+    _emailController.clear();
+    _phoneController.clear();
+    _socialMediaController.clear();
+    _eventDateController.clear();
+    _eventTypeController.clear();
+    _serviceTypeController.clear();
+    _locationController.clear();
+    _makeupController.clear();
+    _hairController.clear();
+    _hennaController.clear();
+    _drapingController.clear();
+    _sourceController.clear();
+    _artistController.clear();
+    _pricingController.clear();
+    _messageController.clear();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _socialMediaController.dispose();
+    _eventDateController.dispose();
+    _eventTypeController.dispose();
+    _serviceTypeController.dispose();
+    _locationController.dispose();
+    _makeupController.dispose();
+    _hairController.dispose();
+    _hennaController.dispose();
+    _drapingController.dispose();
+    _sourceController.dispose();
+    _artistController.dispose();
+    _pricingController.dispose();
+    _messageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,9 +248,14 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                 children: [
                   // full name
                   BookingInputField(
-                      labelText: 'Full Name:',
-                      controller: _fullNameController,
-                      hintText: 'Your name here'),
+                      labelText: 'First Name:',
+                      controller: _firstNameController,
+                      hintText: 'Your first name here'),
+                  const SizedBox(height: 20),
+                  BookingInputField(
+                      labelText: 'Last Name:',
+                      controller: _lastNameController,
+                      hintText: 'Your last name here'),
                   const SizedBox(height: 20),
                   // email address
                   BookingInputField(
@@ -190,7 +285,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                     labelText:
                         "Event Date (it's showing current date and time, please select your date and time)",
                     controller: _eventDateController,
-                    hintText: 'MM/DD/YY HH:MM',
+                    hintText: 'MM/DD/YYYY HH:MM AM/PM',
                     isFormFieldRequired: false,
                   ),
                   Container(
@@ -233,8 +328,8 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                             if (newTime != null) {
                               setState(() {
                                 selectedEventDate = DateTime(
-                                  newDate.year,
                                   newDate.month,
+                                  newDate.year,
                                   newDate.day,
                                   newTime.hour,
                                   newTime.minute,
@@ -244,7 +339,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                           }
                         },
                         child: BodyText(
-                          text: DateFormat('M/d/y HH:mm', 'en_US')
+                          text: DateFormat('MM/dd/yyyy hh:mm a', 'en_US')
                               .format(selectedEventDate.toLocal()),
                           color: AppColorConstant.black.withOpacity(0.6),
                         ),
@@ -471,7 +566,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                   Align(
                       alignment: Alignment.center,
                       child: ModifiedButton(
-                          text: 'BOOK AN APPOINTMENT', press: () {}))
+                          text: 'BOOK AN APPOINTMENT', press: _submitForm)),
                 ],
               ),
             ),

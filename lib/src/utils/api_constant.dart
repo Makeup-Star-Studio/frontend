@@ -54,5 +54,15 @@ class ApiConstant {
   static const String getGallery = '/portfolio/gallery';
 
   /// [POST]
-  static const String postPortfolio = 'http://localhost:3001/portfolio/';
+  static const String postPortfolio = '/portfolio/';
+
+  /* --------------------------------- Booking --------------------------------- */
+  /// [Booking]
+  /// [GET]
+  static const String getAllBookings = '/api/booking/';
+  static String getSingleBooking(String id) => "/api/booking/$id";
+  /// [POST]
+  static const String postBooking = '/api/booking/';
+  /// [DELETE]
+  static String deleteBooking(String id) => "/api/booking/$id";
 }
