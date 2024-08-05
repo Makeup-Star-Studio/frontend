@@ -81,7 +81,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
       lname: 'Shrestha',
       email: 'ayushastha003@gmail.com',
       phoneNumber: '+9779865258566',
-      eventDate: DateTime.now(),
+      eventDate: DateTime.now().toString(),
       eventType: [],
       serviceType: [],
       eventLocation: '',
@@ -100,13 +100,16 @@ class _BookingFormSectionState extends State<BookingFormSection> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
+      // Convert the selectedEndingDate to the device's local timezone
+      DateTime localBookingDate = selectedEventDate.toLocal();
+
       // Update the booking object with the formatted date
       _booking = Booking(
         fname: _firstNameController.text,
         lname: _lastNameController.text,
         email: _emailController.text,
         phoneNumber: _phoneController.text,
-        eventDate: selectedEventDate, // Use the formatted event date
+        eventDate: localBookingDate, // Use the formatted event date
         eventType: selectedEventTypes,
         serviceType: selectedEventTypes,
         eventLocation: _locationController.text,
@@ -119,23 +122,24 @@ class _BookingFormSectionState extends State<BookingFormSection> {
         servicePricing: selectedPricingTypes,
       );
 
-      Provider.of<BookingProvider>(context, listen: false)
-          .postBooking(_booking)
-          .then((_) {
-        // Navigator.of(context).pop();
-      });
+    Provider.of<BookingProvider>(context, listen: false)
+        .postBooking(_booking)
+        .then((_) {
+      // Navigator.of(context).pop();
+    });
+    print("Formatted Date: $formattedDate");
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Booking submitted successfully!'),
-          backgroundColor: AppColorConstant.successColor,
-        ),
-      );
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Booking submitted successfully!'),
+        backgroundColor: AppColorConstant.successColor,
+      ),
+    );
 
-      _clearForm();
-    }
+    _clearForm();
   }
+}
+
 
   void _clearForm() {
     _formKey.currentState!.reset();
