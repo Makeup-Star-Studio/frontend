@@ -12,6 +12,8 @@ class TextFormInputField extends StatelessWidget {
   final int maxLines;
   final InputBorder border;
   final InputBorder focusBorder;
+  final InputBorder errorBorder;
+  final InputBorder focusedErrorBorder;
   final FormFieldValidator<String>? validator; // Make the validator optional
 
   const TextFormInputField({
@@ -25,6 +27,8 @@ class TextFormInputField extends StatelessWidget {
     this.maxLines = 1,
     this.border = InputBorder.none,
     this.focusBorder = InputBorder.none,
+    this.errorBorder = InputBorder.none,
+    this.focusedErrorBorder = InputBorder.none,
     this.validator, // Provide a default value of null
   });
 
@@ -32,6 +36,7 @@ class TextFormInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       TextFormField(
+        inputFormatters: [],
         textAlign: textAlign,
         controller: controller,
         keyboardType: keyboardType,
@@ -53,6 +58,8 @@ class TextFormInputField extends StatelessWidget {
           ),
           border: border,
           focusedBorder: focusBorder,
+          errorBorder: errorBorder,
+          focusedErrorBorder: focusedErrorBorder,
           // focusColor: AppColorConstant.subHeadingColor,
         ),
         validator: validator, // Apply the validator conditionally

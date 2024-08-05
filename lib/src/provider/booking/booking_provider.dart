@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
-import 'package:makeupstarstudio/src/api/api_services.dart';
-import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/model/booking_model.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
@@ -16,8 +13,6 @@ class BookingProvider extends ChangeNotifier {
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
-
-  final StarStudioApiService _apiBooking = StarStudioApiService();
 
   Future<void> fetchAllBookings() async {
     try {
@@ -35,20 +30,32 @@ class BookingProvider extends ChangeNotifier {
         return;
       }
 
-      final response = await _apiBooking.get(
-        ApiConstant.getAllBookings,
+      final response = await http.get(
+        Uri.parse('${ApiConstant.localUrl}${ApiConstant.getAllBookings}'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
       );
 
-      response.headers['Authorization'] = 'Bearer $token';
+      // print uri
+      print('${ApiConstant.localUrl}${ApiConstant.getAllBookings}');
 
-      print("Response: $response");
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
 
-      var apiResponse = ApiResponse.fromJson(response);
-      if (apiResponse.status == true && apiResponse.data != null) {
-        var bookingData = apiResponse.data['booking'] as List;
-        _booking = bookingData
-            .map((bookingJson) => Booking.fromJson(bookingJson))
-            .toList();
+      if (response.statusCode == 200) {
+        var apiResponse = jsonDecode(response.body);
+
+        if (apiResponse['status'] == 'success' && apiResponse['data'] != null) {
+          var bookingData = apiResponse['data'] as List;
+          _booking = bookingData
+              .map((bookingJson) => Booking.fromJson(bookingJson))
+              .toList();
+        } else {
+          _booking = [];
+        }
+      } else {
+        _booking = [];
       }
 
       _isLoading = false;
@@ -71,8 +78,8 @@ class BookingProvider extends ChangeNotifier {
       notifyListeners();
 
       final bookingData = booking.toJson();
-      final response = await http.post(
-        Uri.parse(ApiConstant.postBooking),
+        final response = await http.post(
+        Uri.parse('${ApiConstant.localUrl}/api/booking/'),
         body: json.encode(bookingData),
       );
 
@@ -87,6 +94,50 @@ class BookingProvider extends ChangeNotifier {
       handleSubmissionError(e);
     } finally {
       _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+   /*---------------------------------Delete Booking---------------------------------*/
+
+  Future<void> deleteBooking(String id) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      print('Retrieved token: $token');
+
+      if (token == null) {
+        print('No token found');
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
+      final response = await http.delete(
+        Uri.parse('${ApiConstant.localUrl}/api/booking/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 204) {
+        _booking.removeWhere((booking) => booking.id == id);
+        await fetchAllBookings();
+      } else {
+        final responseBody = json.decode(response.body);
+        throw Exception('Failed to delete booking: ${responseBody['message']}');
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
+      handleSubmissionError(e);
       notifyListeners();
     }
   }

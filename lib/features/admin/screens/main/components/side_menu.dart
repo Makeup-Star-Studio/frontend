@@ -15,14 +15,17 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: [
           DrawerHeader(
-            child: Image.asset(
-              "assets/images/logo-black.png",
-              color: AppColorConstant.white,
+            child: SizedBox(
+              child: Image.asset(
+                "assets/images/logo-black.png",
+                color: AppColorConstant.white,
+                height: 100,
+              ),
             ),
           ),
           DrawerListTile(
             title: "Dashboard",
-            svgSrc: "assets/svgs/menu_dashboard.svg",
+            svgSrc: "assets/svgs/dashboard.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 0);
@@ -31,7 +34,7 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Bookings",
-            svgSrc: "assets/svgs/menu_tran.svg",
+            svgSrc: "assets/svgs/booking.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 1);
@@ -49,7 +52,7 @@ class SideMenu extends StatelessWidget {
           // ),
           DrawerListTile(
             title: "Services",
-            svgSrc: "assets/svgs/menu_notification.svg",
+            svgSrc: "assets/svgs/services.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 2);
@@ -58,7 +61,7 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Portfolio",
-            svgSrc: "assets/svgs/menu_doc.svg",
+            svgSrc: "assets/svgs/portfolio.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 3);
@@ -67,7 +70,7 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Testimonials",
-            svgSrc: "assets/svgs/menu_doc.svg",
+            svgSrc: "assets/svgs/review.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 4);
@@ -76,7 +79,7 @@ class SideMenu extends StatelessWidget {
           ),
           DrawerListTile(
             title: "Settings",
-            svgSrc: "assets/svgs/menu_setting.svg",
+            svgSrc: "assets/svgs/setting.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const AdminPage(selectedIndex: 5);

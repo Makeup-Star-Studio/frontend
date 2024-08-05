@@ -28,14 +28,14 @@ class Booking {
   final String email;
   final String phoneNumber;
   final String? socialMedia;
-  final DateTime eventDate; // This is a DateTime object now
+  final DateTime eventDate;
   final List<String> eventType;
   final List<String> serviceType;
   final String eventLocation;
-  final int totalPeopleMakeup;
-  final int totalPeopleHair;
-  final int totalPeopleHenna;
-  final int totalPeopleDraping;
+  final num totalPeopleMakeup;
+  final num totalPeopleHair;
+  final num totalPeopleHenna;
+  final num totalPeopleDraping;
   final String howDidYouHear;
   final String premiumService;
   final List<String> servicePricing;
@@ -52,8 +52,7 @@ class Booking {
         email: json["email"],
         phoneNumber: json["phoneNumber"],
         socialMedia: json["socialMedia"],
-        eventDate:
-            DateTime.parse(json["eventDate"]), // Parse date string to DateTime
+        eventDate: DateTime.parse(json["eventDate"]),
         eventType: List<String>.from(json["eventType"]),
         serviceType: List<String>.from(json["serviceType"]),
         eventLocation: json["eventLocation"],
@@ -74,8 +73,7 @@ class Booking {
         "email": email,
         "phoneNumber": phoneNumber,
         "socialMedia": socialMedia,
-        "eventDate":
-            eventDate.toIso8601String(), // Convert DateTime to ISO 8601 String
+        "eventDate": eventDate.toIso8601String(),
         "eventType": List<dynamic>.from(eventType.map((x) => x)),
         "serviceType": List<dynamic>.from(serviceType.map((x) => x)),
         "eventLocation": eventLocation,

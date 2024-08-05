@@ -57,16 +57,15 @@ class OverViewContainerLargeScreen extends StatelessWidget {
           height: 60,
           width: 60,
           decoration: BoxDecoration(
-            color: const Color(0xFFA4CDFF).withOpacity(0.1),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+ color: const Color(0xFFA4CDFF).withOpacity(0.4),            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: SvgPicture.asset(
-            'assets/svgs/one_drive.svg',
+            'assets/svgs/review.svg',
             // colorFilter: const ColorFilter.mode(Color(0xFFA4CDFF), BlendMode.srcIn),
           ),
         ),
         title: const Text(
-          'Services',
+          'Tsetimonials',
           style: TextStyle(
             color: AppColorConstant.black,
             fontSize: 16,
@@ -76,8 +75,8 @@ class OverViewContainerLargeScreen extends StatelessWidget {
         subtitle: const Text("10",
             style: TextStyle(
               color: AppColorConstant.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
             )),
         trailing: const Icon(Icons.more_vert, color: Colors.black),
       );
@@ -111,11 +110,10 @@ class OverViewContainerSmallScreen extends StatelessWidget {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  color: AppColorConstant.adminBgColor.withOpacity(0.1),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+ color: const Color(0xFFA4CDFF).withOpacity(0.4),                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
-                  'assets/svgs/one_drive.svg',
+                  'assets/svgs/review.svg',
                   // colorFilter: const ColorFilter.mode(
                   //     AppColorConstant.black ?? Colors.black, BlendMode.srcIn),
                 ),
@@ -125,7 +123,7 @@ class OverViewContainerSmallScreen extends StatelessWidget {
           ),
           const SizedBox(height: AppColorConstant.defaultPadding / 2),
           const Text(
-            'Services',
+            'Testimonials',
             style: TextStyle(
               color: AppColorConstant.black,
               fontSize: 16,

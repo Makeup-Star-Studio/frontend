@@ -10,6 +10,8 @@ class BookingInputField extends StatefulWidget {
   final bool isFormFieldRequired;
   final InputBorder border;
   final InputBorder focusBorder;
+  final InputBorder errorBorder;
+  final InputBorder focusedErrorBorder;
   final int maxLines;
   final TextInputType keyboardType;
 
@@ -26,6 +28,12 @@ class BookingInputField extends StatefulWidget {
     ),
     this.focusBorder = const UnderlineInputBorder(
       borderSide: BorderSide(color: AppColorConstant.subHeadingColor),
+    ),
+    this.errorBorder = const UnderlineInputBorder(
+      borderSide: BorderSide(color: AppColorConstant.errorColor),
+    ),
+    this.focusedErrorBorder = const UnderlineInputBorder(
+      borderSide: BorderSide(color: AppColorConstant.errorColor),
     ),
     this.maxLines = 1,
   });
@@ -76,6 +84,8 @@ class _BookingInputFieldState extends State<BookingInputField> {
             hintFontWeight: FontWeight.normal,
             border: widget.border,
             focusBorder: widget.focusBorder,
+            errorBorder: widget.errorBorder,
+            focusedErrorBorder: widget.focusedErrorBorder,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'This field is required';

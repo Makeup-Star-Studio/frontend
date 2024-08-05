@@ -8,6 +8,7 @@ import 'package:makeupstarstudio/src/model/testimonial_model.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TestimonialSection extends StatefulWidget {
   const TestimonialSection({super.key});
@@ -19,6 +20,8 @@ class TestimonialSection extends StatefulWidget {
 class _TestimonialSectionState extends State<TestimonialSection> {
   final PageController _pageController = PageController(viewportFraction: 1);
   int _currentIndex = 0;
+
+  bool _isHovering = false;
 
   @override
   void initState() {
@@ -105,9 +108,65 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                         const SizedBox(width: 20.0),
                         Container(
                           height: 2.0,
-                          width: MediaQuery.of(context).size.width * 0.7,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           color: AppColorConstant.black.withOpacity(0.2),
                         ),
+                        const SizedBox(width: 150.0),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: MouseRegion(
+                            onEnter: (_) {
+                              setState(() {
+                                _isHovering = true;
+                              });
+                            },
+                            onExit: (_) {
+                              setState(() {
+                                _isHovering = false;
+                              });
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                launchGoogleReview();
+                              },
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 200),
+                                width: 180,
+                                height: 65,
+                                decoration: BoxDecoration(
+                                  color: _isHovering
+                                      ? AppColorConstant.subHeadingColor
+                                          .withOpacity(0.8)
+                                      : AppColorConstant.subHeadingColor,
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/review.png', // Change to the actual path of WhatsApp logo
+                                        fit: BoxFit.contain,
+                                        color: AppColorConstant.white,
+                                        width: 40,
+                                        height: 40,
+                                      ),
+                                      const Text(
+                                        'Tap here',
+                                        style: TextStyle(
+                                          color: AppColorConstant.white,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     // const SizedBox(height: 20.0),
@@ -223,10 +282,65 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SubHeadingSlanted(
-                      text: 'Client Love',
-                      size: 65.0,
-                      color: AppColorConstant.black,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SubHeadingSlanted(
+                          text: 'Client Love',
+                          size: 65.0,
+                          color: AppColorConstant.black,
+                        ),
+                        MouseRegion(
+                          onEnter: (_) {
+                            setState(() {
+                              _isHovering = true;
+                            });
+                          },
+                          onExit: (_) {
+                            setState(() {
+                              _isHovering = false;
+                            });
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              launchGoogleReview();
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              width: 100,
+                              height: 45,
+                              decoration: BoxDecoration(
+                                color: _isHovering
+                                    ? AppColorConstant.subHeadingColor
+                                    : AppColorConstant.subHeadingColor,
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/review.png', // Change to the actual path of WhatsApp logo
+                                      fit: BoxFit.contain,
+                                      color: AppColorConstant.white,
+                                      width: 30,
+                                      height: 30,
+                                    ),
+                                    const Text(
+                                      'Tap here',
+                                      style: TextStyle(
+                                        color: AppColorConstant.white,
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const BigText(
                       text:
@@ -302,5 +416,15 @@ class _TestimonialSectionState extends State<TestimonialSection> {
         }
       },
     );
+  }
+
+  void launchGoogleReview() async {
+    const url =
+        'https://www.google.com/search?q=makeup+star+studio+google+reviews&oq=makeup+star+studio+google+reviews&gs_lcrp=EgZjaHJvbWUyCQgAEEUYORigAdIBCDY3MzFqMGo3qAIIsAIB&sourceid=chrome&ie=UTF-8#lrd=0x808fc97cb59a6a31:0xd75d72a6d64c7eb4,1,,,,'; // Replace with your google review number
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

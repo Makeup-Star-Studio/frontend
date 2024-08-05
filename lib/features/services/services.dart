@@ -47,7 +47,7 @@ class ServicesPage extends StatelessWidget {
             ServiceTextSection(),
             SizedBox(height: 40.0),
             HeaderContentServiceSection(
-              title: 'Birdal Services',
+              title: 'Bridal Services',
               subTitle: 'for your big day',
             ),
             SizedBox(height: 20.0),

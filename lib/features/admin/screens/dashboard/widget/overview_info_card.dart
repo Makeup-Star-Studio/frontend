@@ -54,15 +54,16 @@ class OverViewContainerLargeScreen extends StatelessWidget {
       return ListTile(
         leading: Container(
           padding: const EdgeInsets.all(AppColorConstant.defaultPadding * 0.75),
-          height: 60,
-          width: 60,
+          height: 50,
+          width: 50,
           decoration: BoxDecoration(
-            color: const Color(0xFFA4CDFF).withOpacity(0.1),
+            color: const Color(0xFFA4CDFF).withOpacity(0.4),
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: SvgPicture.asset(
-            'assets/svgs/one_drive.svg',
-            // colorFilter: const ColorFilter.mode(Color(0xFFA4CDFF), BlendMode.srcIn),
+            'assets/svgs/services.svg',
+            colorFilter:
+                const ColorFilter.mode(Color(0xFF000000), BlendMode.srcIn),
           ),
         ),
         title: const Text(
@@ -76,8 +77,8 @@ class OverViewContainerLargeScreen extends StatelessWidget {
         subtitle: Text("${services.length}",
             style: const TextStyle(
               color: AppColorConstant.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
             )),
         trailing: const Icon(Icons.more_vert, color: Colors.black),
       );
@@ -111,11 +112,13 @@ class OverViewContainerSmallScreen extends StatelessWidget {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
-                  color: AppColorConstant.adminBgColor.withOpacity(0.1),
+                  color: const Color(0xFFA4CDFF).withOpacity(0.4),
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
-                  'assets/svgs/one_drive.svg',
+                  'assets/svgs/services.svg',
+    
+
                   // colorFilter: const ColorFilter.mode(
                   //     AppColorConstant.black ?? Colors.black, BlendMode.srcIn),
                 ),

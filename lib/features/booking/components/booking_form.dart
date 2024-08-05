@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
@@ -99,16 +100,13 @@ class _BookingFormSectionState extends State<BookingFormSection> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // Convert the selectedEndingDate to the device's local timezone
-      DateTime localBookingDate = selectedEventDate.toLocal();
-
       // Update the booking object with the formatted date
       _booking = Booking(
         fname: _firstNameController.text,
         lname: _lastNameController.text,
         email: _emailController.text,
         phoneNumber: _phoneController.text,
-        eventDate: localBookingDate, // Use the formatted event date
+        eventDate: selectedEventDate, // Use the formatted event date
         eventType: selectedEventTypes,
         serviceType: selectedEventTypes,
         eventLocation: _locationController.text,
@@ -282,11 +280,82 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                       hintText: 'Your last name here'),
                   const SizedBox(height: 20),
                   // email address
-                  BookingInputField(
-                    labelText: 'Email:',
+                  RichText(
+                    textAlign: TextAlign.start,
+                    text: const TextSpan(
+                      style: TextStyle(
+                        color: AppColorConstant.black,
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Email Address:',
+                        ),
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            fontSize: 25.0,
+                            color: AppColorConstant.errorColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  TextFormField(
+                    cursorColor: AppColorConstant.black.withOpacity(0.6),
+                    textAlign: TextAlign.start,
                     controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    hintText: 'E.g. myemail@emial.com',
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Email is required';
+                      }
+                      // Regular expression for validating email
+                      final emailRegex = RegExp(
+                        r'^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$',
+                      );
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Invalid email';
+                      }
+                      return null;
+                    },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-z0-9@.]')),
+                      LowercaseTextFormatter(), // Custom formatter to convert text to lowercase
+                    ],
+                    decoration: InputDecoration(
+                      hoverColor: Colors.transparent,
+                      filled: true,
+                      fillColor: AppColorConstant.white,
+                      hintText: 'Example: myemail@gmail.com',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Questrial',
+                        color: ResponsiveWidget.isSmallScreen(context)
+                            ? AppColorConstant.black
+                            : AppColorConstant.black.withOpacity(0.6),
+                        fontSize:
+                            ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
+                        fontWeight: ResponsiveWidget.isSmallScreen(context)
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                      ),
+                      border: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorConstant.subHeadingColor),
+                      ),
+                      focusedBorder: const UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: AppColorConstant.subHeadingColor),
+                      ),
+                      errorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      focusedErrorBorder: const UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   // phone number
@@ -598,6 +667,18 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                         color: AppColorConstant.subHeadingColor,
                       ),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        color: AppColorConstant.errorColor,
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: const BorderSide(
+                        color: AppColorConstant.errorColor,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   // submit button
@@ -637,5 +718,18 @@ class _BookingFormSectionState extends State<BookingFormSection> {
     } catch (e) {
       throw 'Could not launch $url';
     }
+  }
+}
+
+class LowercaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    return newValue.copyWith(
+      text: newValue.text.toLowerCase(),
+      selection: newValue.selection,
+    );
   }
 }
