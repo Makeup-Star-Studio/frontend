@@ -23,7 +23,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 
@@ -32,10 +31,10 @@ class RouteGuard extends StatelessWidget {
   final String redirectTo;
 
   const RouteGuard({
-    Key? key,
+    super.key,
     required this.builder,
     required this.redirectTo,
-  }) : super(key: key);
+  });
 
   Future<bool> isAuthenticated() async {
     final SharedPreferencesService sharedPref = SharedPreferencesService();
@@ -54,7 +53,7 @@ class RouteGuard extends StatelessWidget {
         if (snapshot.hasData && snapshot.data == true) {
           return builder(context);
         } else {
-          WidgetsBinding.instance?.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.pushReplacementNamed(context, redirectTo);
           });
           return Container();

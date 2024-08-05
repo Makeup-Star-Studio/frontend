@@ -22,7 +22,9 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
 
   final List<String> _portfolioCategory = [
     'Bridal',
-    'Gallery',
+    'Henna',
+    'Non-Bridal',
+    'White-Bride'
   ];
 
   Future<void> _pickImages() async {
@@ -134,7 +136,7 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
                 if (ResponsiveWidget.isLargeScreen(context))
                   const Text(
                     textAlign: TextAlign.center,
-                    "Manage Testimonials",
+                    "Manage Portfolio",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -165,7 +167,7 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
                 const SizedBox(height: 16.0),
                 const BodyText(
                   text:
-                      "'You can choose up to 24 images.... Click on the pick images and choose the images you want to upload'",
+                      "'You can choose up to 24 images for bridal and 10 images each for henna, non bridal and white bridal posts .... Click on the pick images and choose the images you want to upload'",
                   color: AppColorConstant.errorColor,
                   textAlign: TextAlign.center,
                   size: 16,

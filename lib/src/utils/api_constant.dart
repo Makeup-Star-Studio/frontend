@@ -51,7 +51,9 @@ class ApiConstant {
   /// [GET]
   static const String getAllPortfolio = '/portfolio/';
   static const String getBridalPortfolio = '/portfolio/bridal';
-  static const String getGallery = '/portfolio/gallery';
+  static const String getHennaGallery = '/portfolio/henna';
+  static const String getNonBridalGallery = '/portfolio/non-bridal';
+  static const String getWhiteBridalGallery = '/portfolio/white-bride';
 
   /// [POST]
   static const String postPortfolio = '/portfolio/';
@@ -59,12 +61,12 @@ class ApiConstant {
   /* --------------------------------- Booking --------------------------------- */
   /// [Booking]
   /// [GET]
-  static const String getAllBookings = '/api/booking/';
-  static String getSingleBooking(String id) => "/api/booking/$id";
+  static const String getAllBookings = '/booking/';
+  static String getSingleBooking(String id) => "/booking/$id";
 
   /// [POST]
-  static const String postBooking = '/api/booking/';
+  static const String postBooking = '/booking/';
 
   /// [DELETE]
-  static String deleteBooking(String id) => "/api/booking/$id";
+  static String deleteBooking(String id) => "/booking/$id";
 }

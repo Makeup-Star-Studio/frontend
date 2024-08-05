@@ -45,17 +45,19 @@ class _HeaderContentBookingSectionState
                     text: widget.title,
                     height: 1.0,
                     size: 30.0,
+                    smallSize: 22.0,
                     letterSpacing: 3.0,
                   ),
                   SubHeadingSlanted(
                     height: 1.0,
                     size: 60.0,
-                    smallSize: 50.0,
+                    smallSize: 45.0,
                     text: widget.subTitle,
                   ),
                 ],
               ),
             ),
+            if (!ResponsiveWidget.isSmallScreen(context))
             Align(
               alignment: Alignment.topRight,
               child: MouseRegion(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
+import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
 import 'package:provider/provider.dart';
 
 class OverViewInfoCard3 extends StatefulWidget {
@@ -19,7 +19,8 @@ class _OverViewInfoCard3State extends State<OverViewInfoCard3> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ServicesProvider>(context, listen: false).fetchAllServices();
+      Provider.of<TestimonialProvider>(context, listen: false)
+          .fetchTestimonial();
     });
   }
 
@@ -43,10 +44,10 @@ class OverViewContainerLargeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ServicesProvider>(
-        builder: (context, servicesProvider, child) {
-      final services = servicesProvider.services;
-      if (servicesProvider.isLoading) {
+    return Consumer<TestimonialProvider>(
+        builder: (context, testimonialProvider, child) {
+      final testimonial = testimonialProvider.testimonials;
+      if (testimonialProvider.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -57,7 +58,8 @@ class OverViewContainerLargeScreen extends StatelessWidget {
           height: 60,
           width: 60,
           decoration: BoxDecoration(
- color: const Color(0xFFA4CDFF).withOpacity(0.4),            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: const Color(0xFFA4CDFF).withOpacity(0.4),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: SvgPicture.asset(
             'assets/svgs/review.svg',
@@ -65,15 +67,15 @@ class OverViewContainerLargeScreen extends StatelessWidget {
           ),
         ),
         title: const Text(
-          'Tsetimonials',
+          'Testimonials',
           style: TextStyle(
             color: AppColorConstant.black,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
         ),
-        subtitle: const Text("10",
-            style: TextStyle(
+        subtitle: Text("${testimonial.length}",
+            style: const TextStyle(
               color: AppColorConstant.black,
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -89,10 +91,10 @@ class OverViewContainerSmallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ServicesProvider>(
-        builder: (context, servicesProvider, child) {
-      final services = servicesProvider.services;
-      if (servicesProvider.isLoading) {
+    return Consumer<TestimonialProvider>(
+        builder: (context, testimonialProvider, child) {
+      final testimonials = testimonialProvider.testimonials;
+      if (testimonialProvider.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -110,7 +112,8 @@ class OverViewContainerSmallScreen extends StatelessWidget {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(
- color: const Color(0xFFA4CDFF).withOpacity(0.4),                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: const Color(0xFFA4CDFF).withOpacity(0.4),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
                 child: SvgPicture.asset(
                   'assets/svgs/review.svg',
@@ -131,7 +134,7 @@ class OverViewContainerSmallScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppColorConstant.defaultPadding / 2),
-          Text('${services.length}',
+          Text('${testimonials.length}',
               style: const TextStyle(
                 color: AppColorConstant.black,
                 fontSize: 24,

@@ -2,8 +2,10 @@ import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
-import 'package:makeupstarstudio/src/provider/portfolio/gallery_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/henna_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/non_bridal_gallery.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/portfolio_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/white_bride_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/bridal_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/draping_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/henna_services_provider.dart';
@@ -24,7 +26,9 @@ class AppProvider {
   static final drapingServiceProvider = DrapingServicesProvider();
   static final testimonialProvider = TestimonialProvider();
   static final bridalPortfolioProvider = BridalPortfolioProvider();
-  static final galleryProvider = GalleryProvider();
+  static final hennaGalleryProvider = HennaGalleryProvider();
+  static final nonBridalGalleryProvider = NonBridalGalleryProvider();
+  static final whiteBridalGalleryProvider = WhiteBridalProvider();
   static final portfolioProvider = PortfolioProvider();
   static final bookingProvider = BookingProvider();
   static final checkLoginProvider = CheckLoginProvider();
@@ -55,8 +59,14 @@ class AppProvider {
     ChangeNotifierProvider<BridalPortfolioProvider>(
       create: (context) => bridalPortfolioProvider,
     ), 
-    ChangeNotifierProvider<GalleryProvider>(
-      create: (context) => galleryProvider,
+    ChangeNotifierProvider<HennaGalleryProvider>(
+      create: (context) => hennaGalleryProvider,
+    ),  
+    ChangeNotifierProvider<NonBridalGalleryProvider>(
+      create: (context) => nonBridalGalleryProvider,
+    ),  
+    ChangeNotifierProvider<WhiteBridalProvider>(
+      create: (context) => whiteBridalGalleryProvider,
     ), 
     ChangeNotifierProvider<PortfolioProvider>(
       create: (context) => portfolioProvider,
@@ -79,7 +89,9 @@ class AppProvider {
     drapingServiceProvider.dispose();
     testimonialProvider.dispose();
     bridalPortfolioProvider.dispose();
-    galleryProvider.dispose();
+    hennaGalleryProvider.dispose();
+    nonBridalGalleryProvider.dispose();
+    whiteBridalGalleryProvider.dispose();
     portfolioProvider.dispose();
     bookingProvider.dispose();
   }

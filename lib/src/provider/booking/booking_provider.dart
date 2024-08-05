@@ -7,9 +7,9 @@ import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class BookingProvider extends ChangeNotifier {
-  List<Booking> _booking = [];
+  List<Booking> _bookings = [];
 
-  List<Booking> get booking => _booking;
+  List<Booking> get bookings => _bookings;
 
   bool _isLoading = true;
   bool get isLoading => _isLoading;
@@ -48,14 +48,15 @@ class BookingProvider extends ChangeNotifier {
 
         if (apiResponse['status'] == 'success' && apiResponse['data'] != null) {
           var bookingData = apiResponse['data'] as List;
-          _booking = bookingData
+          _bookings = bookingData
               .map((bookingJson) => Booking.fromJson(bookingJson))
               .toList();
+          _bookings = _bookings.reversed.toList();
         } else {
-          _booking = [];
+          _bookings = [];
         }
       } else {
-        _booking = [];
+        _bookings = [];
       }
 
       _isLoading = false;
@@ -72,33 +73,49 @@ class BookingProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> postBooking(Booking booking) async {
+  Future<void> postBooking(Booking newBooking) async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final bookingData = booking.toJson();
-        final response = await http.post(
-        Uri.parse('${ApiConstant.localUrl}/api/booking/'),
-        body: json.encode(bookingData),
+      final response = await http.post(
+        Uri.parse('${ApiConstant.localUrl}${ApiConstant.postBooking}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(newBooking.toJson()),
       );
 
+      print('${ApiConstant.localUrl}${ApiConstant.postBooking}');
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+
       if (response.statusCode == 201) {
-        final responseData = jsonDecode(response.body);
-        _booking.add(Booking.fromJson(responseData['data']));
-        notifyListeners();
+        var apiResponse = jsonDecode(response.body);
+
+        if (apiResponse['status'] == 'success' && apiResponse['data'] != null) {
+          var booking = Booking.fromJson(apiResponse);
+          _bookings.add(booking);
+        }
       } else {
-        handleSubmissionError('Failed to post booking: ${response.body}');
+        print('Failed to post booking. Status code: ${response.statusCode}');
       }
-    } catch (e) {
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
       handleSubmissionError(e);
+      notifyListeners();
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-   /*---------------------------------Delete Booking---------------------------------*/
+  /*---------------------------------Delete Booking---------------------------------*/
 
   Future<void> deleteBooking(String id) async {
     _isLoading = true;
@@ -116,7 +133,7 @@ class BookingProvider extends ChangeNotifier {
       }
 
       final response = await http.delete(
-        Uri.parse('${ApiConstant.localUrl}/api/booking/$id'),
+        Uri.parse('${ApiConstant.localUrl}/booking/$id'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -124,7 +141,7 @@ class BookingProvider extends ChangeNotifier {
       );
 
       if (response.statusCode == 204) {
-        _booking.removeWhere((booking) => booking.id == id);
+        _bookings.removeWhere((booking) => booking.id == id);
         await fetchAllBookings();
       } else {
         final responseBody = json.decode(response.body);

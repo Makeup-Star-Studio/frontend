@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 
@@ -36,7 +37,7 @@ class TextFormInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       TextFormField(
-        inputFormatters: [],
+        // inputFormatters: [],
         textAlign: textAlign,
         controller: controller,
         keyboardType: keyboardType,

@@ -4,7 +4,7 @@ import 'package:makeupstarstudio/src/api/response_model.dart';
 import 'package:makeupstarstudio/src/model/portfolio_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
-class GalleryProvider extends ChangeNotifier {
+class WhiteBridalProvider extends ChangeNotifier {
   List<Portfolio> _portfolio = [];
   List<Portfolio> _filteredPortfolio = [];
 
@@ -16,12 +16,12 @@ class GalleryProvider extends ChangeNotifier {
 
   final StarStudioApiService _apiPortfolio = StarStudioApiService();
 
-  Future<void> fetchGallery() async {
+  Future<void> fetchWhiteBridalGallery() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiPortfolio.get(ApiConstant.getGallery);
+      final response = await _apiPortfolio.get(ApiConstant.getWhiteBridalGallery);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);

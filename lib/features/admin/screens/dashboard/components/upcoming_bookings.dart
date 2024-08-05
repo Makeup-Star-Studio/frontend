@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/features/admin/models/upcoming_bookings.dart';
-import 'package:makeupstarstudio/features/admin/screens/dashboard/components/booking_info_card.dart';
+import 'package:makeupstarstudio/src/model/booking_model.dart';
+import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'booking_info_card.dart';
 
 class BookingDetails extends StatefulWidget {
   const BookingDetails({super.key});
@@ -15,7 +18,6 @@ class BookingDetails extends StatefulWidget {
 class _BookingDetailsState extends State<BookingDetails> {
   late DateTime _selectedDate;
   late DateTime _startDate;
-  // ignore: unused_field
   late DateTime _endDate;
 
   @override
@@ -23,80 +25,103 @@ class _BookingDetailsState extends State<BookingDetails> {
     super.initState();
     _selectedDate = DateTime.now();
     _calculateWeekDates();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BookingProvider>(context, listen: false).fetchAllBookings();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // final screenSize = MediaQuery.of(context).size;
-    return Container(
-      padding: const EdgeInsets.all(AppColorConstant.defaultPadding / 2),
-      decoration: const BoxDecoration(
-        color: AppColorConstant.adminSecondaryColor,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Upcoming Bookings",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+    return Consumer<BookingProvider>(
+      builder: (context, bookingProvider, child) {
+        if (bookingProvider.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else {
+          if (bookingProvider.bookings.isEmpty) {
+            return const Center(
+              child: Text("No bookings found"),
+            );
+          }
+
+          final filteredBookings =
+              _filterBookingsByDate(bookingProvider.bookings, _selectedDate);
+
+          return SingleChildScrollView(
+            child: Container(
+              padding:
+                  const EdgeInsets.all(AppColorConstant.defaultPadding / 2),
+              decoration: const BoxDecoration(
+                color: AppColorConstant.adminSecondaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Column(
+                children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Upcoming Bookings",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: IconButton(
+                      onPressed: () {
+                        _showCalendarPicker(context);
+                      },
+                      icon: const Icon(Icons.calendar_today),
+                    ),
+                    title: TextButton(
+                      onPressed: () {
+                        _showCalendarPicker(context);
+                      },
+                      child: Text(
+                        DateFormat('MMM yyyy').format(_selectedDate),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: _previousDay,
+                          icon: const Icon(Icons.keyboard_arrow_left),
+                        ),
+                        IconButton(
+                          onPressed: _nextDay,
+                          icon: const Icon(Icons.keyboard_arrow_right),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: _buildDateContainers(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      children: List.generate(
+                        filteredBookings.length,
+                        (index) => BookingInfoCard(
+                            bookingInfo: filteredBookings[index]),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          ListTile(
-            leading: IconButton(
-              onPressed: () {
-                _showCalendarPicker(context);
-              },
-              icon: const Icon(Icons.calendar_today),
-            ),
-            title: TextButton(
-              onPressed: () {
-                _showCalendarPicker(context);
-              },
-              child: Text(
-                DateFormat('MMM yyyy').format(_selectedDate),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: _previousWeek,
-                  icon: const Icon(Icons.keyboard_arrow_left),
-                ),
-                IconButton(
-                  onPressed: _nextWeek,
-                  icon: const Icon(Icons.keyboard_arrow_right),
-                ),
-              ],
-            ),
-          ),
-          // const SizedBox(height: AppColorConstant.defaultPadding),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: _buildDateContainers(),
-            ),
-          ),
-          // const SizedBox(height: AppColorConstant.defaultPadding),
-          Column(
-            children: List.generate(
-              demoBookingInfoModel.length,
-              (index) =>
-                  BookingInfoCard(bookingInfo: demoBookingInfoModel[index]),
-            ).toList(),
-          ),
-          // Other BookingInfoCard widgets...
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 
@@ -116,11 +141,20 @@ class _BookingDetailsState extends State<BookingDetails> {
     }
   }
 
+  List<Booking> _filterBookingsByDate(
+      List<Booking> bookings, DateTime selectedDate) {
+    return bookings.where((booking) {
+      final bookingDate = DateTime.parse(booking.eventDate.toString());
+      return bookingDate.year == selectedDate.year &&
+          bookingDate.month == selectedDate.month &&
+          bookingDate.day == selectedDate.day;
+    }).toList();
+  }
+
   List<Widget> _buildDateContainers() {
     final List<Widget> dateContainers = [];
     const int daysInWeek = 7;
 
-    // Add date containers for the week
     for (int i = 0; i < daysInWeek; i++) {
       final date = _startDate.add(Duration(days: i));
       dateContainers.add(_buildDateContainer(date));
@@ -146,13 +180,13 @@ class _BookingDetailsState extends State<BookingDetails> {
             ? 12
             : ResponsiveWidget.isMediumScreen(context)
                 ? 18
-                : 6),
+                : 4),
         padding: EdgeInsets.symmetric(
             horizontal: ResponsiveWidget.isSmallScreen(context)
                 ? 16
                 : ResponsiveWidget.isMediumScreen(context)
                     ? 24
-                    : 9,
+                    : 8,
             vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
@@ -193,16 +227,18 @@ class _BookingDetailsState extends State<BookingDetails> {
     _endDate = _startDate.add(const Duration(days: 6));
   }
 
-  void _previousWeek() {
+  // _previousDay
+  void _previousDay() {
     setState(() {
-      _selectedDate = _selectedDate.subtract(const Duration(days: 7));
+      _selectedDate = _selectedDate.subtract(const Duration(days: 1));
       _calculateWeekDates();
     });
   }
 
-  void _nextWeek() {
+// _nextDay
+  void _nextDay() {
     setState(() {
-      _selectedDate = _selectedDate.add(const Duration(days: 7));
+      _selectedDate = _selectedDate.add(const Duration(days: 1));
       _calculateWeekDates();
     });
   }

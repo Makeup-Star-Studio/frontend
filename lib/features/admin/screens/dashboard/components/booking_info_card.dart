@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
-import 'package:makeupstarstudio/features/admin/models/upcoming_bookings.dart';
+import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
+import 'package:makeupstarstudio/src/model/booking_model.dart';
 
 class BookingInfoCard extends StatelessWidget {
+  final Booking bookingInfo;
+
   const BookingInfoCard({
     super.key,
     required this.bookingInfo,
   });
-
-  final BookingsInfoModel bookingInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,6 @@ class BookingInfoCard extends StatelessWidget {
       child: Stack(
         children: [
           ListTile(
-            // isThreeLine: true,
             leading: Container(
               height: 40,
               width: 40,
@@ -41,18 +41,19 @@ class BookingInfoCard extends StatelessWidget {
               ),
             ),
             title: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment.start, // Align to the start
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  bookingInfo.clientName!,
+                  bookingInfo.fname,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
                       .copyWith(color: Colors.black),
                 ),
                 Text(
-                  bookingInfo.serviceType!,
+                  bookingInfo.serviceType.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
@@ -60,71 +61,42 @@ class BookingInfoCard extends StatelessWidget {
                 ),
               ],
             ),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Arrival - ${DateFormat('HH:mm').format(bookingInfo.date!)}',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Colors.black54),
-                ),
-                Text(
-                  bookingInfo.price!,
+                  //hh:mm am/pm
+                  'Arrival: ${DateFormat.jm().format(bookingInfo.eventDate.toLocal())}',
+                  // 'Arrival: ${bookingInfo.eventDate.toLocal().hour}:${bookingInfo.eventDate.toLocal().minute} ${bookingInfo.eventDate.toLocal().hour > 12 ? 'PM' : 'AM'}',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                Text(
+                  "\$${bookingInfo.servicePricing}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: Colors.black54),
+                ),
               ],
             ),
-            // trailing: const Icon(Icons.more_horiz, color: Colors.black),
           ),
           Align(
-            alignment: Alignment.topRight,
+            alignment: Alignment.centerRight,
             child: IconButton(
               onPressed: () {
-                // _showCalendarPicker(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const AdminPage(selectedIndex: 1);
+                }));
               },
-              icon: const Icon(Icons.more_horiz),
+              icon: const Icon(Icons.more_vert),
             ),
-          )
+          ),
         ],
       ),
     );
   }
 }
-
-// Row(
-//         children: [
-//           SizedBox(
-//             height: 20,
-//             width: 20,
-//             child: SvgPicture.asset(svgSrc),
-//           ),
-//           Expanded(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(
-//                   horizontal: AppColorConstant.defaultPadding),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     title,
-//                     maxLines: 1,
-//                     overflow: TextOverflow.ellipsis,
-//                   ),
-//                   Text(
-//                     "$numOfFiles Files",
-//                     style: Theme.of(context)
-//                         .textTheme
-//                         .bodySmall!
-//                         .copyWith(color: Colors.white70),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Text(amountOfFiles)
-//         ],
-//       ),

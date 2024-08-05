@@ -23,7 +23,7 @@ class _AdminBookingViewPageState extends State<AdminBookingViewPage> {
 
   void _deleteBooking(int index) async {
     final booking =
-        Provider.of<BookingProvider>(context, listen: false).booking[index];
+        Provider.of<BookingProvider>(context, listen: false).bookings[index];
     final id = booking.id;
 
     final shouldDelete = await showDialog(
@@ -92,12 +92,12 @@ class _AdminBookingViewPageState extends State<AdminBookingViewPage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (bookingProvider.booking.isEmpty) {
+          } else if (bookingProvider.bookings.isEmpty) {
             return const Center(
               child: Text('No bookings available.'),
             );
           } else {
-            final bookings = bookingProvider.booking;
+            final bookings = bookingProvider.bookings;
             return ListView(
               children: bookings.asMap().entries.map((entry) {
                 final index = entry.key + 1;
@@ -152,7 +152,7 @@ class _AdminBookingViewPageState extends State<AdminBookingViewPage> {
                           ListTile(
                             leading: const Icon(Icons.monetization_on),
                             title: Text(
-                                'Pricing: \$${booking.servicePricing.join(', ')}'),
+                                'Pricing: ${booking.servicePricing.join(', ')}'),
                             subtitle: Text(
                                 'Message: ${booking.addedQuestionsOrInfo ?? 'N/A'}'),
                           ),

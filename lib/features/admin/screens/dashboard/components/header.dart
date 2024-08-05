@@ -26,13 +26,14 @@ class Header extends StatelessWidget {
                 Scaffold.of(context).openDrawer();
               },
             ),
-          if (!ResponsiveWidget.isSmallScreen(context))
-            Text(
-              "Overview",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+          Text(
+            "Overview of the Admin Panel",
+            style: ResponsiveWidget.isSmallScreen(context)
+                ? Theme.of(context).textTheme.titleSmall
+                : Theme.of(context).textTheme.titleLarge,
+          ),
           const SizedBox(width: 20.0),
-          const Observation(),
+          // const Observation(),
           if (!ResponsiveWidget.isSmallScreen(context))
             Spacer(flex: ResponsiveWidget.isLargeScreen(context) ? 2 : 1),
           const ProfileCard(),
@@ -160,40 +161,37 @@ class _ProfileCardState extends State<ProfileCard> {
             ],
           ),
           if (_isLogoutVisible)
-     Positioned(
-  top: 0,
-  right: 0,
-  child: GestureDetector(
-    onTap: () {
-      showLogoutConfirmationDialog(context);
-    },
-    child: Container(
-      width: 120,
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(0.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 2,
-            blurRadius: 5,
-          ),
-        ],
-      ),
-      child: const Text(
-        "Logout",
-        style: TextStyle(
-          fontSize: 14,
-          color: AppColorConstant.black,
-        ),
-      ),
-    ),
-  ),
-),
-
-
-
+            Positioned(
+              top: 0,
+              right: 0,
+              child: GestureDetector(
+                onTap: () {
+                  showLogoutConfirmationDialog(context);
+                },
+                child: Container(
+                  width: 120,
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(0.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                      ),
+                    ],
+                  ),
+                  child: const Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColorConstant.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );

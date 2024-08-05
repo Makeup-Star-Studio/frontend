@@ -4,7 +4,10 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
 import 'package:makeupstarstudio/features/gallery/components/gallery_header_content.dart';
-import 'package:makeupstarstudio/features/gallery/components/gallery_slide_one.dart';
+import 'package:makeupstarstudio/features/gallery/components/henna_gallery.dart';
+import 'package:makeupstarstudio/features/gallery/components/non_bridal_gallery.dart';
+import 'package:makeupstarstudio/features/gallery/components/white_bride_gallery.dart';
+import 'package:makeupstarstudio/features/gallery/widget/heading_gallery.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
 import 'package:makeupstarstudio/features/home/components/info.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
@@ -39,9 +42,21 @@ class GalleryPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             GalleryHeaderSection(),
-            GalleryCarousel(),
-            // GallerySlide2(),
-            // GallerySlide3(),
+            const SizedBox(height: 20.0),
+            const HeadingGalleryOptions(text: 'Henna Gallery'),
+            SizedBox(
+                height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
+            const HennaGallery(),
+            const SizedBox(height: 40.0),
+            const HeadingGalleryOptions(text: 'White Bride Gallery'),
+            SizedBox(
+                height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
+            const WhiteBrideGallery(),
+            const SizedBox(height: 40.0),
+            const HeadingGalleryOptions(text: 'Non Bridal Gallery'),
+            SizedBox(
+                height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
+            const NonBridalGallery(),
             // GallerySlide4(),
             const SizedBox(height: 40.0),
             const SubscriptionSection(),

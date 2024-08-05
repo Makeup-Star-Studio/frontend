@@ -1,5 +1,46 @@
 import 'dart:convert';
 
+class BookingModel {
+  // final String status;
+  final Data data;
+
+  BookingModel({
+    // required this.status,
+    required this.data,
+  });
+
+  factory BookingModel.fromRawJson(String str) =>
+      BookingModel.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory BookingModel.fromJson(Map<String, dynamic> json) => BookingModel(
+        // status: json["status"],
+        data: Data.fromJson(json["data"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        // "status": status,
+        "data": data.toJson(),
+      };
+}
+
+class Data {
+  Data({
+    required this.bookings,
+  });
+  final List<Booking> bookings;
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
+        bookings: List<Booking>.from(
+            json["bookings"].map((x) => Booking.fromJson(x))),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "bookings": List<dynamic>.from(bookings.map((x) => x.toJson())),
+      };
+}
+
 class Booking {
   Booking({
     this.id,
@@ -7,7 +48,7 @@ class Booking {
     required this.lname,
     required this.email,
     required this.phoneNumber,
-    this.socialMedia,
+    required this.socialMedia,
     required this.eventDate,
     required this.eventType,
     required this.serviceType,
@@ -20,6 +61,8 @@ class Booking {
     required this.premiumService,
     required this.servicePricing,
     this.addedQuestionsOrInfo,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   final String? id;
@@ -27,67 +70,65 @@ class Booking {
   final String lname;
   final String email;
   final String phoneNumber;
-  final String? socialMedia;
-  final DateTime eventDate; // This is a DateTime object now
+  final String socialMedia;
+  final DateTime eventDate;
   final List<String> eventType;
   final List<String> serviceType;
   final String eventLocation;
-  final num totalPeopleMakeup;
-  final num totalPeopleHair;
-  final num totalPeopleHenna;
-  final num totalPeopleDraping;
+  final int totalPeopleMakeup;
+  final int totalPeopleHair;
+  final int totalPeopleHenna;
+  final int totalPeopleDraping;
   final String howDidYouHear;
   final String premiumService;
   final List<String> servicePricing;
   final String? addedQuestionsOrInfo;
-
-  factory Booking.fromRawJson(String str) => Booking.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   factory Booking.fromJson(Map<String, dynamic> json) => Booking(
-        id: json["id"],
-        fname: json["fname"],
-        lname: json["lname"],
-        email: json["email"],
-        phoneNumber: json["phoneNumber"],
-        socialMedia: json["socialMedia"],
-        eventDate:
-            DateTime.parse(json["eventDate"]), // Parse date string to DateTime
-        eventType: List<String>.from(json["eventType"]),
-        serviceType: List<String>.from(json["serviceType"]),
-        eventLocation: json["eventLocation"],
-        totalPeopleMakeup: json["totalPeopleMakeup"],
-        totalPeopleHair: json["totalPeopleHair"],
-        totalPeopleHenna: json["totalPeopleHenna"],
-        totalPeopleDraping: json["totalPeopleDraping"],
-        howDidYouHear: json["howDidYouHear"],
-        premiumService: json["premiumService"],
-        servicePricing: List<String>.from(json["servicePricing"]),
-        addedQuestionsOrInfo: json["addedQuestionsOrInfo"],
+        id: json['id'],
+        fname: json['fname'],
+        lname: json['lname'],
+        email: json['email'],
+        phoneNumber: json['phoneNumber'],
+        socialMedia: json['socialMedia'],
+        eventDate: DateTime.parse(json['eventDate']),
+        eventType: List<String>.from(json['eventType']),
+        serviceType: List<String>.from(json['serviceType']),
+        eventLocation: json['eventLocation'],
+        totalPeopleMakeup: json['totalPeopleMakeup'],
+        totalPeopleHair: json['totalPeopleHair'],
+        totalPeopleHenna: json['totalPeopleHenna'],
+        totalPeopleDraping: json['totalPeopleDraping'],
+        howDidYouHear: (json['howDidYouHear']),
+        premiumService: (json['premiumService']),
+        servicePricing: List<String>.from(json['servicePricing']),
+        addedQuestionsOrInfo: json['addedQuestionsOrInfo'] ?? "",
+        createdAt: DateTime.parse(json['createdAt']),
+        updatedAt: DateTime.parse(json['updatedAt']),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "fname": fname,
-        "lname": lname,
-        "email": email,
-        "phoneNumber": phoneNumber,
-        "socialMedia": socialMedia,
-        "eventDate":
-            eventDate.toIso8601String(), // Convert DateTime to ISO 8601 String
-        "eventType": List<dynamic>.from(eventType.map((x) => x)),
-        "serviceType": List<dynamic>.from(serviceType.map((x) => x)),
-        "eventLocation": eventLocation,
-        "totalPeopleMakeup": totalPeopleMakeup,
-        "totalPeopleHair": totalPeopleHair,
-        "totalPeopleHenna": totalPeopleHenna,
-        "totalPeopleDraping": totalPeopleDraping,
-        "howDidYouHear": howDidYouHear,
-        "premiumService": premiumService,
-        "servicePricing": List<dynamic>.from(servicePricing.map((x) => x)),
-        "addedQuestionsOrInfo": addedQuestionsOrInfo,
+        // 'id': id,
+        'fname': fname,
+        'lname': lname,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'socialMedia': socialMedia,
+        'eventDate': eventDate.toIso8601String(),
+        'eventType': eventType,
+        'serviceType': serviceType,
+        'eventLocation': eventLocation,
+        'totalPeopleMakeup': totalPeopleMakeup,
+        'totalPeopleHair': totalPeopleHair,
+        'totalPeopleHenna': totalPeopleHenna,
+        'totalPeopleDraping': totalPeopleDraping,
+        'howDidYouHear': howDidYouHear,
+        'premiumService': premiumService,
+        'servicePricing': servicePricing,
+        'addedQuestionsOrInfo': addedQuestionsOrInfo ?? "",
+        'createdAt': createdAt.toIso8601String(),
+        'updatedAt': updatedAt.toIso8601String(),
       };
 }
-
-

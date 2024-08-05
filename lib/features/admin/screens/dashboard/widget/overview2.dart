@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
+import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
 import 'package:provider/provider.dart';
 
 class OverViewInfoCard2 extends StatefulWidget {
@@ -19,7 +19,7 @@ class _OverViewInfoCard2State extends State<OverViewInfoCard2> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<ServicesProvider>(context, listen: false).fetchAllServices();
+      Provider.of<BookingProvider>(context, listen: false).fetchAllBookings();
     });
   }
 
@@ -43,10 +43,10 @@ class OverViewContainerLargeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ServicesProvider>(
-        builder: (context, servicesProvider, child) {
-      final services = servicesProvider.services;
-      if (servicesProvider.isLoading) {
+    return Consumer<BookingProvider>(
+        builder: (context, bookingProvider, child) {
+      final bookings = bookingProvider.bookings;
+      if (bookingProvider.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -73,8 +73,8 @@ class OverViewContainerLargeScreen extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        subtitle: const Text("4",
-            style: TextStyle(
+        subtitle: Text("${bookings.length}",
+            style: const TextStyle(
               color: AppColorConstant.black,
               fontSize: 28,
               fontWeight: FontWeight.bold,
@@ -90,10 +90,10 @@ class OverViewContainerSmallScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ServicesProvider>(
-        builder: (context, servicesProvider, child) {
-      final services = servicesProvider.services;
-      if (servicesProvider.isLoading) {
+    return Consumer<BookingProvider>(
+        builder: (context, bookingProvider, child) {
+      final bookings = bookingProvider.bookings;
+      if (bookingProvider.isLoading) {
         return const Center(
           child: CircularProgressIndicator(),
         );
@@ -133,7 +133,7 @@ class OverViewContainerSmallScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: AppColorConstant.defaultPadding / 2),
-          Text('${services.length}',
+          Text('${bookings.length}',
               style: const TextStyle(
                 color: AppColorConstant.black,
                 fontSize: 24,
