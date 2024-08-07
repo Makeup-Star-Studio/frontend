@@ -78,7 +78,7 @@ class ServicesProvider extends ChangeNotifier {
       String? existingImageUrl =
           existingService.image.isNotEmpty ? existingService.image : null;
 
-     final uri = Uri.parse('${ApiConstant.localUrl}/services/');
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/services/');
       print('Posting to URL: $uri');
 
       var request = http.MultipartRequest('POST', uri)
@@ -103,6 +103,12 @@ class ServicesProvider extends ChangeNotifier {
             break;
           case 'gif':
             mimeType = 'image/gif';
+            break;
+          case 'webp':
+            mimeType = 'image/webp';
+            break;
+          case 'avif':
+            mimeType = 'image/avif';
             break;
           default:
             throw Exception('Unsupported image format');
@@ -131,14 +137,13 @@ class ServicesProvider extends ChangeNotifier {
         print("API Response: ${apiResponse.toJson()}");
 
         if (apiResponse.status == true) {
-        // Fetch all services to update the list
-        await fetchAllServices();
+          // Fetch all services to update the list
+          await fetchAllServices();
         } else {
           print('Failed to post service: ${apiResponse.message}');
         }
       } else {
-        print(
-            'Failed to post testimonial. Status code: ${response.statusCode}');
+        print('Failed to post service. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
       }
 
@@ -170,7 +175,7 @@ class ServicesProvider extends ChangeNotifier {
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/services/edit/$id');
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/services/edit/$id');
 
       String mimeType = '';
       String extension =
@@ -190,6 +195,12 @@ class ServicesProvider extends ChangeNotifier {
             break;
           case 'gif':
             mimeType = 'image/gif';
+            break;
+          case 'webp':
+            mimeType = 'image/webp';
+            break;
+          case 'avif':
+            mimeType = 'image/avif';
             break;
           default:
             throw Exception('Unsupported image format');
@@ -251,7 +262,7 @@ class ServicesProvider extends ChangeNotifier {
       }
 
       final response = await http.delete(
-        Uri.parse('${ApiConstant.localUrl}/services/remove/$id'),
+        Uri.parse('${ApiConstant.localUrl}/api/services/remove/$id'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

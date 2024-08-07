@@ -44,58 +44,6 @@ class Header extends StatelessWidget {
 }
 
 /* -------------------------------------------------------------------------- */
-/*                            //Observation                            */
-
-class Observation extends StatefulWidget {
-  const Observation({super.key});
-
-  @override
-  State<Observation> createState() => _ObservationState();
-}
-
-class _ObservationState extends State<Observation> {
-  final List<String> observationOptions = [
-    "Today",
-    "Last 7 Days",
-    "Last 30 Days",
-  ];
-  String selectedObservedOption = "Last 7 Days";
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: DropdownButton(
-        // padding: EdgeInsets.only(top: 8),
-        // isExpanded: true,
-        icon: const Icon(Icons.keyboard_arrow_down),
-        elevation: 0,
-        underline: const SizedBox(),
-        value: selectedObservedOption,
-        items: observationOptions.map((String option) {
-          return DropdownMenuItem(
-            value: option,
-            child: Text(option,
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 14,
-                )),
-          );
-        }).toList(),
-        onChanged: (newValue) {
-          setState(() {
-            selectedObservedOption = newValue.toString();
-          });
-        },
-      ),
-    );
-  }
-}
-
-/* -------------------------------------------------------------------------- */
 /*                            //Profile Card                            */
 
 class ProfileCard extends StatefulWidget {
@@ -125,45 +73,50 @@ class _ProfileCardState extends State<ProfileCard> {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(color: Colors.white10),
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Row(
+          Column(
             children: [
-              const CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage("assets/images/profile.jpg"),
-              ),
-              const SizedBox(width: AppColorConstant.defaultPadding),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
                 children: [
-                  Text(
-                    "Geet",
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),
+                  const CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage("assets/images/profile.jpg"),
                   ),
-                  Text(
-                    "Admin",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleSmall
-                        ?.copyWith(color: Colors.black38, fontSize: 12.0),
+                  const SizedBox(width: AppColorConstant.defaultPadding),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Geet",
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                      ),
+                      Text(
+                        "Admin",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: Colors.black38, fontSize: 12.0),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(width: AppColorConstant.defaultPadding / 2),
+                  IconButton(
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    onPressed: _toggleLogoutVisibility,
                   ),
                 ],
-              ),
-              const SizedBox(width: AppColorConstant.defaultPadding / 2),
-              IconButton(
-                icon: const Icon(Icons.keyboard_arrow_down),
-                onPressed: _toggleLogoutVisibility,
               ),
             ],
           ),
           if (_isLogoutVisible)
             Positioned(
               top: 0,
-              right: 0,
+              right: 5,
               child: GestureDetector(
                 onTap: () {
                   showLogoutConfirmationDialog(context);
@@ -172,7 +125,7 @@ class _ProfileCardState extends State<ProfileCard> {
                   width: 120,
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColorConstant.adminPrimaryColor,
                     borderRadius: BorderRadius.circular(0.0),
                     boxShadow: [
                       BoxShadow(
@@ -186,7 +139,7 @@ class _ProfileCardState extends State<ProfileCard> {
                     "Logout",
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppColorConstant.black,
+                      color: AppColorConstant.white,
                     ),
                   ),
                 ),

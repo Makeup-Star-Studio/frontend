@@ -37,14 +37,6 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     });
   }
 
-  @override
-  void dispose() {
-    _firstNamController.dispose();
-    _lastNameController.dispose();
-    _reviewController.dispose();
-    super.dispose();
-  }
-
   Future<void> _pickImage() async {
     try {
       FilePickerResult? result =
@@ -188,6 +180,14 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
         print('Error: $e');
       });
     }
+  }
+
+   @override
+  void dispose() {
+    _firstNamController.dispose();
+    _lastNameController.dispose();
+    _reviewController.dispose();
+    super.dispose();
   }
 
   @override
@@ -547,10 +547,6 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';
-                      }
-                      final n = num.tryParse(value);
-                      if (n == null) {
-                        return '"$value" is not a valid number';
                       }
                       return null;
                     },

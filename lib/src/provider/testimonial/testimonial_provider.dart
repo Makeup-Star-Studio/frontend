@@ -67,12 +67,18 @@ class TestimonialProvider extends ChangeNotifier {
 
       if (token == null) {
         print('No token found');
+        _isLoading = false;
+        notifyListeners();
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/testimonial/');
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/testimonial/');
       print('Posting to URL: $uri');
 
+      var request = http.MultipartRequest('POST', uri)
+        ..fields['fname'] = fname
+        ..fields['lname'] = lname
+        ..fields['review'] = review;
       String mimeType;
       String extension = imageName.split('.').last.toLowerCase();
 
@@ -90,21 +96,23 @@ class TestimonialProvider extends ChangeNotifier {
         case 'gif':
           mimeType = 'image/gif';
           break;
+        case 'webp':
+          mimeType = 'image/webp';
+          break;
+        case 'avif':
+          mimeType = 'image/avif';
+          break;
         default:
           throw Exception('Unsupported image format');
       }
+      request.files.add(http.MultipartFile.fromBytes(
+        'reviewImage',
+        imageBytes,
+        filename: imageName,
+        contentType: MediaType.parse(mimeType),
+      ));
 
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['fname'] = fname
-        ..fields['lname'] = lname
-        ..fields['review'] = review
-        ..files.add(http.MultipartFile.fromBytes(
-          'reviewImage',
-          imageBytes,
-          filename: imageName,
-          contentType: MediaType.parse(mimeType),
-        ))
-        ..headers['Authorization'] = 'Bearer $token';
+      request.headers['Authorization'] = 'Bearer $token';
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -116,21 +124,18 @@ class TestimonialProvider extends ChangeNotifier {
         print("API Response: ${apiResponse.toJson()}");
 
         if (apiResponse.status == true) {
-          // Create a new Testimonial object
-          Testimonial newTestimonial = Testimonial(
-            fname: fname,
-            lname: lname,
-            review: review,
-            reviewImage: imageName, // Assuming the imageName is saved as is
-          );
-
-          // Insert the new testimonial at the beginning of the list
-          _testimonials.insert(0, newTestimonial);
-          notifyListeners();
-        }
-
-        if (apiResponse.status == true) {
           await fetchTestimonial();
+          // // Create a new Testimonial object
+          // Testimonial newTestimonial = Testimonial(
+          //   fname: fname,
+          //   lname: lname,
+          //   review: review,
+          //   reviewImage: imageName, // Assuming the imageName is saved as is
+          // );
+
+          // // Insert the new testimonial at the beginning of the list
+          // _testimonials.insert(0, newTestimonial);
+          notifyListeners();
         }
       } else {
         print(
@@ -167,7 +172,7 @@ class TestimonialProvider extends ChangeNotifier {
       }
 
       final response = await http.put(
-        Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
+        Uri.parse('${ApiConstant.localUrl}/api/testimonial/$id'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
@@ -229,7 +234,7 @@ class TestimonialProvider extends ChangeNotifier {
       }
 
       final response = await http.delete(
-        Uri.parse('${ApiConstant.localUrl}/testimonial/$id'),
+        Uri.parse('${ApiConstant.localUrl}/api/testimonial/$id'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',

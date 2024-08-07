@@ -9,64 +9,77 @@ class ApiConstant {
 
   /// [AUTH_URL]
   // static const String adminRegisterUri = '/admin/register';
-  static const String adminLoginUri = '/admin/login';
+  static const String adminLoginUri = '/api/admin/login';
+
+/* --------------------------------- Admin --------------------------------- */
+  /// [Admin]
+  /// [GET]
+  static String getAdminInfo(String id) => "/api/admin/$id";
+
+  /// [UPDATE]
+  static String updateAdmin(String id) => "/api/admin/$id";
+
+  /// [UPDATEPASSWORD]
+  static String updateAdminPassword(String id) =>
+      "/api/admin/update-password/$id";
 
 /*--------------------------------- Services ---------------------------------*/
   /// [Services]
   /// [GET]
-  static const String getAllServices = '/services/';
-  static const String getBridalServices = '/services/category/bridal';
-  static const String getNonBridalMakeupServices = '/services/category/makeup';
-  static const String getNonBridalHairServices = '/services/category/hair';
-  static const String getHennaServices = '/services/category/henna';
-  static const String getDrapingServices = '/services/category/draping';
+  static const String getAllServices = '/api/services/';
+  static const String getBridalServices = '/api/services/category/bridal';
+  static const String getNonBridalMakeupServices =
+      '/api/services/category/makeup';
+  static const String getNonBridalHairServices = '/api/services/category/hair';
+  static const String getHennaServices = '/api/services/category/henna';
+  static const String getDrapingServices = '/api/services/category/draping';
 
   /// [POST]
-  static const String postServices = '/services/';
+  static const String postServices = '/api/services/';
 
   /// [UPDATE]
-  static String updateService(String id) => "/services/edit/$id";
+  static String updateService(String id) => "/api/services/edit/$id";
 
   /// [DELETE]
-  static const String deleteServices = "/services/remove/";
-  static String deleteService(String id) => "/services/remove/$id";
+  static const String deleteServices = "/api/services/remove/";
+  static String deleteService(String id) => "/api/services/remove/$id";
 
 /*--------------------------------- Testimonails ---------------------------------*/
   /// [Testimonials]
   /// [GET]
-  static const String getAllTestimonials = '/testimonial/';
-  static String getSingleTestimonial(String id) => "/testimonial/$id";
+  static const String getAllTestimonials = '/api/testimonial/';
+  static String getSingleTestimonial(String id) => "/api/testimonial/$id";
 
   /// [POST]
-  static const String postTestimonials = '/testimonial/';
+  static const String postTestimonials = '/api/testimonial/';
 
   /// [UPDATE]
-  static String updateTestimonial(String id) => "/testimonial/$id";
+  static String updateTestimonial(String id) => "/api/testimonial/$id";
 
   /// [DELETE]
-  static String deleteTestimonial(String id) => "/testimonial/$id";
+  static String deleteTestimonial(String id) => "/api/testimonial/$id";
 
 /*--------------------------------- Portfolio ---------------------------------*/
   /// [Portfolio]
   /// [GET]
-  static const String getAllPortfolio = '/portfolio/';
-  static const String getBridalPortfolio = '/portfolio/bridal';
-  static const String getHennaGallery = '/portfolio/henna';
-  static const String getNonBridalGallery = '/portfolio/non-bridal';
-  static const String getWhiteBridalGallery = '/portfolio/white-bride';
+  static const String getAllPortfolio = '/api/portfolio/';
+  static const String getBridalPortfolio = '/api/portfolio/bridal';
+  static const String getHennaGallery = '/api/portfolio/henna';
+  static const String getNonBridalGallery = '/api/portfolio/non-bridal';
+  static const String getWhiteBridalGallery = '/api/portfolio/white-bride';
 
   /// [POST]
-  static const String postPortfolio = '/portfolio/';
+  static const String postPortfolio = '/api/portfolio/';
 
   /* --------------------------------- Booking --------------------------------- */
   /// [Booking]
   /// [GET]
-  static const String getAllBookings = '/booking/';
-  static String getSingleBooking(String id) => "/booking/$id";
+  static const String getAllBookings = '/api/booking/';
+  static String getSingleBooking(String id) => "/api/booking/$id";
 
   /// [POST]
-  static const String postBooking = '/booking/';
+  static const String postBooking = '/api/booking/';
 
   /// [DELETE]
-  static String deleteBooking(String id) => "/booking/$id";
+  static String deleteBooking(String id) => "/api/booking/$id";
 }

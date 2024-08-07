@@ -69,7 +69,7 @@ class PortfolioProvider extends ChangeNotifier {
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/portfolio/');
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/portfolio/');
       print('Posting to URL: $uri');
 
       var request = http.MultipartRequest('POST', uri)
@@ -95,6 +95,12 @@ class PortfolioProvider extends ChangeNotifier {
             break;
           case 'gif':
             mimeType = 'image/gif';
+            break;
+             case 'webp':
+            mimeType = 'image/webp';
+            break;
+            case 'avif':
+            mimeType = 'image/avif';
             break;
           default:
             throw Exception('Unsupported image format');

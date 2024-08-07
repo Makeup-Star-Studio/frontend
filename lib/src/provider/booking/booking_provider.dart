@@ -133,7 +133,7 @@ class BookingProvider extends ChangeNotifier {
       }
 
       final response = await http.delete(
-        Uri.parse('${ApiConstant.localUrl}/booking/$id'),
+        Uri.parse('${ApiConstant.localUrl}/api/booking/$id'),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
