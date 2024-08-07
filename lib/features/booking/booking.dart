@@ -35,22 +35,24 @@ class BookingPage extends StatelessWidget {
               child: const TopNavigationBar(),
             ),
       drawer: const MenuDrawer(),
-      body: ListView(
-        children: const [
-          BookingHeaderSection(),
-          SizedBox(height: 80.0),
-          HeaderContentBookingSection(
-              title: 'book your glam appointment',
-              subTitle: 'fill out the form below'),
-          SizedBox(height: 20.0),
-          BookingFormSection(),
-          SizedBox(height: 40.0),
-          SubscriptionSection(),
-          SizedBox(height: 10.0),
-          InfoSection(),
-          SizedBox(height: 40.0),
-          FooterSection(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: const [
+            BookingHeaderSection(),
+            SizedBox(height: 80.0),
+            HeaderContentBookingSection(
+                title: 'book your glam appointment',
+                subTitle: 'fill out the form below'),
+            SizedBox(height: 20.0),
+            BookingFormSection(),
+            SizedBox(height: 40.0),
+            SubscriptionSection(),
+            SizedBox(height: 10.0),
+            InfoSection(),
+            SizedBox(height: 40.0),
+            FooterSection(),
+          ],
+        ),
       ),
     );
   }

@@ -35,7 +35,7 @@ class AboutSection extends StatelessWidget {
                 topLeft: Radius.circular(250.0),
               ),
               child: Image.asset(
-                'assets/images/image.jpeg',
+                'assets/images/image.webp',
                 fit: BoxFit.cover,
                 height: 600,
               ),
@@ -103,7 +103,7 @@ class AboutSection extends StatelessWidget {
               topLeft: Radius.circular(250.0),
             ),
             child: Image.asset(
-              'assets/images/image.jpeg',
+              'assets/images/image.webp',
               fit: BoxFit.cover,
               width: 500,
               height: ResponsiveWidget.isSmallScreen(context)

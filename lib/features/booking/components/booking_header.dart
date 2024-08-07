@@ -80,7 +80,7 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           Expanded(
             child: ClipRect(
               child: Image.asset(
-                'assets/images/image.jpeg',
+                'assets/images/image.webp',
                 // width: 500.0,
                 // height: 500.0,
                 fit: BoxFit.cover,
@@ -108,7 +108,7 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
         children: [
           ClipRect(
             child: Image.asset(
-              'assets/images/image.jpeg',
+              'assets/images/image.webp',
               width: screenSize.width,
               height: screenSize.height * 0.75,
               fit: BoxFit.cover,

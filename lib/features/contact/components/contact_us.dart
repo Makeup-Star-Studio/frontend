@@ -48,7 +48,7 @@ class _ContactUsSectionState extends State<ContactUsSection> {
               ),
               const SizedBox(height: 20.0),
               Image.asset(
-                'assets/images/contact.png',
+                'assets/images/contact.webp',
                 width: 700,
                 height: screenSize.height,
                 fit: BoxFit.cover,
@@ -288,8 +288,8 @@ class _ContactUsSectionState extends State<ContactUsSection> {
     );
   }
 
-  void launchWhatsApp() async {
-    const url = 'https://wa.link/yoty74'; // Replace with your WhatsApp number
+  Future<void> launchWhatsApp() async {
+    const url = 'https://wa.me/14156960258';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

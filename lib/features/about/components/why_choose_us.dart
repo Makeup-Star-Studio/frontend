@@ -109,7 +109,7 @@ class _WhyChooseUsSectionState extends State<WhyChooseUsSection> {
           const SizedBox(width: 20.0),
           ClipRect(
             child: Image.asset(
-              'assets/images/image.jpeg',
+              'assets/images/image.webp',
               width: 600.0,
               height: 600.0,
               fit: BoxFit.cover,
@@ -142,7 +142,7 @@ class _WhyChooseUsSectionState extends State<WhyChooseUsSection> {
           const SizedBox(height: 20.0),
           ClipRect(
             child: Image.asset(
-              'assets/images/image.jpeg',
+              'assets/images/image.webp',
               width: ResponsiveWidget.isSmallScreen(context)
                   ? screenSize.width
                   : 500.0,

@@ -37,21 +37,23 @@ class AboutPage extends StatelessWidget {
               child: const TopNavigationBar(),
             ),
       drawer: const MenuDrawer(),
-      body: ListView(
-        children: const [
-          AboutMeSection(),
-          AboutTeamSection(),
-          SizedBox(height: 40.0),
-          WhyChooseUsSection(),
-          AboutMissionSection(),
-          LittleAboutMeSection(),
-          SizedBox(height: 40.0),
-          SubscriptionSection(),
-          SizedBox(height: 10.0),
-          InfoSection(),
-          SizedBox(height: 40.0),
-          FooterSection(),
-        ],
+      body: const SingleChildScrollView(
+        child: Column(
+          children: [
+            AboutMeSection(),
+            AboutTeamSection(),
+            SizedBox(height: 40.0),
+            WhyChooseUsSection(),
+            AboutMissionSection(),
+            LittleAboutMeSection(),
+            SizedBox(height: 40.0),
+            SubscriptionSection(),
+            SizedBox(height: 10.0),
+            InfoSection(),
+            SizedBox(height: 40.0),
+            FooterSection(),
+          ],
+        ),
       ),
     );
   }

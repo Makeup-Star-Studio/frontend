@@ -9,9 +9,9 @@ import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 
 class GalleryHeaderSection extends StatelessWidget {
   final List<String> imageUrls = [
-    'assets/images/image.jpeg',
-    'assets/images/contact.png',
-    'assets/images/testimonial.jpg',
+    'assets/images/image.webp',
+    'assets/images/contact.webp',
+    'assets/images/testimonial.webp',
   ];
 
   GalleryHeaderSection({super.key});

@@ -25,7 +25,7 @@ class ServiceHeaderSection extends StatelessWidget {
           : const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/service_header.jpg'),
+          image: AssetImage('assets/images/service_header.webp'),
           fit: BoxFit.cover,
           opacity: 0.75,
         ),
@@ -89,7 +89,7 @@ class ServiceHeaderSection extends StatelessWidget {
         children: [
           ClipRect(
             child: Image.asset(
-              'assets/images/service_header.jpg',
+              'assets/images/service_header.webp',
               fit: BoxFit.cover,
               width: screenSize.width,
               height: screenSize.height * 0.5,

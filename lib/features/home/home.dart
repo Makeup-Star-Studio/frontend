@@ -3,6 +3,7 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/home_top_bar_contents.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
+import 'package:makeupstarstudio/core/common/text/heading.dart';
 import 'package:makeupstarstudio/features/home/components/about.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
 import 'package:makeupstarstudio/features/home/components/how_it_works.dart';
@@ -37,22 +38,29 @@ class HomePage extends StatelessWidget {
               child: const HomeTopBarContents(),
             ),
       drawer: const MenuDrawer(),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            AboutSection(),
-            ServiceSection(),
-            SizedBox(height: 20.0),
-            WorkingSection(),
-            SizedBox(height: 40.0),
-            TestimonialSection(),
-            MissionSection(),
-            SizedBox(height: 40.0),
-            SubscriptionSection(),
-            SizedBox(height: 10.0),
-            InfoSection(),
-            SizedBox(height: 40.0),
-            FooterSection(),
+            const AboutSection(),
+            const ServiceSection(),
+            const SizedBox(height: 20.0),
+            const WorkingSection(),
+            const SizedBox(height: 40.0),
+            BigText(
+              text: '"Real Stories, Real Glam: Hear From Our Happy Clients"',
+              size: 28.0,
+              mediumSize: 25.0,
+              smallSize: 22.0,
+              height: ResponsiveWidget.isSmallScreen(context) ? 1.2 : 1.75,
+            ),
+            const TestimonialSection(),
+            const MissionSection(),
+            const SizedBox(height: 40.0),
+            const SubscriptionSection(),
+            const SizedBox(height: 10.0),
+            const InfoSection(),
+            const SizedBox(height: 40.0),
+            const FooterSection(),
           ],
         ),
       ),

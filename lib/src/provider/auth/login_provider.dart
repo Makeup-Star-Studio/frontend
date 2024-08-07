@@ -261,15 +261,14 @@ class LoginProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         var apiResponse = jsonDecode(response.body);
         if (apiResponse['status'] == 'success' && apiResponse['data'] != null) {
-          var userData = apiResponse['data']['user'] as List;
-          _user = userData.map((userJson) => User.fromJson(userJson)).toList();
+          var userJson = apiResponse['data']['user'];
 
-          for (int i = 0; i < _user.length; i++) {
-            print('User $i: ${_user[i].id}');
-          }
+          // Assuming 'user' is a single object
+          if (userJson is Map<String, dynamic>) {
+            var user = User.fromJson(userJson);
+            _user = [user]; // Wrapping the single user object in a list
 
-          if (_user.isNotEmpty) {
-            _id = _user[0].id!;
+            _id = user.id!;
           }
         }
       } else {

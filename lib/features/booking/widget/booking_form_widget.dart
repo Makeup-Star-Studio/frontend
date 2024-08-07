@@ -82,40 +82,36 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
   }
 
   late Booking _booking;
-  void _submitForm() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+ void _submitForm() async {
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
 
-      // Update the booking object with the formatted date
-      _booking = Booking(
-        fname: _firstNameController.text,
-        lname: _lastNameController.text,
-        email: _emailController.text,
-        phoneNumber: _phoneController.text,
-        socialMedia: _socialMediaController.text,
-        eventDate: selectedEventDate, // Use the formatted event date
-        eventType: selectedEventTypes,
-        serviceType: selectedServiceTypes,
-        eventLocation: _locationController.text,
-        totalPeopleMakeup: int.tryParse(_makeupController.text) ?? 0,
-        totalPeopleHair: int.tryParse(_hairController.text) ?? 0,
-        totalPeopleHenna: int.tryParse(_hennaController.text) ?? 0,
-        totalPeopleDraping: int.tryParse(_drapingController.text) ?? 0,
-        howDidYouHear:
-            selectedSourceOptions, // Wrap the selectedSourceOptions in a list
-        premiumService: selectedArtistOptions,
-        servicePricing: selectedPricingTypes,
-        addedQuestionsOrInfo: _messageController.text,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-      );
+    // Update the booking object with the formatted date
+    _booking = Booking(
+      fname: _firstNameController.text,
+      lname: _lastNameController.text,
+      email: _emailController.text,
+      phoneNumber: _phoneController.text,
+      socialMedia: _socialMediaController.text,
+      eventDate: selectedEventDate, // Use the formatted event date
+      eventType: selectedEventTypes,
+      serviceType: selectedServiceTypes,
+      eventLocation: _locationController.text,
+      totalPeopleMakeup: int.tryParse(_makeupController.text) ?? 0,
+      totalPeopleHair: int.tryParse(_hairController.text) ?? 0,
+      totalPeopleHenna: int.tryParse(_hennaController.text) ?? 0,
+      totalPeopleDraping: int.tryParse(_drapingController.text) ?? 0,
+      howDidYouHear: selectedSourceOptions,
+      premiumService: selectedArtistOptions,
+      servicePricing: selectedPricingTypes,
+      addedQuestionsOrInfo: _messageController.text,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
 
-      Provider.of<BookingProvider>(context, listen: false)
-          .postBooking(_booking)
-          .then((_) {
-        // Navigator.of(context).pop();
-      });
-      // print("Formatted Date: $formattedDate");
+    try {
+      await Provider.of<BookingProvider>(context, listen: false)
+          .postBooking(_booking);
       _clearForm();
       showDialog(
         context: context,
@@ -123,8 +119,29 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
           return const BookingDialogBox();
         },
       );
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Something Went Wrong'),
+            content: const Text('Please try again later!'),
+            backgroundColor: AppColorConstant.errorColor,
+            actions: <Widget>[
+              TextButton(
+                child: const BodyText(text:'OK', color: AppColorConstant.black,),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
+}
+
 
   void _clearForm() {
     _formKey.currentState!.reset();

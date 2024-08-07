@@ -58,47 +58,49 @@ class _HeaderContentBookingSectionState
               ),
             ),
             if (!ResponsiveWidget.isSmallScreen(context))
-            Align(
-              alignment: Alignment.topRight,
-              child: MouseRegion(
-                onEnter: (_) {
-                  setState(() {
-                    _isHovering = true;
-                  });
-                },
-                onExit: (_) {
-                  setState(() {
-                    _isHovering = false;
-                  });
-                },
-                child: GestureDetector(
-                  onTap: () {
-                    launchWhatsApp();
+              Align(
+                alignment: Alignment.topRight,
+                child: MouseRegion(
+                  onEnter: (_) {
+                    setState(() {
+                      _isHovering = true;
+                    });
                   },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: ResponsiveWidget.isSmallScreen(context) ? 80 : 180,
-                    height: ResponsiveWidget.isSmallScreen(context) ? 50 : 65,
-                    decoration: const BoxDecoration(
-                      color: AppColorConstant.successColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(100.0),
-                        bottomLeft: Radius.circular(100.0),
+                  onExit: (_) {
+                    setState(() {
+                      _isHovering = false;
+                    });
+                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      launchWhatsApp();
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: ResponsiveWidget.isSmallScreen(context) ? 80 : 180,
+                      height: ResponsiveWidget.isSmallScreen(context) ? 50 : 65,
+                      decoration: const BoxDecoration(
+                        color: AppColorConstant.successColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(100.0),
+                          bottomLeft: Radius.circular(100.0),
+                        ),
                       ),
-                    ),
-                    transform: _isHovering
-                        ? Matrix4.diagonal3Values(1.1, 1.1, 1)
-                        : Matrix4.diagonal3Values(1, 1, 1),
-                    child: Image.asset(
-                      'assets/icons/whatsapp.png', // Change to the actual path of WhatsApp logo
-                      fit: BoxFit.contain,
-                      width: ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
-                      height: ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
+                      transform: _isHovering
+                          ? Matrix4.diagonal3Values(1.1, 1.1, 1)
+                          : Matrix4.diagonal3Values(1, 1, 1),
+                      child: Image.asset(
+                        'assets/icons/whatsapp.png', // Change to the actual path of WhatsApp logo
+                        fit: BoxFit.contain,
+                        width:
+                            ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
+                        height:
+                            ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
       ),
@@ -106,7 +108,8 @@ class _HeaderContentBookingSectionState
   }
 
   void launchWhatsApp() async {
-    const url = 'https://wa.link/yoty74'; // Replace with your WhatsApp number
+    const url =
+        'https://wa.me/14156960258'; // Replace with your WhatsApp number
     if (await canLaunch(url)) {
       await launch(url);
     } else {

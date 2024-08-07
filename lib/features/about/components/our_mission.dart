@@ -47,7 +47,7 @@ class AboutMissionSection extends StatelessWidget {
             ),
             child: ClipRect(
               child: Image.asset(
-                'assets/images/testimonial.jpg',
+                'assets/images/testimonial.webp',
                 fit: BoxFit.cover,
               ),
             ),
@@ -122,7 +122,7 @@ class AboutMissionSection extends StatelessWidget {
           ),
           ClipRect(
             child: Image.asset(
-              'assets/images/testimonial.jpg',
+              'assets/images/testimonial.webp',
               width: screenSize.width,
               height: ResponsiveWidget.isSmallScreen(context) ? 300.0 : 500.0,
             ),
