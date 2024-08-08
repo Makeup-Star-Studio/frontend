@@ -51,7 +51,11 @@ class BridalPage extends StatelessWidget {
                 mediumSize: 20.0,
               ),
             ),
-            const BridalGallery(),
+            ListView(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: const [BridalGallery()],
+            ),
             const SizedBox(height: 20.0),
             const SubscriptionSection(),
             const SizedBox(height: 10.0),

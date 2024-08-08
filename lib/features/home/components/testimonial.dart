@@ -85,6 +85,9 @@ class _TestimonialSectionState extends State<TestimonialSection> {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          if (provider.testimonials.isEmpty) {
+            return const Center(child: Text('No testimonials available'));
+          }
           return Container(
             color: AppColorConstant.bgColor,
             padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -152,7 +155,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                             child: Center(
                               child: Image.network(
                                 '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 height: MediaQuery.of(context).size.height,
                                 errorBuilder: (context, error, stackTrace) {

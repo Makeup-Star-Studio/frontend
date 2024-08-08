@@ -70,24 +70,37 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
         )
             .then((_) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Portfolio Added Successfully')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.successColor,
+                content: BodyText(
+                    text: 'Portfolio Added Successfully', color: Colors.white)),
           );
           _clearForm();
         }).catchError((e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to add portfolio')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.errorColor,
+                content: BodyText(
+                    text: 'Failed to add portfolio', color: Colors.white)),
           );
           print('Error: $e');
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select up to 24 images only.')),
+          const SnackBar(
+              backgroundColor: AppColorConstant.errorColor,
+              content: BodyText(
+                  text: 'Please select up to 24 images only.',
+                  color: Colors.white)),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Please fill all fields and upload images')),
+            backgroundColor: AppColorConstant.errorColor,
+            content: BodyText(
+                text: 'Please fill all fields and upload images',
+                color: Colors.white)),
       );
     }
   }
@@ -101,110 +114,112 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        if (!ResponsiveWidget.isLargeScreen(context))
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            color: AppColorConstant.adminMenuColor,
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                ),
-                const SizedBox(width: 16),
-                const Text(
-                  'Manage Portfolio',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if (!ResponsiveWidget.isLargeScreen(context))
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              color: AppColorConstant.adminMenuColor,
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.menu, color: Colors.white),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
                   ),
-                ),
-              ],
-            ),
-          ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Form(
-            key: _portfolioKey,
-            child: Column(
-              children: [
-                if (ResponsiveWidget.isLargeScreen(context))
+                  const SizedBox(width: 16),
                   const Text(
-                    textAlign: TextAlign.center,
-                    "Manage Portfolio",
+                    'Manage Portfolio',
                     style: TextStyle(
-                      fontSize: 24,
+                      color: Colors.white,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  decoration:
-                      const InputDecoration(labelText: 'Select Category'),
-                  items: _portfolioCategory.map((category) {
-                    return DropdownMenuItem(
-                      value: category,
-                      child: Text(category),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select a category';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                const BodyText(
-                  text:
-                      "'You can choose up to 24 images for bridal and 10 images each for henna, non bridal and white bridal posts .... Click on the pick images and choose the images you want to upload'",
-                  color: AppColorConstant.errorColor,
-                  textAlign: TextAlign.center,
-                  size: 16,
-                  mediumSize: 14,
-                  smallSize: 12,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.normal,
-                ),
-                ElevatedButton(
-                  onPressed: _pickImages,
-                  child: const Text('Pick Images'),
-                ),
-                const SizedBox(height: 16.0),
-                if (_selectedFiles != null) ...[
-                  Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8.0,
-                    children: _selectedFiles!.map((file) {
-                      return Image.memory(
-                        file.bytes!,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
+                ],
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _portfolioKey,
+              child: Column(
+                children: [
+                  if (ResponsiveWidget.isLargeScreen(context))
+                    const Text(
+                      textAlign: TextAlign.center,
+                      "Manage Portfolio",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    decoration:
+                        const InputDecoration(labelText: 'Select Category'),
+                    items: _portfolioCategory.map((category) {
+                      return DropdownMenuItem(
+                        value: category,
+                        child: Text(category),
                       );
                     }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please select a category';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
+                  const BodyText(
+                    text:
+                        "'You can choose up to 24 images for bridal and 10 images each for henna, non bridal and white bridal posts .... Click on the pick images and choose the images you want to upload'",
+                    color: AppColorConstant.errorColor,
+                    textAlign: TextAlign.center,
+                    size: 16,
+                    mediumSize: 14,
+                    smallSize: 12,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  ElevatedButton(
+                    onPressed: _pickImages,
+                    child: const Text('Pick Images'),
+                  ),
+                  const SizedBox(height: 16.0),
+                  if (_selectedFiles != null) ...[
+                    Wrap(
+                      spacing: 8.0,
+                      runSpacing: 8.0,
+                      children: _selectedFiles!.map((file) {
+                        return Image.memory(
+                          file.bytes!,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: const Text('Submit'),
                   ),
                 ],
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: _submitForm,
-                  child: const Text('Submit'),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
