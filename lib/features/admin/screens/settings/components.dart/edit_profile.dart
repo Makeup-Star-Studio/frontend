@@ -7,7 +7,7 @@ import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/src/provider/admin/user_provider.dart';
-import 'package:provider/provider.dart'; // Ensure provider package is imported
+import 'package:provider/provider.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -37,36 +37,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> _fetchUserInfo() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    await userProvider.fetchUserInfo('66b3796a543fdd2a8139fe32');
+    await userProvider.fetchUserInfo();
     _populateUserInfo();
   }
 
-void _populateUserInfo() {
-  final userProvider = Provider.of<UserProvider>(context, listen: false);
-  final user = userProvider.user;
-  if (user != null) {
-    setState(() {
-      _fullNameController.text = user.data.user.fname;
-      _usernameController.text = user.data.user.username;
-      _emailController.text = user.data.user.email;
-      _phoneController.text = user.data.user.phoneNumber;
-      _bioController.text = user.data.user.bio;
-      _locationController.text = user.data.user.location;
+  void _populateUserInfo() {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final user = userProvider.user;
+    if (user != null) {
+      setState(() {
+        _fullNameController.text = user.data.user.fname;
+        _usernameController.text = user.data.user.username;
+        _emailController.text = user.data.user.email;
+        _phoneController.text = user.data.user.phoneNumber;
+        _bioController.text = user.data.user.bio;
+        _locationController.text = user.data.user.location;
 
-      final imageUrl = user.data.user.imageUrl;
-      if (imageUrl.isNotEmpty) {
-        // Handle image URL
-        // You might want to fetch the image data from the URL instead
-        _imageUrl = null; // You need to handle this differently if imageUrl is a URL
-        selectedFile = 'profile_picture.jpg'; // Default name if image is present
-      } else {
-        _imageUrl = null; // No image
-        selectedFile = '';
-      }
-    });
+        final imageUrl = user.data.user.imageUrl;
+        if (imageUrl.isNotEmpty) {
+          _imageUrl = null;
+          selectedFile = 'profile_picture.jpg'; 
+        } else {
+          _imageUrl = null; 
+          selectedFile = '';
+        }
+      });
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -255,19 +252,24 @@ void _populateUserInfo() {
 
   Future<void> _updateProfile() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    await userProvider.updateUserInfo(
-      id: '66b3796a543fdd2a8139fe32', // Replace with the actual user ID
-      fname: _fullNameController.text,
-      username: _usernameController.text,
-      email: _emailController.text,
-      phoneNumber: _phoneController.text,
-      bio: _bioController.text,
-      location: _locationController.text,
-      imageBytes: _imageUrl,
-      imageName: selectedFile,
-    );
-    // Optionally fetch user info again to reflect updates
-    await _fetchUserInfo();
+    final userId = userProvider.user?.data.user.id;
+
+    if (userId != null) {
+      await userProvider.updateUserInfo(
+        id: userId, 
+        fname: _fullNameController.text,
+        username: _usernameController.text,
+        email: _emailController.text,
+        phoneNumber: _phoneController.text,
+        bio: _bioController.text,
+        location: _locationController.text,
+        imageBytes: _imageUrl,
+        imageName: selectedFile,
+      );
+      await _fetchUserInfo(); 
+    } else {
+      print('User ID is null. Unable to update profile.');
+    }
   }
 
   Future<void> _pickImage() async {

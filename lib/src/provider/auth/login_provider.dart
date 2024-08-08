@@ -101,10 +101,11 @@ class LoginProvider with ChangeNotifier {
         print('Retrieved token: ${apiResponse.token}');
 
         _id = responseData['data']['user']['id'];
-        print('user ID: $_id'); // Add this line
+        print('user ID: $_id');
         if (apiResponse.token.isNotEmpty) {
           await sharedPrefs.setStringPref('userToken', apiResponse.token);
           await sharedPrefs.setBoolPref('logged', true);
+          await sharedPrefs.setStringPref('userId', _id); 
 
           context.read<CheckLoginProvider>().setLoggedIn(true);
           _isLoggedIn = true;
