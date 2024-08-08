@@ -1,3 +1,4 @@
+import 'package:makeupstarstudio/src/provider/admin/user_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
@@ -32,6 +33,7 @@ class AppProvider {
   static final portfolioProvider = PortfolioProvider();
   static final bookingProvider = BookingProvider();
   static final checkLoginProvider = CheckLoginProvider();
+  static final userProvider = UserProvider();
 
   static final List<ChangeNotifierProvider> providers = [
     ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
@@ -58,25 +60,26 @@ class AppProvider {
     ),
     ChangeNotifierProvider<BridalPortfolioProvider>(
       create: (context) => bridalPortfolioProvider,
-    ), 
+    ),
     ChangeNotifierProvider<HennaGalleryProvider>(
       create: (context) => hennaGalleryProvider,
-    ),  
+    ),
     ChangeNotifierProvider<NonBridalGalleryProvider>(
       create: (context) => nonBridalGalleryProvider,
-    ),  
+    ),
     ChangeNotifierProvider<WhiteBridalProvider>(
       create: (context) => whiteBridalGalleryProvider,
-    ), 
+    ),
     ChangeNotifierProvider<PortfolioProvider>(
       create: (context) => portfolioProvider,
-    ),  
+    ),
     ChangeNotifierProvider<BookingProvider>(
       create: (context) => bookingProvider,
     ),
     ChangeNotifierProvider<CheckLoginProvider>(
       create: (context) => checkLoginProvider,
     ),
+    ChangeNotifierProvider<UserProvider>(create: (context) => userProvider)
   ];
 
   static void dispose() {
