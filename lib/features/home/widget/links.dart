@@ -44,7 +44,7 @@ class _LinksState extends State<Links> {
             onTap: () => launchUrl(
                 'https://www.yelp.com/biz/makeupstarstudio-san-jose'), // Replace with your Yelp review URL
             iconPath:
-                'assets/icons/review.png', // Change to the actual path of Yelp icon
+                'assets/icons/yelp.png', // Change to the actual path of Yelp icon
             text: 'Yelp Reviews',
           ),
           const SizedBox(height: 10.0),
@@ -58,7 +58,7 @@ class _LinksState extends State<Links> {
             onTap: () => launchUrl(
                 'https://www.facebook.com/BayAreaHennaMehndi/reviews'), // Replace with your Facebook review URL
             iconPath:
-                'assets/icons/facebook.png', // Change to the actual path of Facebook icon
+                'assets/icons/facebook1.png', // Change to the actual path of Facebook icon
             text: 'Facebook Reviews',
           ),
         ],
@@ -94,7 +94,7 @@ class _LinksState extends State<Links> {
                 onTap: () => launchUrl(
                     'https://www.yelp.com/biz/makeupstarstudio-san-jose'), // Replace with your Yelp review URL
                 iconPath:
-                    'assets/icons/review.png', // Change to the actual path of Yelp icon
+                    'assets/icons/yelp.png', // Change to the actual path of Yelp icon
                 text: 'Yelp Reviews',
               ),
             ],
@@ -109,7 +109,7 @@ class _LinksState extends State<Links> {
             onTap: () => launchUrl(
                 'https://www.facebook.com/BayAreaHennaMehndi/reviews'), // Replace with your Facebook review URL
             iconPath:
-                'assets/icons/facebook.png', // Change to the actual path of Facebook icon
+                'assets/icons/facebook1.png', // Change to the actual path of Facebook icon
             text: 'Facebook Reviews',
           ),
         ],

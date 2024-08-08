@@ -43,6 +43,9 @@ class _ServiceSectionState extends State<ServiceSection> {
         if (value.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          if (value.services.isEmpty) {
+            return const Center(child: Text('No services available'));
+          }
           final List<Service> services = value.services;
           return Container(
             padding: EdgeInsets.only(
