@@ -153,8 +153,16 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                           Expanded(
                             flex: 3,
                             child: Center(
-                              child: Image.network(
-                                '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
+                              child: testimonial.reviewImage == null
+                                  ? const Center(
+                                      child: Text('No image available'),
+                                    )
+                                  :
+                              
+                              Image.network(
+                                'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
+
+                                // '${ApiConstant.localUrl}/api/testimonial/${testimonial.reviewImage}',
                                 fit: BoxFit.contain,
                                 width: MediaQuery.of(context).size.width * 0.5,
                                 height: MediaQuery.of(context).size.height,
@@ -252,7 +260,12 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                     const Links(),
                     const SizedBox(height: 20.0),
                     Flexible(
-                      child: Image.network(
+                      child: testimonial.reviewImage == null
+                          ? const Center(
+                              child: Text('No image available'),
+                            )
+                          :
+                      Image.network(
                         '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
                         fit: BoxFit.fitHeight,
                         width: 300.0,

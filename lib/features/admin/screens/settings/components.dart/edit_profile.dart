@@ -1,11 +1,12 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/input_field/input_field.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
+import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/src/provider/admin/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -56,9 +57,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         final imageUrl = user.data.user.imageUrl;
         if (imageUrl.isNotEmpty) {
           _imageUrl = null;
-          selectedFile = 'profile_picture.jpg'; 
+          selectedFile = 'profile_picture.jpg';
         } else {
-          _imageUrl = null; 
+          _imageUrl = null;
           selectedFile = '';
         }
       });
@@ -232,16 +233,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               const SizedBox(height: 20.0),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_profileFormKey.currentState?.validate() ?? false) {
-                      _updateProfile();
-                    }
-                  },
-                  child: const Text('Save Changes'),
-                ),
+              ModifiedButton(
+                color: AppColorConstant.adminMenuColor,
+                textColor: AppColorConstant.white,
+                press: () {
+                  if (_profileFormKey.currentState?.validate() ?? false) {
+                    _updateProfile();
+                  }
+                },
+                text: 'UPDATE PROFILE',
               ),
             ],
           ),
@@ -256,7 +256,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     if (userId != null) {
       await userProvider.updateUserInfo(
-        id: userId, 
+        id: userId,
         fname: _fullNameController.text,
         username: _usernameController.text,
         email: _emailController.text,
@@ -266,7 +266,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         imageBytes: _imageUrl,
         imageName: selectedFile,
       );
-      await _fetchUserInfo(); 
+      await _fetchUserInfo();
     } else {
       print('User ID is null. Unable to update profile.');
     }
@@ -274,7 +274,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> _pickImage() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.image);
+      FilePickerResult? result =
+          await FilePicker.platform.pickFiles(type: FileType.image);
       if (result != null) {
         setState(() {
           _imageUrl = result.files.single.bytes;

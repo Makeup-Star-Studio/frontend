@@ -105,7 +105,7 @@ class LoginProvider with ChangeNotifier {
         if (apiResponse.token.isNotEmpty) {
           await sharedPrefs.setStringPref('userToken', apiResponse.token);
           await sharedPrefs.setBoolPref('logged', true);
-          await sharedPrefs.setStringPref('userId', _id); 
+          await sharedPrefs.setStringPref('userId', _id);
 
           context.read<CheckLoginProvider>().setLoggedIn(true);
           _isLoggedIn = true;
@@ -242,12 +242,18 @@ class LoginProvider with ChangeNotifier {
 
   Future<void> updatePassword(
       String id, String currentPassword, String newPassword) async {
-    final SharedPreferencesService sharedPrefs = SharedPreferencesService();
-    String? token = await sharedPrefs.getTokenPref('userToken');
+    _isLoading = true;
+    notifyListeners();
+    try{
+    final prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+    String? token = prefs.getString('userToken');
+
+    print('Retrieved userId: $userId');
     print('Retrieved token: $token');
 
-    if (token == null) {
-      print('No token found');
+    if (userId == null || token == null) {
+      print('User ID or token is missing');
       _isLoading = false;
       notifyListeners();
       return;
@@ -269,9 +275,20 @@ class LoginProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       print('Response body: $data');
+      notifyListeners();
     } else {
-      throw Exception(
-          'Failed to update password: ${jsonDecode(response.body)['message']}');
+        print('Failed to update password. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+      _isLoading = false;
+      handleSubmissionError(e);
+      notifyListeners();
     }
   }
 

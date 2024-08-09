@@ -58,20 +58,20 @@ class Testimonial {
 
   factory Testimonial.fromJson(Map<String, dynamic> json) {
     return Testimonial(
-      id: json["id"],
+      id: json["id"] ?? "",
       fname: json["fname"],
       lname: json["lname"],
       review: json["review"],
-      reviewImage: json["reviewImage"], // Just a filename
+      reviewImage: json["reviewImage"] ?? "", // Just a filename
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "id": id ?? "",
         "fname": fname,
         "lname": lname,
         "review": review,
-        "reviewImage": reviewImage, // Just a filename
+        "reviewImage": reviewImage ?? "", // Just a filename
       };
 
   // // Construct the image URL

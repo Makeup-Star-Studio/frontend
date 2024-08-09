@@ -9,7 +9,6 @@ import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/src/model/testimonial_model.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class AdminTestimonialsView extends StatefulWidget {
@@ -52,61 +51,91 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-  // Future<String> uploadImage(Uint8List imageBytes) async {
-  //   return "uploaded_image_url";
-  // }
-  void _submitForm() {
+  void _submitForm() async {
     if (_testimonialKey.currentState!.validate() &&
         (_reviewImageUrl != null || _editingIndex != null)) {
+      String? uploadedImageUrl;
+      if (_reviewImageUrl != null) {
+        uploadedImageUrl =
+            await Provider.of<TestimonialProvider>(context, listen: false)
+                .uploadReviewImage(
+                    imageBytes: _reviewImageUrl!, imageName: selectedFile);
+      }
+
+      // Ensure an image URL exists when adding a new testimonial
+      if (uploadedImageUrl == null && _editingIndex == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text('Image upload failed. Please try again.')),
+        );
+        return;
+      }
+
       if (_editingIndex == null) {
         // Add testimonial
-        Provider.of<TestimonialProvider>(context, listen: false)
-            .postTestimonial(
-          fname: _firstNamController.text,
-          lname: _lastNameController.text,
-          review: _reviewController.text,
-          imageBytes: _reviewImageUrl!,
-          imageName: selectedFile,
-        )
-            .then((_) {
+        print('Attempting to post testimonial...');
+        print('First Name: ${_firstNamController.text}');
+        print('Last Name: ${_lastNameController.text}');
+        print('Review: ${_reviewController.text}');
+        print('Image URL: $uploadedImageUrl');
+
+        try {
+          await Provider.of<TestimonialProvider>(context, listen: false)
+              .postTestimonial(
+            fname: _firstNamController.text,
+            lname: _lastNameController.text,
+            review: _reviewController.text,
+            reviewImage: uploadedImageUrl!, // Use the uploaded image URL here
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Testimonial Added Successfully')),
           );
           _clearForm();
-        }).catchError((e) {
+        } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to add testimonial')),
           );
-          print('Error: $e');
-        });
+          print('Error posting testimonial: $e');
+        }
       } else {
         // Update testimonial
         final testimonial =
             Provider.of<TestimonialProvider>(context, listen: false)
                 .testimonials[_editingIndex!];
 
-        Provider.of<TestimonialProvider>(context, listen: false)
-            .updateTestimonial(
-          testimonial.id ?? '',
-          Testimonial(
-            id: testimonial.id,
-            fname: _firstNamController.text,
-            lname: _lastNameController.text,
-            review: _reviewController.text,
-            reviewImage: selectedFile,
-          ),
-        )
-            .then((_) {
+        // If no new image is uploaded, retain the existing one
+        String updatedImageUrl =
+            uploadedImageUrl ?? testimonial.reviewImage ?? '';
+
+        print('Attempting to update testimonial...');
+        print('Testimonial ID: ${testimonial.id}');
+        print('Updated First Name: ${_firstNamController.text}');
+        print('Updated Last Name: ${_lastNameController.text}');
+        print('Updated Review: ${_reviewController.text}');
+        print('Updated Image URL: $updatedImageUrl');
+
+        try {
+          await Provider.of<TestimonialProvider>(context, listen: false)
+              .updateTestimonial(
+            testimonial.id ?? '',
+            Testimonial(
+              id: testimonial.id,
+              fname: _firstNamController.text,
+              lname: _lastNameController.text,
+              review: _reviewController.text,
+              reviewImage: updatedImageUrl,
+            ),
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Testimonial Updated Successfully')),
           );
           _clearForm();
-        }).catchError((e) {
+        } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Failed to update testimonial')),
           );
-          print('Error: $e');
-        });
+          print('Error updating testimonial: $e');
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -121,7 +150,6 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
       _firstNamController.clear();
       _lastNameController.clear();
       _reviewController.clear();
-      _reviewImageUrl = null;
       _editingIndex = null;
     });
   }
@@ -182,7 +210,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-   @override
+  @override
   void dispose() {
     _firstNamController.dispose();
     _lastNameController.dispose();
@@ -192,13 +220,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine if the screen is small or large
-    bool isSmallScreen = ResponsiveWidget.isSmallScreen(context);
-
-    // Return the appropriate layout based on screen size
-    return isSmallScreen
-        ? _buildSmallScreen(context)
-        : _buildLargeScreen(context);
+    return ResponsiveWidget(
+      largeScreen: _buildLargeScreen(context),
+      mediumScreen: _buildSmallScreen(context),
+      smallScreen: _buildSmallScreen(context),
+    );
   }
 
   Widget _buildLargeScreen(BuildContext context) {
@@ -326,8 +352,8 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';
-                      } else if (value.length < 10 || value.length > 500) {
-                        return 'Review must be between 10 and 500 characters';
+                      } else if (value.length < 10) {
+                        return 'Review must be more than 10  characters';
                       }
                       return null;
                     },
@@ -391,10 +417,14 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                                   int index = entry.key;
                                   Testimonial testimonial = entry.value;
                                   return DataRow(cells: [
-                                    DataCell(Image.network(
-                                        '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
-                                        width: 50,
-                                        height: 50)),
+                                    DataCell(testimonial.reviewImage == null
+                                        ? const Icon(Icons.image)
+                                        : Image.network(
+                                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+
+                                            // '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
+                                            width: 50,
+                                            height: 50)),
                                     DataCell(Text(testimonial.fname)),
                                     DataCell(Text(testimonial.lname)),
                                     DataCell(
@@ -579,8 +609,8 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'required';
-                      } else if (value.length < 10 || value.length > 500) {
-                        return 'Review must be between 10 and 500 characters';
+                      } else if (value.length < 10) {
+                        return 'Review must be more than 10 characters';
                       }
                       return null;
                     },
@@ -640,10 +670,14 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                               int index = entry.key;
                               Testimonial testimonial = entry.value;
                               return DataRow(cells: [
-                                DataCell(Image.network(
-                                    '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
-                                    width: 50,
-                                    height: 50)),
+                                DataCell(testimonial.reviewImage == null
+                                    ? const Icon(Icons.image)
+                                    : Image.network(
+                                        'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+
+                                        // '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
+                                        width: 50,
+                                        height: 50)),
                                 DataCell(Text(
                                     "${testimonial.fname} ${testimonial.lname}")),
                                 DataCell(

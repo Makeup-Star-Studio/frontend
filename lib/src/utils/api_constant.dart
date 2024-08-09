@@ -46,6 +46,8 @@ class ApiConstant {
 
 /*--------------------------------- Testimonails ---------------------------------*/
   /// [Testimonials]
+  /// [UPLOAD]
+  static const String uploadTestimonialImage = '/api/testimonial/upload';
   /// [GET]
   static const String getAllTestimonials = '/api/testimonial/';
   static String getSingleTestimonial(String id) => "/api/testimonial/$id";
