@@ -315,7 +315,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
                 Expanded(
                   child: ClipRect(
                     child: Image.network(
-                      '${ApiConstant.localUrl}/services/${bridalService.image}',
+                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${bridalService.image}',
                       fit: BoxFit.cover,
                       width: 500.0,
                       height: screenSize.height,
@@ -440,7 +440,7 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
               children: [
                 ClipRect(
                   child: Image.network(
-                    '${ApiConstant.localUrl}/services/${bridalService.image}',
+                    'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${bridalService.image}',
                     fit: BoxFit.cover,
                     width: screenSize.width,
                     height: screenSize.height,

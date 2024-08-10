@@ -34,7 +34,7 @@ class NonBridalMakeupServiceSectionState
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-        final List<Service> nonBridalMakeupServices =
+    final List<Service> nonBridalMakeupServices =
         Provider.of<NonBridalMakeupServicesProvider>(context).filteredServices;
 
     for (var nonBridalMakeupService in nonBridalMakeupServices) {
@@ -137,7 +137,7 @@ class NonBridalMakeupServiceSectionState
                 Expanded(
                   child: ClipRRect(
                     child: Image.network(
-                      '${ApiConstant.localUrl}/services/${nonBridalMakeupService.image}',
+                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${nonBridalMakeupService.image}',
                       fit: BoxFit.cover,
                       width: 500.0,
                       height: screenSize.height,
@@ -173,8 +173,7 @@ class NonBridalMakeupServiceSectionState
           fontFamily: 'Questrial',
           height: 1.75,
           fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-
+          fontWeight: FontWeight.bold,
         ),
         children: services
             .map((service) => TextSpan(
@@ -194,7 +193,7 @@ class NonBridalMakeupServiceSectionState
 
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-      return Consumer<NonBridalMakeupServicesProvider>(
+    return Consumer<NonBridalMakeupServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -213,23 +212,23 @@ class NonBridalMakeupServiceSectionState
               children: [
                 ClipRRect(
                   child: Image.network(
-                      '${ApiConstant.localUrl}/services/${nonBridalMakeupService.image}',
-                      fit: BoxFit.cover,
-                      width: screenSize.width,
-                      height: screenSize.height,
-                      errorBuilder: (context, error, stackTrace) {
-                        print('Error loading image: $error');
-                        return const Center(
-                          child: Text('Failed to load image'),
-                        );
-                      },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
+                    'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${nonBridalMakeupService.image}',
+                    fit: BoxFit.cover,
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    errorBuilder: (context, error, stackTrace) {
+                      print('Error loading image: $error');
+                      return const Center(
+                        child: Text('Failed to load image'),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                 ),
                 const SizedBox(width: 20.0),
                 Container(

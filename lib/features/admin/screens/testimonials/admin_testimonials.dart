@@ -51,7 +51,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     }
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     if (_testimonialKey.currentState!.validate() &&
         (_reviewImageUrl != null || _editingIndex != null)) {
       String? uploadedImageUrl;
@@ -88,12 +88,22 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
             reviewImage: uploadedImageUrl!, // Use the uploaded image URL here
           );
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Testimonial Added Successfully')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.successColor,
+                content: Text(
+                  'Testimonial Added Successfully',
+                  style: TextStyle(color: AppColorConstant.white),
+                )),
           );
           _clearForm();
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to add testimonial')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.errorColor,
+                content: Text(
+                  'Failed to add testimonial',
+                  style: TextStyle(color: AppColorConstant.white),
+                )),
           );
           print('Error posting testimonial: $e');
         }
@@ -127,12 +137,22 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
             ),
           );
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Testimonial Updated Successfully')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.successColor,
+                content: Text(
+                  'Testimonial Updated Successfully',
+                  style: TextStyle(color: AppColorConstant.white),
+                )),
           );
           _clearForm();
         } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Failed to update testimonial')),
+            const SnackBar(
+                backgroundColor: AppColorConstant.errorColor,
+                content: Text(
+                  'Failed to update testimonial',
+                  style: TextStyle(color: AppColorConstant.white),
+                )),
           );
           print('Error updating testimonial: $e');
         }
@@ -140,7 +160,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text('Please fill all fields and upload an image')),
+            backgroundColor: AppColorConstant.warningColor,
+            content: Text(
+              'Please fill all fields and upload an image',
+              style: TextStyle(color: AppColorConstant.white),
+            )),
       );
     }
   }
@@ -641,7 +665,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
           ),
           const SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Consumer<TestimonialProvider>(
               builder: (context, testimonialProvider, child) {
                 final testimonials = testimonialProvider.testimonials;

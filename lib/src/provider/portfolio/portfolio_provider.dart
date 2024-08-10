@@ -51,12 +51,65 @@ class PortfolioProvider extends ChangeNotifier {
     }
   }
 
-  /*---------------------------------Post service---------------------------------*/
-  Future<void> postPortfolio({
-    required String category,
-    required List<Uint8List> imageBytesList, // Changed to a list of Uint8List
-    required List<String> imageNames, // List of image file names
-  }) async {
+  /*---------------------------------Upload Portfolio Image---------------------------------*/
+Future<List<String>?> uploadPortfolioImages(
+  String category,
+  List<Uint8List> imageBytesList,
+  List<String> imageNames,
+) async {
+  final List<String> uploadedImageUrls = [];
+  final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+  String? token = await sharedPrefs.getTokenPref('userToken');
+
+  if (token == null) {
+    print('No token found');
+    return null;
+  }
+
+  for (int i = 0; i < imageBytesList.length; i++) {
+    final uri = Uri.parse('${ApiConstant.localUrl}/api/portfolio/upload');
+    var request = http.MultipartRequest('POST', uri)
+      ..fields['category'] = category
+      ..files.add(http.MultipartFile.fromBytes(
+        'portfolioImage',
+        imageBytesList[i],
+        filename: imageNames[i],
+        contentType: MediaType('image', 'jpeg'), // Adjust content type if needed
+      ))
+      ..headers['Authorization'] = 'Bearer $token';
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+
+      // Extract URLs from the response
+      List<String>? urls = (jsonResponse['urls'] as List<dynamic>?)?.map((url) => url.toString()).toList();
+
+      if (urls != null) {
+        uploadedImageUrls.addAll(urls);
+      } else {
+        print('No valid image URLs found in the response.');
+      }
+    } else {
+      print('Failed to upload image. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+
+  return uploadedImageUrls.isNotEmpty ? uploadedImageUrls : null;
+}
+
+
+
+  /*---------------------------------Post portfolio---------------------------------*/
+  Future<void> postPortfolio(
+      {
+      required String category,
+      List<String>? portfolioImage}) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
@@ -69,77 +122,40 @@ class PortfolioProvider extends ChangeNotifier {
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/api/portfolio/');
-      print('Posting to URL: $uri');
-
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['category'] = category;
-
-      // Add multiple images to the request
-      for (int i = 0; i < imageBytesList.length; i++) {
-        final imageBytes = imageBytesList[i];
-        final imageName = imageNames[i];
-        String mimeType;
-        String extension = imageName.split('.').last.toLowerCase();
-
-        switch (extension) {
-          case 'jpeg':
-          case 'jpg':
-            mimeType = 'image/jpeg';
-            break;
-          case 'png':
-            mimeType = 'image/png';
-            break;
-          case 'heic':
-            mimeType = 'image/heic';
-            break;
-          case 'gif':
-            mimeType = 'image/gif';
-            break;
-             case 'webp':
-            mimeType = 'image/webp';
-            break;
-            case 'avif':
-            mimeType = 'image/avif';
-            break;
-          default:
-            throw Exception('Unsupported image format');
-        }
-
-        request.files.add(http.MultipartFile.fromBytes(
-          'portfolioImage', // Name of the field
-          imageBytes,
-          filename: imageName,
-          contentType: MediaType.parse(mimeType),
-        ));
-      }
-
-      request.headers['Authorization'] = 'Bearer $token';
-
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      print("Post Response Status Code: ${response.statusCode}");
-      print("Post Response Body: ${response.body}");
-
+      final response = await http.post(
+        Uri.parse('${ApiConstant.localUrl}/api/portfolio/'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'category': category,
+          'portfolioImage': portfolioImage,
+        }),
+      );
       if (response.statusCode == 201) {
-        var apiResponse = ApiResponse.fromJson(json.decode(response.body));
-        print("API Response: ${apiResponse.toJson()}");
+        final responseData = json.decode(response.body);
+        // Create a new Tesportfoliotimonial object
+        Portfolio newPortfolio = Portfolio.fromJson(responseData['data']['portfolio']);
+        // Insert the new testimonial at the beginning of the list
 
-        if (apiResponse.status == false) {
-          print('Failed to post portfolio: ${apiResponse.message}');
-        }
+        _portfolio.insert(0, newPortfolio);
+        notifyListeners();
       } else {
-        print('Failed to post portfolio. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        final responseBody = json.decode(response.body);
+        // Extract the error message if available
+        final errorMessage =
+            responseBody['message'] ?? 'An unknown error occurred';
+        throw Exception('Failed to post portfolios: $errorMessage');
       }
-
-      _isLoading = false;
-      notifyListeners();
     } catch (e, s) {
       print('Error: $e');
       print('Stack trace: $s');
       _isLoading = false;
       handleSubmissionError(e);
+      notifyListeners();
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }

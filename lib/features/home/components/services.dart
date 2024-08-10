@@ -39,14 +39,14 @@ class _ServiceSectionState extends State<ServiceSection> {
 
   Widget _buildLargeScreen(Size screenSize) {
     return Consumer<ServicesProvider>(
-      builder: (context, value, child) {
-        if (value.isLoading) {
+      builder: (context, serviceProvider, child) {
+        if (serviceProvider.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
-          if (value.services.isEmpty) {
+          if (serviceProvider.services.isEmpty) {
             return const Center(child: Text('No services available'));
           }
-          final List<Service> services = value.services;
+          final List<Service> services = serviceProvider.services;
           return Container(
             padding: EdgeInsets.only(
                 left: screenSize.width * 0.1,
@@ -70,19 +70,19 @@ class _ServiceSectionState extends State<ServiceSection> {
                     ServiceCard(
                         title: 'Bridal',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Bridal').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Bridal').image}'),
                     ServiceCard(
                         title: 'Hair',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Hair').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Hair').image}'),
                     ServiceCard(
                         title: 'Henna',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Henna').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Henna').image}'),
                     ServiceCard(
                         title: 'Draping',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Draping').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Draping').image}'),
                   ],
                 ),
               ],
@@ -126,19 +126,19 @@ class _ServiceSectionState extends State<ServiceSection> {
                     ServiceCard(
                         title: 'Bridal',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Bridal').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Bridal').image}'),
                     ServiceCard(
                         title: 'Hair',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Hair').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Hair').image}'),
                     ServiceCard(
                         title: 'Henna',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Henna').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Henna').image}'),
                     ServiceCard(
                         title: 'Draping',
                         imagePath:
-                            '${ApiConstant.localUrl}/services/${services.firstWhere((element) => element.category == 'Draping').image}'),
+                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${services.firstWhere((element) => element.category == 'Draping').image}'),
                   ],
                 ),
               ],

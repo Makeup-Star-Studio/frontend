@@ -8,7 +8,7 @@ class AppTheme {
   static getApplicationTheme(BuildContext context) {
     return ThemeData(
       colorScheme: const ColorScheme.light(
-        primary: AppColorConstant.backgroundColor,
+        primary: AppColorConstant.secondaryColor,
       ),
 
       fontFamily: "Questrial",
@@ -19,7 +19,7 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         elevation: 0,
         centerTitle: true,
-        backgroundColor: AppColorConstant.backgroundColor,
+        backgroundColor: AppColorConstant.iconBgColor,
         iconTheme: IconThemeData(color: AppColorConstant.black),
       ),
 
@@ -34,8 +34,8 @@ class AppTheme {
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColorConstant.buttonColor,
-            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+          backgroundColor: AppColorConstant.buttonColor,
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
         ),
       ),
 

@@ -17,7 +17,7 @@ class SubHeadingSlanted extends StatelessWidget {
     required this.text,
     this.size = 70.0,
     this.mediumSize = 70.0,
-    this.smallSize = 80.0,
+    this.smallSize = 65.0,
     this.textAlign = TextAlign.center,
     this.height = 1.5,
   });

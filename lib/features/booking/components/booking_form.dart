@@ -3,6 +3,8 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/features/booking/widget/booking_form_widget.dart';
+import 'package:makeupstarstudio/src/provider/admin/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BookingFormSection extends StatefulWidget {
@@ -14,133 +16,176 @@ class BookingFormSection extends StatefulWidget {
 
 class _BookingFormSectionState extends State<BookingFormSection> {
   bool _isHovering = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchUserInfo();
+    });
+  }
+
+  Future<void> _fetchUserInfo() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.fetchUserInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: ResponsiveWidget.isSmallScreen(context)
-              ? 20
-              : screenSize.width * 0.15),
-      child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const BodyText(
-            text: 'For bookings & inquiries, contact:',
-            fontWeight: FontWeight.w600,
-            smallSize: 20.0,
-            mediumSize: 20.0,
-            size: 22.0,
-          ),
-          InkWell(
-            hoverColor: Colors.transparent,
-            onTap: () {
-              _launchEmail('info@makeupstarstudio.com');
-            },
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: const TextSpan(
-                style: TextStyle(
-                  color: AppColorConstant.black,
-                  fontFamily: 'Questrial',
-                  height: 1.75,
-                  fontSize: 18.0,
+    return Consumer<UserProvider>(
+      builder: (context, userProvider, child) {
+        if (userProvider.isLoading) {
+          return const CircularProgressIndicator();
+        } else {
+          final userProvider = Provider.of<UserProvider>(context);
+          final userModel = userProvider.user;
+
+          // Debugging: Print the user data
+          print('UserModel data: $userModel');
+
+          if (userModel == null) {
+            return const Center(child: Text("No User Found"));
+          }
+
+          final user = userModel.data.user;
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: ResponsiveWidget.isSmallScreen(context)
+                    ? 20
+                    : screenSize.width * 0.15),
+            child: Column(
+              // crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const BodyText(
+                  text: 'For bookings & inquiries, contact:',
+                  fontWeight: FontWeight.w600,
+                  smallSize: 20.0,
+                  mediumSize: 20.0,
+                  size: 22.0,
                 ),
-                children: [
-                  TextSpan(
-                    text: 'Email: ',
-                  ),
-                  TextSpan(
-                    text: 'info@makeupstarstudio.com',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: AppColorConstant.secondaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          InkWell(
-            hoverColor: Colors.transparent,
-            onTap: () {
-              _launchURL('https://maps.app.goo.gl/Yj5N8eYKiPm6udRm7');
-            },
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: const TextSpan(
-                style: TextStyle(
-                  color: AppColorConstant.black,
-                  fontFamily: 'Questrial',
-                  height: 1.75,
-                  fontSize: 18.0,
-                ),
-                children: [
-                  TextSpan(
-                    text: 'Location: ',
-                  ),
-                  TextSpan(
-                    text: '60 Descanso Dr, San Jose, CA 95134, United States',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: AppColorConstant.secondaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          /*-----------------------------------------------*/
-          if (ResponsiveWidget.isSmallScreen(context))
-            // const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.topRight,
-              child: MouseRegion(
-                onEnter: (_) {
-                  setState(() {
-                    _isHovering = true;
-                  });
-                },
-                onExit: (_) {
-                  setState(() {
-                    _isHovering = false;
-                  });
-                },
-                child: GestureDetector(
+                InkWell(
+                  hoverColor: Colors.transparent,
                   onTap: () {
-                    launchWhatsApp();
+                    _launchEmail('info@makeupstarstudio.com');
                   },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: ResponsiveWidget.isSmallScreen(context) ? 80 : 180,
-                    height: ResponsiveWidget.isSmallScreen(context) ? 50 : 65,
-                    decoration: const BoxDecoration(
-                      color: AppColorConstant.successColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(100.0),
-                        bottomLeft: Radius.circular(100.0),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: AppColorConstant.black,
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 18.0,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: 'Email: ',
+                        ),
+                        TextSpan(
+                          text: user.email.isNotEmpty
+                              ? user.email
+                              : 'info@makeupstarstudio.com',
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppColorConstant.secondaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                InkWell(
+                  hoverColor: Colors.transparent,
+                  onTap: () {
+                    _launchURL('https://maps.app.goo.gl/Yj5N8eYKiPm6udRm7');
+                  },
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                      style: const TextStyle(
+                        color: AppColorConstant.black,
+                        fontFamily: 'Questrial',
+                        height: 1.75,
+                        fontSize: 18.0,
+                      ),
+                      children: [
+                        const TextSpan(
+                          text: 'Location: ',
+                        ),
+                        TextSpan(
+                          text: user.location.isNotEmpty
+                              ? user.location
+                              : '60 Descanso Dr, San Jose, CA 95134, United States',
+                          style: const TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: AppColorConstant.secondaryColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                /*-----------------------------------------------*/
+                if (ResponsiveWidget.isSmallScreen(context))
+                  // const SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: MouseRegion(
+                      onEnter: (_) {
+                        setState(() {
+                          _isHovering = true;
+                        });
+                      },
+                      onExit: (_) {
+                        setState(() {
+                          _isHovering = false;
+                        });
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          launchWhatsApp();
+                        },
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: ResponsiveWidget.isSmallScreen(context)
+                              ? 80
+                              : 180,
+                          height:
+                              ResponsiveWidget.isSmallScreen(context) ? 50 : 65,
+                          decoration: const BoxDecoration(
+                            color: AppColorConstant.successColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(100.0),
+                              bottomLeft: Radius.circular(100.0),
+                            ),
+                          ),
+                          transform: _isHovering
+                              ? Matrix4.diagonal3Values(1.1, 1.1, 1)
+                              : Matrix4.diagonal3Values(1, 1, 1),
+                          child: Image.asset(
+                            'assets/icons/whatsapp.png', // Change to the actual path of WhatsApp logo
+                            fit: BoxFit.contain,
+                            width: ResponsiveWidget.isSmallScreen(context)
+                                ? 30
+                                : 40,
+                            height: ResponsiveWidget.isSmallScreen(context)
+                                ? 30
+                                : 40,
+                          ),
+                        ),
                       ),
                     ),
-                    transform: _isHovering
-                        ? Matrix4.diagonal3Values(1.1, 1.1, 1)
-                        : Matrix4.diagonal3Values(1, 1, 1),
-                    child: Image.asset(
-                      'assets/icons/whatsapp.png', // Change to the actual path of WhatsApp logo
-                      fit: BoxFit.contain,
-                      width: ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
-                      height: ResponsiveWidget.isSmallScreen(context) ? 30 : 40,
-                    ),
                   ),
-                ),
-              ),
-            ),
 /*-----------------------------------------------*/
-          const BookingFormWidget(),
-        ],
-      ),
+                const BookingFormWidget(),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -170,8 +215,8 @@ class _BookingFormSectionState extends State<BookingFormSection> {
   }
 
   Future<void> launchWhatsApp() async {
- const url =
-        'https://wa.me/14156960258';     if (await canLaunch(url)) {
+    const url = 'https://wa.me/14156960258';
+    if (await canLaunch(url)) {
       await launch(url);
     } else {
       throw 'Could not launch $url';

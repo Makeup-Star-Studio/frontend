@@ -27,35 +27,88 @@ class UserProvider extends ChangeNotifier {
     String? userId = prefs.getString('userId');
     String? token = prefs.getString('userToken');
 
-    print('Retrieved userId: $userId'); 
-    print('Retrieved token: $token'); 
+    print('Retrieved userId: $userId');
+    print('Retrieved token: $token');
 
     if (userId != null && token != null) {
-      final response = await http.get(
-        Uri.parse('${ApiConstant.localUrl}/api/admin/$userId'),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-      );
-      
-      print("URL----> ${ApiConstant.localUrl}/api/admin/$userId");
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      try {
+        final response = await http.get(
+          Uri.parse('${ApiConstant.localUrl}/api/admin/$userId'),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        );
 
-      if (response.statusCode == 200) {
-        var responseData = json.decode(response.body);
-        _user = UserModel.fromJson(responseData);
-        notifyListeners();
-      } else {
-        throw Exception('Failed to load user details');
+        print("URL----> ${ApiConstant.localUrl}/api/admin/$userId");
+        print('Response status: ${response.statusCode}');
+        print('Response body: ${response.body}');
+
+        if (response.statusCode == 200) {
+          var responseData = json.decode(response.body);
+          _user = UserModel.fromJson(responseData);
+          print('Parsed UserModel: $_user');
+        } else {
+          print(
+              'Failed to load user details, Status code: ${response.statusCode}');
+          throw Exception('Failed to load user details');
+        }
+      } catch (e) {
+        print('Error occurred while fetching user info: $e');
       }
     } else {
       print('User ID or token is missing');
     }
-      _isLoading = false;
-  notifyListeners();
+    _isLoading = false;
+    notifyListeners();
+  }
 
+  /*---------------------------------Upload Admin Image---------------------------------*/
+  Future<String?> uploadAdminImage(
+    Uint8List? imageBytes,
+    String? imageName,
+  ) async {
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      if (token == null) {
+        print('No token found');
+        return null;
+      }
+
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/admin/upload');
+      var request = http.MultipartRequest('POST', uri)
+        ..files.add(http.MultipartFile.fromBytes(
+          'imageUrl',
+          imageBytes!,
+          filename: imageName,
+          contentType: MediaType('image', 'jpeg'), // Adjust if needed
+        ))
+        ..headers['Authorization'] = 'Bearer $token';
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['url'] != null) {
+          return jsonResponse['url'];
+        } else if (jsonResponse['data'] != null &&
+            jsonResponse['data']['imageUrl'] != null) {
+          return jsonResponse['data']['imageUrl'];
+        } else {
+          print('No valid image URL found in the response.');
+        }
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+    }
+
+    return null;
   }
 
   /*---------------------------------Update User Information---------------------------------*/
@@ -64,11 +117,10 @@ class UserProvider extends ChangeNotifier {
     required String username,
     required String email,
     required String phoneNumber,
-    required String bio,
-    required String location,
-    required Uint8List? imageBytes,
-    required String? imageName,
-    required String id,
+    String? bio,
+    String? location,
+    String? imageUrl,
+    String? id,
   }) async {
     _isLoading = true;
     notifyListeners();
@@ -77,8 +129,8 @@ class UserProvider extends ChangeNotifier {
       String? userId = prefs.getString('userId');
       String? token = prefs.getString('userToken');
 
-      print('Retrieved userId: $userId'); 
-      print('Retrieved token: $token'); 
+      print('Retrieved userId: $userId');
+      print('Retrieved token: $token');
 
       if (userId == null || token == null) {
         print('User ID or token is missing');
@@ -86,43 +138,22 @@ class UserProvider extends ChangeNotifier {
         notifyListeners();
         return;
       }
-
-      final uri = Uri.parse('${ApiConstant.localUrl}/api/admin/$userId');
-      var request = http.MultipartRequest('PATCH', uri)
-        ..fields['fname'] = fname
-        ..fields['username'] = username
-        ..fields['email'] = email
-        ..fields['phoneNumber'] = phoneNumber
-        ..fields['bio'] = bio
-        ..fields['location'] = location;
-
-      if (imageBytes != null && imageName != null) {
-        String mimeType;
-        String extension = imageName.split('.').last.toLowerCase();
-
-        switch (extension) {
-          case 'jpeg':
-          case 'jpg':
-            mimeType = 'image/jpeg';
-            break;
-          case 'png':
-            mimeType = 'image/png';
-            break;
-          default:
-            throw Exception('Unsupported image format');
-        }
-        request.files.add(http.MultipartFile.fromBytes(
-          'imageUrl',
-          imageBytes,
-          filename: imageName,
-          contentType: MediaType.parse(mimeType),
-        ));
-      }
-
-      request.headers['Authorization'] = 'Bearer $token';
-
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
+      final response = await http.patch(
+        Uri.parse('${ApiConstant.localUrl}/api/admin/$userId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'fname': fname,
+          'username': username,
+          'email': email,
+          'phoneNumber': phoneNumber,
+          'bio': bio ?? '',
+          'location': location ?? '',
+          'imageUrl': imageUrl ?? '',
+        }),
+      );
 
       if (response.statusCode == 200) {
         await fetchUserInfo();

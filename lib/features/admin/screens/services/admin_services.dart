@@ -9,7 +9,6 @@ import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class AdminServicesView extends StatefulWidget {
@@ -60,67 +59,96 @@ class _AdminServicesViewState extends State<AdminServicesView> {
     }
   }
 
-  void _submitForm() {
-    if (_servicesFormKey.currentState!.validate()) {
-      final servicesProvider =
-          Provider.of<ServicesProvider>(context, listen: false);
+  Future<void> _submitForm() async {
+    if (_servicesFormKey.currentState!.validate() &&
+        (_imageUrl != null || _editingIndex != null)) {
+      String? uploadedImageUrl;
+      if (_imageUrl != null) {
+        uploadedImageUrl =
+            await Provider.of<ServicesProvider>(context, listen: false)
+                .uploadServiceImage(
+                     _imageUrl!, selectedFile);
+      }
 
-      // Find if a service already exists for the selected category
-      final existingService = servicesProvider.services.firstWhere(
-        (service) => service.category == _selectedCategory,
-        orElse: () => Service(title: '', price: 0, category: '', image: ''),
-      );
-
-      // Check if the image is required based on whether an image is already present for the category
-      _isImageRequired = existingService.image.isEmpty;
+      // Ensure an image URL exists when adding a new testimonial
+      if (uploadedImageUrl == null && _editingIndex == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColorConstant.errorColor,
+            content: Text(
+              'Image upload failed. Please try again.',
+              style: TextStyle(color: AppColorConstant.white),
+            ),
+          ),
+        );
+        return;
+      }
 
       if (_editingIndex == null) {
-        // Adding a new service
-        servicesProvider
-            .postService(
-          title: _titleController.text,
-          price: double.parse(_priceController.text),
-          category: _selectedCategory!,
-          imageBytes: _isImageRequired ? _imageUrl : null,
-          imageUrl: _isImageRequired ? selectedFile : existingService.image,
-        )
-            .then((_) {
+        // Add testimonial
+        print('Attempting to post testimonial...');
+        print('Title: ${_titleController.text}');
+        print('Price: ${_priceController.text}');
+        print('Category: $_selectedCategory');
+        print('Image URL: $uploadedImageUrl');
+
+        try {
+          await Provider.of<ServicesProvider>(context, listen: false)
+              .postService(
+            title: _titleController.text,
+            price: double.parse(_priceController.text),
+            category: _selectedCategory!,
+            image: uploadedImageUrl!,
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: AppColorConstant.successColor,
               content: Text(
-                'Service Added Successfully',
+                'Services Added Successfully',
                 style: TextStyle(color: AppColorConstant.white),
               ),
             ),
           );
           _clearForm();
-        }).catchError((e) {
+        } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: AppColorConstant.errorColor,
               content: Text(
-                'Failed to add service',
+                'Failed to add services',
                 style: TextStyle(color: AppColorConstant.white),
               ),
             ),
           );
-          print('Error: $e');
-        });
+          print('Error posting services: $e');
+        }
       } else {
-        // Updating an existing service
-        final service = servicesProvider.services[_editingIndex!];
+        // Update service
+        final service = Provider.of<ServicesProvider>(context, listen: false)
+            .services[_editingIndex!];
 
-        servicesProvider
-            .updateService(
-          id: service.id ?? '',
-          title: _titleController.text,
-          price: double.parse(_priceController.text),
-          category: _selectedCategory!,
-          imageBytes: _imageUrl,
-          imageUrl: selectedFile,
-        )
-            .then((_) {
+        // If no new image is uploaded, retain the existing one
+        String updatedImageUrl = uploadedImageUrl ?? service.image!;
+
+        print('Attempting to update service...');
+        print('Id: ${service.id}');
+        print('Title: ${_titleController.text}');
+        print('Price: ${_priceController.text}');
+        print('Category: $_selectedCategory');
+        print('Image URL: $updatedImageUrl');
+
+        try {
+          await Provider.of<ServicesProvider>(context, listen: false)
+              .updateService(
+            service.id ?? '',
+            Service(
+              id: service.id,
+              title: _titleController.text,
+              price: double.parse(_priceController.text),
+              category: _selectedCategory!,
+              image: updatedImageUrl,
+            ),
+          );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: AppColorConstant.successColor,
@@ -131,7 +159,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             ),
           );
           _clearForm();
-        }).catchError((e) {
+        } catch (e) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: AppColorConstant.errorColor,
@@ -141,15 +169,15 @@ class _AdminServicesViewState extends State<AdminServicesView> {
               ),
             ),
           );
-          print('Error: $e');
-        });
+          print('Error updating testimonial: $e');
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           backgroundColor: AppColorConstant.errorColor,
           content: Text(
-            'Please fill all fields and upload an image if required',
+            'Please fill all fields and upload an image',
             style: TextStyle(color: AppColorConstant.white),
           ),
         ),
@@ -436,10 +464,12 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                                   int index = entry.key;
                                   Service service = entry.value;
                                   return DataRow(cells: [
-                                    DataCell(Image.network(
-                                        '${ApiConstant.localUrl}/services/${services[index].image}',
-                                        width: 50,
-                                        height: 50)),
+                                    DataCell(services[index].image == null
+                                        ? const Icon(Icons.image)
+                                        : Image.network(
+                                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
+                                            width: 50,
+                                            height: 50)),
                                     DataCell(
                                       ConstrainedBox(
                                         constraints:
@@ -679,10 +709,12 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                             itemBuilder: (context, index) {
                               final service = services[index];
                               return ListTile(
-                                leading: Image.network(
-                                    '${ApiConstant.localUrl}/services/${service.image}',
-                                    width: 50,
-                                    height: 50),
+                                leading: services[index].image == null
+                                    ? const Icon(Icons.image)
+                                    : Image.network(
+                                        'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
+                                        width: 50,
+                                        height: 50),
                                 title: Text(service.title),
                                 subtitle: Text(
                                     '${service.price} - ${service.category}'),

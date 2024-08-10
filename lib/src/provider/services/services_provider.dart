@@ -51,14 +51,62 @@ class ServicesProvider extends ChangeNotifier {
     }
   }
 
-  /*---------------------------------Post service---------------------------------*/
-  Future<void> postService({
-    required String title,
-    required double price,
-    required String category,
+/*---------------------------------Upload Service Image---------------------------------*/
+  Future<String?> uploadServiceImage(
     Uint8List? imageBytes,
-    String? imageUrl,
-  }) async {
+    String? imageName,
+  ) async {
+    try {
+      final SharedPreferencesService sharedPrefs = SharedPreferencesService();
+      String? token = await sharedPrefs.getTokenPref('userToken');
+      if (token == null) {
+        print('No token found');
+        return null;
+      }
+
+      final uri = Uri.parse('${ApiConstant.localUrl}/api/services/upload');
+      var request = http.MultipartRequest('POST', uri)
+        ..files.add(http.MultipartFile.fromBytes(
+          'image',
+          imageBytes!,
+          filename: imageName,
+          contentType: MediaType('image', 'jpeg'), // Adjust if needed
+        ))
+        ..headers['Authorization'] = 'Bearer $token';
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        if (jsonResponse['url'] != null) {
+          return jsonResponse['url'];
+        } else if (jsonResponse['data'] != null &&
+            jsonResponse['data']['imageUrl'] != null) {
+          return jsonResponse['data']['imageUrl'];
+        } else {
+          print('No valid image URL found in the response.');
+        }
+      } else {
+        print('Failed to upload image. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e, s) {
+      print('Error: $e');
+      print('Stack trace: $s');
+    }
+
+    return null;
+  }
+
+  /*---------------------------------Post service---------------------------------*/
+  Future<void> postService(
+      {required String title,
+      required double price,
+      required String category,
+      String? image}) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
@@ -76,170 +124,106 @@ class ServicesProvider extends ChangeNotifier {
           (service) => service.category == category,
           orElse: () => Service(title: '', price: 0, category: '', image: ''));
       String? existingImageUrl =
-          existingService.image.isNotEmpty ? existingService.image : null;
+          existingService.image!.isNotEmpty ? existingService.image : null;
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/api/services/');
-      print('Posting to URL: $uri');
-
-      var request = http.MultipartRequest('POST', uri)
-        ..fields['title'] = title
-        ..fields['price'] = price.toString()
-        ..fields['category'] = category;
-      // If imageBytes and imageUrl are provided and there's no existing image for the category
-      if (imageBytes != null && imageUrl != null && existingImageUrl == null) {
-        String mimeType;
-        String extension = imageUrl.split('.').last.toLowerCase();
-
-        switch (extension) {
-          case 'jpeg':
-          case 'jpg':
-            mimeType = 'image/jpeg';
-            break;
-          case 'png':
-            mimeType = 'image/png';
-            break;
-          case 'heic':
-            mimeType = 'image/heic';
-            break;
-          case 'gif':
-            mimeType = 'image/gif';
-            break;
-          case 'webp':
-            mimeType = 'image/webp';
-            break;
-          case 'avif':
-            mimeType = 'image/avif';
-            break;
-          default:
-            throw Exception('Unsupported image format');
-        }
-
-        request.files.add(http.MultipartFile.fromBytes(
-          'image',
-          imageBytes,
-          filename: imageUrl,
-          contentType: MediaType.parse(mimeType),
-        ));
-      } else if (existingImageUrl != null) {
-        // Use the existing image URL if present
-        request.fields['image'] = existingImageUrl;
-      }
-
-      request.headers['Authorization'] = 'Bearer $token';
-
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      print("Post Response Status Code: ${response.statusCode}");
-      print("Post Response Body: ${response.body}");
-
+      final response = await http.post(
+        Uri.parse('${ApiConstant.localUrl}/api/services/'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'title': title,
+          'price': price,
+          'category': category,
+          'image': image ?? existingImageUrl,
+        }),
+      );
       if (response.statusCode == 201) {
-        var apiResponse = ApiResponse.fromJson(json.decode(response.body));
-        print("API Response: ${apiResponse.toJson()}");
+        final responseData = json.decode(response.body);
+        // Create a new Testimonial object
+        Service newService = Service.fromJson(responseData['data']['services']);
+        // Insert the new testimonial at the beginning of the list
 
-        if (apiResponse.status == true) {
-          // Fetch all services to update the list
-          await fetchAllServices();
-        } else {
-          print('Failed to post service: ${apiResponse.message}');
-        }
+        _services.insert(0, newService);
+        notifyListeners();
       } else {
-        print('Failed to post service. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        final responseBody = json.decode(response.body);
+        // Extract the error message if available
+        final errorMessage =
+            responseBody['message'] ?? 'An unknown error occurred';
+        throw Exception('Failed to post service: $errorMessage');
       }
-
-      _isLoading = false;
-      notifyListeners();
     } catch (e, s) {
       print('Error: $e');
       print('Stack trace: $s');
       _isLoading = false;
       handleSubmissionError(e);
+      notifyListeners();
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }
 
 /*---------------------------------Update Service---------------------------------*/
-  Future<void> updateService({
-    required String id,
-    required String title,
-    required double price,
-    required String category,
-    Uint8List? imageBytes,
-    String? imageUrl,
-  }) async {
+  Future<void> updateService(
+    String id,
+    Service services,
+  ) async {
+    _isLoading = true;
+    notifyListeners();
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
       if (token == null) {
         print('No token found');
+        _isLoading = false;
+        notifyListeners();
         return;
       }
 
-      final uri = Uri.parse('${ApiConstant.localUrl}/api/services/edit/$id');
-
-      String mimeType = '';
-      String extension =
-          imageUrl != null ? imageUrl.split('.').last.toLowerCase() : '';
-
-      if (imageUrl != null) {
-        switch (extension) {
-          case 'jpeg':
-          case 'jpg':
-            mimeType = 'image/jpeg';
-            break;
-          case 'png':
-            mimeType = 'image/png';
-            break;
-          case 'heic':
-            mimeType = 'image/heic';
-            break;
-          case 'gif':
-            mimeType = 'image/gif';
-            break;
-          case 'webp':
-            mimeType = 'image/webp';
-            break;
-          case 'avif':
-            mimeType = 'image/avif';
-            break;
-          default:
-            throw Exception('Unsupported image format');
-        }
-      }
-
-      var request = http.MultipartRequest('PUT', uri)
-        ..fields['title'] = title
-        ..fields['price'] = price.toString()
-        ..fields['category'] = category
-        ..headers['Authorization'] = 'Bearer $token';
-
-      if (imageBytes != null) {
-        request.files.add(http.MultipartFile.fromBytes(
-          'image',
-          imageBytes,
-          filename: imageUrl,
-          contentType: MediaType.parse(mimeType),
-        ));
-      }
-
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
+      final response = await http.put(
+        Uri.parse('${ApiConstant.localUrl}/api/services/edit/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'title': services.title,
+          'price': services.price,
+          'category': services.category,
+          'image': services.image,
+        }),
+      );
 
       if (response.statusCode == 200) {
-        var apiResponse = ApiResponse.fromJson(json.decode(response.body));
-        if (apiResponse.status == true) {
-          await fetchAllServices();
-        } else {
-          print('Failed to update service: ${apiResponse.message}');
-        }
+        final responseData = json.decode(response.body);
+        // Update local state
+        _services = _services.map((item) {
+          if (item.id == id) {
+            return Service.fromJson(responseData['data']['services']);
+          }
+          return item;
+        }).toList();
+        await fetchAllServices();
+
+        print('Services updated: ${responseData['data']['services']}');
       } else {
-        print('Failed to update service. Status code: ${response.statusCode}');
+        final responseBody = json.decode(response.body);
+        // Extract the error message if available
+        final errorMessage =
+            responseBody['message'] ?? 'An unknown error occurred';
+        throw Exception('Failed to update testimonial: $errorMessage');
       }
     } catch (e, s) {
       print('Error: $e');
       print('Stack trace: $s');
       _isLoading = false;
       handleSubmissionError(e);
+      notifyListeners();
+    } finally {
+      _isLoading = false;
       notifyListeners();
     }
   }

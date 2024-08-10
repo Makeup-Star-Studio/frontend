@@ -254,7 +254,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final userId = userProvider.user?.data.user.id;
 
-    if (userId != null) {
+    String? uploadedImageUrl;
+
+    // Check if a new image is selected before attempting to upload
+    if (_imageUrl != null) {
+      uploadedImageUrl =
+          await userProvider.uploadAdminImage(_imageUrl!, selectedFile);
+
+      // Ensure the image was uploaded successfully
+      if (uploadedImageUrl == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColorConstant.errorColor,
+            content: Text(
+              'Image upload failed. Please try again.',
+              style: TextStyle(color: AppColorConstant.white),
+            ),
+          ),
+        );
+        return;
+      }
+    } else {
+      // Use the existing image URL if no new image is selected
+      uploadedImageUrl = userProvider.user?.data.user.imageUrl;
+    }
+
+    if (userId != null && uploadedImageUrl != null) {
       await userProvider.updateUserInfo(
         id: userId,
         fname: _fullNameController.text,
@@ -263,12 +288,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         phoneNumber: _phoneController.text,
         bio: _bioController.text,
         location: _locationController.text,
-        imageBytes: _imageUrl,
-        imageName: selectedFile,
+        imageUrl: uploadedImageUrl,
       );
       await _fetchUserInfo();
     } else {
-      print('User ID is null. Unable to update profile.');
+      print('User ID or image URL is null. Unable to update profile.');
     }
   }
 

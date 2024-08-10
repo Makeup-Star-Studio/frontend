@@ -13,6 +13,8 @@ class ApiConstant {
 
 /* --------------------------------- Admin --------------------------------- */
   /// [Admin]
+    /// [UPLOAD]
+  static const String uploadAdminImage = '/api/admin/upload';
   /// [GET]
   static String getAdminInfo(String id) => "/api/admin/$id";
 
@@ -25,6 +27,8 @@ class ApiConstant {
 
 /*--------------------------------- Services ---------------------------------*/
   /// [Services]
+    /// [UPLOAD]
+  static const String uploadServiceImage = '/api/services/upload';
   /// [GET]
   static const String getAllServices = '/api/services/';
   static const String getBridalServices = '/api/services/category/bridal';
@@ -63,6 +67,8 @@ class ApiConstant {
 
 /*--------------------------------- Portfolio ---------------------------------*/
   /// [Portfolio]
+    /// [UPLOAD]
+  static const String uploadPortfolioImages = '/api/portfolio/upload';
   /// [GET]
   static const String getAllPortfolio = '/api/portfolio/';
   static const String getBridalPortfolio = '/api/portfolio/bridal';

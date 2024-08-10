@@ -40,7 +40,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
               }
             },
             child: Padding(
-              padding: const EdgeInsets.all(AppColorConstant.defaultPadding * 4),
+              padding:
+                  const EdgeInsets.all(AppColorConstant.defaultPadding * 4),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -85,10 +86,8 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
                               ? AppColorConstant.black
                               : AppColorConstant.black.withOpacity(0.6),
                           fontSize:
-                              ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
-                          fontWeight: ResponsiveWidget.isSmallScreen(context)
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                              ResponsiveWidget.isSmallScreen(context) ? 14 : 16,
+                          fontWeight: FontWeight.normal,
                         ),
                         hoverColor: Colors.transparent,
                         filled: true,

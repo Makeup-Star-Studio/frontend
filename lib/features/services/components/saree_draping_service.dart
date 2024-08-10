@@ -70,7 +70,7 @@ class SareeDrapingServiceSectionState
                 Expanded(
                   child: ClipRect(
                     child: Image.network(
-                      '${ApiConstant.localUrl}/services/${drapingService.image}',
+                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${drapingService.image}',
                       fit: BoxFit.cover,
                       width: 500.0,
                       height: screenSize.height,
@@ -216,7 +216,7 @@ class SareeDrapingServiceSectionState
             children: [
               ClipRect(
                 child: Image.network(
-                  '${ApiConstant.localUrl}/services/${drapingService.image}',
+                  'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${drapingService.image}',
                   fit: BoxFit.cover,
                   width: screenSize.width,
                   height: screenSize.height,

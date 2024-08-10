@@ -16,6 +16,7 @@ class AdminPortfolioView extends StatefulWidget {
 
 class _AdminPortfolioViewState extends State<AdminPortfolioView> {
   final _portfolioKey = GlobalKey<FormState>();
+  Uint8List? imageBytes;
   List<PlatformFile>? _selectedFiles; // Updated to handle multiple files
 
   String? _selectedCategory;
@@ -41,7 +42,7 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                backgroundColor: AppColorConstant.successColor,
+                backgroundColor: AppColorConstant.errorColor,
                 content: Text('You can only select up to 24 images.',
                     style: TextStyle(color: Colors.white)),
               ),
@@ -54,45 +55,72 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
     }
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_portfolioKey.currentState!.validate() && _selectedFiles != null) {
       if (_selectedFiles!.length <= 24) {
+        // Validate file sizes
+        bool filesTooLarge = _selectedFiles!.any(
+            (file) => file.bytes!.length > 15 * 1024 * 1024); // 15 MB in bytes
+
+        if (filesTooLarge) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: AppColorConstant.errorColor,
+              content: Text(
+                'File size too large. Each file must be less than 10 MB.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+          return;
+        }
         List<Uint8List> imageBytesList =
             _selectedFiles!.map((file) => file.bytes!).toList();
         List<String> imageNames =
             _selectedFiles!.map((file) => file.name).toList();
 
-        Provider.of<PortfolioProvider>(context, listen: false)
-            .postPortfolio(
-          category: _selectedCategory!,
-          imageBytesList: imageBytesList,
-          imageNames: imageNames,
-        )
-            .then((_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                backgroundColor: AppColorConstant.successColor,
-                content: BodyText(
-                    text: 'Portfolio Added Successfully', color: Colors.white)),
-          );
-          _clearForm();
-        }).catchError((e) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                backgroundColor: AppColorConstant.errorColor,
-                content: BodyText(
-                    text: 'Failed to add portfolio', color: Colors.white)),
-          );
-          print('Error: $e');
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              backgroundColor: AppColorConstant.errorColor,
-              content: BodyText(
-                  text: 'Please select up to 24 images only.',
-                  color: Colors.white)),
+        List<String>? uploadedImageUrls =
+            await Provider.of<PortfolioProvider>(context, listen: false)
+                .uploadPortfolioImages(
+          _selectedCategory!,
+          imageBytesList,
+          imageNames,
         );
+        if (uploadedImageUrls != null && uploadedImageUrls.isNotEmpty) {
+          Provider.of<PortfolioProvider>(context, listen: false)
+              .postPortfolio(
+            category: _selectedCategory!,
+            portfolioImage: uploadedImageUrls,
+          )
+              .then((_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  backgroundColor: AppColorConstant.successColor,
+                  content: BodyText(
+                      text: 'Portfolio Added Successfully',
+                      color: Colors.white)),
+            );
+            _clearForm();
+          }).catchError((e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                  backgroundColor: AppColorConstant.errorColor,
+                  content: BodyText(
+                      text: 'Failed to add portfolio', color: Colors.white)),
+            );
+            print('Error: $e');
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: AppColorConstant.errorColor,
+              content: Text(
+                'Image upload failed. Please try again.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+        }
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

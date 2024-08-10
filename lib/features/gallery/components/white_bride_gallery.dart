@@ -41,7 +41,7 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
         // Collect all images from all portfolios into a single list
         final List<String> allImageUrls = whiteBridalGalleryProvider
             .filteredPortfolio
-            .expand((portfolio) => portfolio.portfolioImage)
+            .expand((portfolio) => portfolio.portfolioImage ?? [])
             .map((image) =>
                 '${ApiConstant.localUrl}/portfolio/${image.filename}')
             .toList();

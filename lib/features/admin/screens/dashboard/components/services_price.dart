@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class ServicesPricing extends StatefulWidget {
@@ -62,11 +61,11 @@ class _ServicesPricingState extends State<ServicesPricing> {
                         children: [
                           CircleAvatar(
                             backgroundImage: NetworkImage(
-                              '${ApiConstant.localUrl}/services/${service.image}',
+                              'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
                             ),
                             radius: 25,
                             backgroundColor: Colors.grey[200],
-                            child: service.image.isEmpty
+                            child: service.image!.isEmpty
                                 ? const Icon(Icons.image, size: 25)
                                 : null,
                           ),

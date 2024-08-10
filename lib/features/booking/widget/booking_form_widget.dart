@@ -263,10 +263,8 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
                 hintStyle: TextStyle(
                   fontFamily: 'Questrial',
                   color: AppColorConstant.black.withOpacity(0.6),
-                  fontSize: ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
-                  fontWeight: ResponsiveWidget.isSmallScreen(context)
-                      ? FontWeight.w600
-                      : FontWeight.normal,
+                  fontSize: ResponsiveWidget.isSmallScreen(context) ? 14 : 16,
+                  fontWeight: FontWeight.normal,
                 ),
                 border: const UnderlineInputBorder(
                   borderSide:

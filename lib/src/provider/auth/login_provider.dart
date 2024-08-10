@@ -241,42 +241,45 @@ class LoginProvider with ChangeNotifier {
   }
 
   Future<void> updatePassword(
-      String id, String currentPassword, String newPassword) async {
+      {String? id,
+      required String currentPassword,
+      required String newPassword,
+      required String newPasswordConfirm}) async {
     _isLoading = true;
     notifyListeners();
-    try{
-    final prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString('userId');
-    String? token = prefs.getString('userToken');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+      String? token = prefs.getString('userToken');
 
-    print('Retrieved userId: $userId');
-    print('Retrieved token: $token');
+      print('Retrieved userId: $userId');
+      print('Retrieved token: $token');
 
-    if (userId == null || token == null) {
-      print('User ID or token is missing');
-      _isLoading = false;
-      notifyListeners();
-      return;
-    }
+      if (userId == null || token == null) {
+        print('User ID or token is missing');
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
 
-    final response = await http.patch(
-      Uri.parse('${ApiConstant.localUrl}/api/admin/update-password/$id'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({
-        'password': currentPassword,
-        'newPassword': newPassword,
-        'newPasswordConfirm': newPassword,
-      }),
-    );
+      final response = await http.patch(
+        Uri.parse('${ApiConstant.localUrl}/api/admin/update-password/$id'),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'password': currentPassword,
+          'newPassword': newPassword,
+          'newPasswordConfirm': newPasswordConfirm,
+        }),
+      );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      print('Response body: $data');
-      notifyListeners();
-    } else {
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        print('Response body: $data');
+        notifyListeners();
+      } else {
         print('Failed to update password. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
       }

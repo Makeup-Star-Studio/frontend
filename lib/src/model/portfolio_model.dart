@@ -50,15 +50,16 @@ class Portfolio {
 
   final String? id;
   final String category;
-  final List<PortfolioImage> portfolioImage;
+  final List<String>? portfolioImage;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
   factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
         id: json["id"],
         category: json["category"],
-        portfolioImage: List<PortfolioImage>.from(
-            json["portfolioImage"].map((x) => PortfolioImage.fromJson(x))),
+        portfolioImage:
+            List<String>.from(json["portfolioImage"].map((x) => x)),
+
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -70,29 +71,8 @@ class Portfolio {
   Map<String, dynamic> toJson() => {
         "id": id,
         "category": category,
-        "portfolioImage":
-            List<dynamic>.from(portfolioImage.map((x) => x.toJson())),
+        "portfolioImage": List<dynamic>.from(portfolioImage!.map((x) => x)),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
-      };
-}
-
-class PortfolioImage {
-  PortfolioImage({
-    this.id,
-    required this.filename,
-  });
-
-  final String? id;
-  final String filename;
-
-  factory PortfolioImage.fromJson(Map<String, dynamic> json) => PortfolioImage(
-        id: json["id"],
-        filename: json["filename"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "filename": filename,
       };
 }

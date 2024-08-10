@@ -70,7 +70,7 @@ class NonBridalHairServiceSectionState
                 Expanded(
                   child: ClipRRect(
                     child: Image.network(
-                      '${ApiConstant.localUrl}/services/${nonBridalHairService.image}',
+                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${nonBridalHairService.image}',
                       fit: BoxFit.cover,
                       width: 500.0,
                       height: screenSize.height,
@@ -178,8 +178,7 @@ class NonBridalHairServiceSectionState
           fontFamily: 'Questrial',
           height: 1.75,
           fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-
+          fontWeight: FontWeight.bold,
         ),
         children: services
             .map((service) => TextSpan(
@@ -218,7 +217,7 @@ class NonBridalHairServiceSectionState
               children: [
                 ClipRRect(
                     child: Image.network(
-                  '${ApiConstant.localUrl}/services/${nonBridalHairService.image}',
+                  'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${nonBridalHairService.image}',
                   fit: BoxFit.cover,
                   width: screenSize.width,
                   height: screenSize.height,

@@ -52,10 +52,8 @@ class TextFormInputField extends StatelessWidget {
             color: ResponsiveWidget.isSmallScreen(context)
                 ? hintColor
                 : AppColorConstant.black.withOpacity(0.6),
-            fontSize: ResponsiveWidget.isSmallScreen(context) ? 16 : 14,
-            fontWeight: ResponsiveWidget.isSmallScreen(context)
-                ? hintFontWeight
-                : FontWeight.normal,
+            fontSize: ResponsiveWidget.isSmallScreen(context) ? 14 : 16,
+            fontWeight: FontWeight.normal,
           ),
           border: border,
           focusedBorder: focusBorder,

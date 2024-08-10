@@ -32,7 +32,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-        final List<Service> hennaServices =
+    final List<Service> hennaServices =
         Provider.of<HennaServicesProvider>(context).filteredServices;
 
     for (var hennaService in hennaServices) {
@@ -142,7 +142,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
                 Expanded(
                   child: ClipRRect(
                     child: Image.network(
-                      '${ApiConstant.localUrl}/services/${hennaService.image}',
+                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${hennaService.image}',
                       fit: BoxFit.cover,
                       width: 500.0,
                       height: screenSize.height,
@@ -178,8 +178,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
           fontFamily: 'Questrial',
           height: 1.75,
           fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-
+          fontWeight: FontWeight.bold,
         ),
         children: services
             .map((service) => TextSpan(
@@ -199,7 +198,7 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
 
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
-     return Consumer<HennaServicesProvider>(
+    return Consumer<HennaServicesProvider>(
       builder: (context, provider, child) {
         if (provider.isLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -218,23 +217,23 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
               children: [
                 ClipRect(
                   child: Image.network(
-                      '${ApiConstant.localUrl}/services/${heenaService.image}',
-                      fit: BoxFit.cover,
-                      width: screenSize.width,
-                      height: screenSize.height,
-                      errorBuilder: (context, error, stackTrace) {
-                        print('Error loading image: $error');
-                        return const Center(
-                          child: Text('Failed to load image'),
-                        );
-                      },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
+                    'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${heenaService.image}',
+                    fit: BoxFit.cover,
+                    width: screenSize.width,
+                    height: screenSize.height,
+                    errorBuilder: (context, error, stackTrace) {
+                      print('Error loading image: $error');
+                      return const Center(
+                        child: Text('Failed to load image'),
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  ),
                 ),
                 Container(
                   width: screenSize.width,

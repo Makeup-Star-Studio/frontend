@@ -157,29 +157,31 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                                   ? const Center(
                                       child: Text('No image available'),
                                     )
-                                  :
-                              
-                              Image.network(
-                                'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
+                                  : Image.network(
+                                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
 
-                                // '${ApiConstant.localUrl}/api/testimonial/${testimonial.reviewImage}',
-                                fit: BoxFit.contain,
-                                width: MediaQuery.of(context).size.width * 0.5,
-                                height: MediaQuery.of(context).size.height,
-                                errorBuilder: (context, error, stackTrace) {
-                                  print('Error loading image: $error');
-                                  return const Center(
-                                    child: Text('Failed to load image'),
-                                  );
-                                },
-                                loadingBuilder:
-                                    (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                              ),
+                                      // '${ApiConstant.localUrl}/api/testimonial/${testimonial.reviewImage}',
+                                      fit: BoxFit.contain,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.5,
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        print('Error loading image: $error');
+                                        return const Center(
+                                          child: Text('Failed to load image'),
+                                        );
+                                      },
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        if (loadingProgress == null)
+                                          return child;
+                                        return const Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      },
+                                    ),
                             ),
                           ),
                         ],
@@ -264,25 +266,25 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                           ? const Center(
                               child: Text('No image available'),
                             )
-                          :
-                      Image.network(
-                        '${ApiConstant.localUrl}/testimonial/${testimonial.reviewImage}',
-                        fit: BoxFit.fitHeight,
-                        width: 300.0,
-                        height: screenSize.height * 0.4,
-                        errorBuilder: (context, error, stackTrace) {
-                          print('Error loading image: $error');
-                          return const Center(
-                            child: Text('Failed to load image'),
-                          );
-                        },
-                        loadingBuilder: (context, child, loadingProgress) {
-                          if (loadingProgress == null) return child;
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                      ),
+                          : Image.network(
+                              'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+                              fit: BoxFit.fitHeight,
+                              width: 300.0,
+                              height: screenSize.height * 0.4,
+                              errorBuilder: (context, error, stackTrace) {
+                                print('Error loading image: $error');
+                                return const Center(
+                                  child: Text('Failed to load image'),
+                                );
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                            ),
                     ),
                     const SizedBox(height: 10.0),
                     BodyText(
