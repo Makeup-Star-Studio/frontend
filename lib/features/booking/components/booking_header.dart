@@ -5,6 +5,8 @@ import 'package:makeupstarstudio/config/router/website_route.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/core/common/text/button_card.dart';
 import 'package:makeupstarstudio/core/common/text/heading.dart';
+import 'package:makeupstarstudio/src/provider/images/random_images_provider.dart';
+import 'package:provider/provider.dart';
 
 class BookingHeaderSection extends StatefulWidget {
   const BookingHeaderSection({super.key});
@@ -14,6 +16,13 @@ class BookingHeaderSection extends StatefulWidget {
 }
 
 class _BookingHeaderSectionState extends State<BookingHeaderSection> {
+@override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<RandomImageProvider>(context, listen: false).fetchAllImages();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -27,7 +36,18 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
   // Large Screen
   Widget _buildLargeScreen(Size screenSize, BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Container(
+      return Consumer<RandomImageProvider>(
+      builder: (context, imageProvider, child) {
+        if (imageProvider.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (imageProvider.images.isEmpty) {
+          return const Text('No Data');
+        } else {
+          // Ensure you are accessing a valid index
+          const imageIndex = 6; // Index you want to access
+          if (imageProvider.images.length > imageIndex) {
+            final image = imageProvider.images;
+            return Container(
       width: double.infinity,
       height: screenSize.height,
       color: AppColorConstant.backgroundColor,
@@ -79,7 +99,14 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           const SizedBox(width: 20.0),
           Expanded(
             child: ClipRect(
-              child: Image.asset(
+              child: image.isNotEmpty
+                  ? Image.network(
+                      image[3].url,
+                      fit: BoxFit.cover,
+                      height: screenSize.height,
+                    )
+                  :
+              Image.asset(
                 'assets/images/image.webp',
                 // width: 500.0,
                 // height: 500.0,
@@ -89,6 +116,12 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           ),
         ],
       ),
+    );
+          } else {
+            return const Text('Not enough images available');
+          }
+  }
+      },
     );
   }
 
@@ -101,13 +134,32 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
   // small screen
   Widget _buildSmallScreen(Size screenSize, BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Padding(
+      return Consumer<RandomImageProvider>(
+      builder: (context, imageProvider, child) {
+        if (imageProvider.isLoading) {
+          return const CircularProgressIndicator();
+        } else if (imageProvider.images.isEmpty) {
+          return const Text('No Data');
+        } else {
+          // Ensure you are accessing a valid index
+          const imageIndex = 6; // Index you want to access
+          if (imageProvider.images.length > imageIndex) {
+            final image = imageProvider.images;
+            return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ClipRect(
-            child: Image.asset(
+            child: image.isNotEmpty
+                ? Image.network(
+                    image[3].url,
+                    width: screenSize.width,
+                    height: screenSize.height * 0.75,
+                    fit: BoxFit.cover,
+                  )
+                :
+            Image.asset(
               'assets/images/image.webp',
               width: screenSize.width,
               height: screenSize.height * 0.75,
@@ -148,6 +200,12 @@ class _BookingHeaderSectionState extends State<BookingHeaderSection> {
           ),
         ],
       ),
+    );
+    } else {
+            return const Text('Not enough images available');
+          }
+        }
+      },
     );
   }
 }

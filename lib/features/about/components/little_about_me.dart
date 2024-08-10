@@ -58,7 +58,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
             return const Center(child: Text("No User Found"));
           }
 
-          final user = userModel.data.user;
+          final user = userModel.data.admin;
           return Container(
             color: AppColorConstant.bgColor,
             padding: const EdgeInsets.only(left: 50),
@@ -89,8 +89,8 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                             color: AppColorConstant.secondaryColor),
                         title: BodyText(
                           textAlign: TextAlign.start,
-                          text: user.bio.isNotEmpty
-                              ? user.bio
+                          text: user.bio!.isNotEmpty
+                              ? user.bio!
                               : "When she is not serving clients, Geet can be found exercising and walking around Santa Cruz beach. \n She enjoys a good read in her local library and also loves to binge watch Netflix series.",
                           // size: 16.0,
                         ),
@@ -100,7 +100,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                 ),
                 const SizedBox(width: 20.0),
                 ClipRect(
-                  child: user.imageUrl.isNotEmpty
+                  child: user.imageUrl!.isNotEmpty
                       ? Image.network(
                           'https://makeup-star-studio.sfo2.digitaloceanspaces.com/admin/${user.imageUrl}',
                           width: 700.0,
@@ -144,7 +144,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
             return const Center(child: Text("No User Found"));
           }
 
-          final user = userModel.data.user;
+          final user = userModel.data.admin;
           return Container(
             color: AppColorConstant.bgColor,
             padding: const EdgeInsets.all(20.0),
@@ -158,7 +158,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                 ),
                 const SizedBox(height: 20.0),
                 ClipRect(
-                  child: user.imageUrl.isNotEmpty
+                  child: user.imageUrl!.isNotEmpty
                       ? Image.network(
                           'https://makeup-star-studio.sfo2.digitaloceanspaces.com/admin/${user.imageUrl}',
                           width: screenSize.width,
@@ -178,9 +178,9 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                       color: AppColorConstant.secondaryColor),
                   title: BodyText(
                     textAlign: TextAlign.start,
-                    text: user.bio.isNotEmpty
-                        ? user.bio
-                        : "When she is not serving clients, Geet can be found exercising and walking around Santa Cruz beach. \n She enjoys a good read in her local library and also loves to binge watch Netflix series.",
+                    text: user.bio!.isNotEmpty
+                        ? user.bio!
+                        : "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
                     // size: 16.0,
                   ),
                 ),

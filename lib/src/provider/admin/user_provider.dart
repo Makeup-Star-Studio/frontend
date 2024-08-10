@@ -22,46 +22,43 @@ class UserProvider extends ChangeNotifier {
   final StarStudioApiService _apiUser = StarStudioApiService();
 
   /*---------------------------------Fetch User Information---------------------------------*/
-  Future<void> fetchUserInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? userId = prefs.getString('userId');
-    String? token = prefs.getString('userToken');
+Future<void> fetchUserInfo() async {
+  _isLoading = true;
+  notifyListeners(); // Notify listeners before starting the fetch
 
-    print('Retrieved userId: $userId');
-    print('Retrieved token: $token');
+  try {
+    final response = await http.get(
+      Uri.parse('${ApiConstant.localUrl}/api/admin/'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
 
-    if (userId != null && token != null) {
-      try {
-        final response = await http.get(
-          Uri.parse('${ApiConstant.localUrl}/api/admin/$userId'),
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        );
+    print("URL----> ${ApiConstant.localUrl}/api/admin/");
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
 
-        print("URL----> ${ApiConstant.localUrl}/api/admin/$userId");
-        print('Response status: ${response.statusCode}');
-        print('Response body: ${response.body}');
+    if (response.statusCode == 200) {
+      // Debug print for JSON structure
+      var responseData = json.decode(response.body);
+      print('Decoded response data: $responseData');
 
-        if (response.statusCode == 200) {
-          var responseData = json.decode(response.body);
-          _user = UserModel.fromJson(responseData);
-          print('Parsed UserModel: $_user');
-        } else {
-          print(
-              'Failed to load user details, Status code: ${response.statusCode}');
-          throw Exception('Failed to load user details');
-        }
-      } catch (e) {
-        print('Error occurred while fetching user info: $e');
-      }
+      // Check if the response data is in expected format
+        _user = UserModel.fromJson(responseData);
+        _isLoading = false;
+        notifyListeners(); // Notify listeners after data is loaded
+     
     } else {
-      print('User ID or token is missing');
+      print('Failed to load user details, Status code: ${response.statusCode}');
+      throw Exception('Failed to load user details');
     }
+  } catch (e) {
+    print('Error occurred while fetching user info: $e');
     _isLoading = false;
-    notifyListeners();
+    notifyListeners(); // Notify listeners in case of error
   }
+}
+
 
   /*---------------------------------Upload Admin Image---------------------------------*/
   Future<String?> uploadAdminImage(

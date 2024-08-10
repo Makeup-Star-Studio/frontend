@@ -4,6 +4,7 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/features/admin/screens/bookings/admin_booking_view.dart';
 import 'package:makeupstarstudio/features/admin/screens/dashboard/dashboard_screen.dart';
+import 'package:makeupstarstudio/features/admin/screens/images/admin_images.dart';
 import 'package:makeupstarstudio/features/admin/screens/portfolio/admin_portfolio.dart';
 import 'package:makeupstarstudio/features/admin/screens/services/admin_services.dart';
 import 'package:makeupstarstudio/features/admin/screens/settings/settings.dart';
@@ -25,6 +26,7 @@ class _AdminPageState extends State<AdminPage> {
   final List<Widget> _screens = [
     const DashboardScreen(),
     const AdminBookingViewPage(),
+     AdminImageManagementScreen(),
     const AdminServicesView(),
     const AdminPortfolioView(),
     const AdminTestimonialsView(),

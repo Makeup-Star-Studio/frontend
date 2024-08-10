@@ -13,8 +13,9 @@ class ApiConstant {
 
 /* --------------------------------- Admin --------------------------------- */
   /// [Admin]
-    /// [UPLOAD]
+  /// [UPLOAD]
   static const String uploadAdminImage = '/api/admin/upload';
+
   /// [GET]
   static String getAdminInfo(String id) => "/api/admin/$id";
 
@@ -27,8 +28,9 @@ class ApiConstant {
 
 /*--------------------------------- Services ---------------------------------*/
   /// [Services]
-    /// [UPLOAD]
+  /// [UPLOAD]
   static const String uploadServiceImage = '/api/services/upload';
+
   /// [GET]
   static const String getAllServices = '/api/services/';
   static const String getBridalServices = '/api/services/category/bridal';
@@ -52,6 +54,7 @@ class ApiConstant {
   /// [Testimonials]
   /// [UPLOAD]
   static const String uploadTestimonialImage = '/api/testimonial/upload';
+
   /// [GET]
   static const String getAllTestimonials = '/api/testimonial/';
   static String getSingleTestimonial(String id) => "/api/testimonial/$id";
@@ -67,14 +70,15 @@ class ApiConstant {
 
 /*--------------------------------- Portfolio ---------------------------------*/
   /// [Portfolio]
-    /// [UPLOAD]
+  /// [UPLOAD]
   static const String uploadPortfolioImages = '/api/portfolio/upload';
+
   /// [GET]
   static const String getAllPortfolio = '/api/portfolio/';
-  static const String getBridalPortfolio = '/api/portfolio/bridal';
-  static const String getHennaGallery = '/api/portfolio/henna';
-  static const String getNonBridalGallery = '/api/portfolio/non-bridal';
-  static const String getWhiteBridalGallery = '/api/portfolio/white-bride';
+  static const String getBridalPortfolio = '/api/portfolio/Bridal';
+  static const String getHennaGallery = '/api/portfolio/Henna';
+  static const String getNonBridalGallery = '/api/portfolio/Non-Bridal';
+  static const String getWhiteBridalGallery = '/api/portfolio/White-Bride';
 
   /// [POST]
   static const String postPortfolio = '/api/portfolio/';
@@ -90,4 +94,18 @@ class ApiConstant {
 
   /// [DELETE]
   static String deleteBooking(String id) => "/api/booking/$id";
+
+  /*------------------------RandomImages------------------------*/
+  /// [RandomImages]
+  /// [GET]
+  static const String getRandomImages = '/api/images/';
+
+  /// [POST]
+  static const String uploadRandomImages = '/api/images/upload/';
+
+  /// [DELETEONE]
+  static String deleteRandomImage(String id) => "/api/images/delete/$id";
+
+  /// [DELETEALL]
+  static const String deleteAllRandomImages = '/api/images/';
 }

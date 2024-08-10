@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class _BridalGalleryState extends State<BridalGallery> {
   @override
   void initState() {
     super.initState();
+    // Fetch portfolio data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<BridalPortfolioProvider>(context, listen: false)
           .fetchBridalPortfolios();
@@ -29,49 +31,56 @@ class _BridalGalleryState extends State<BridalGallery> {
             child: CircularProgressIndicator(),
           );
         } else {
-          if (bridalPortfolioProvider.filteredPortfolio.isEmpty) {
+          // Flatten the list of images from all portfolio items
+          final List<String> allImages =
+              bridalPortfolioProvider.filteredPortfolio
+                  .expand((portfolio) => portfolio.portfolioImage ?? [])
+                  .take(24) // Limit to 24 images
+                  .cast<String>() // Ensure type is List<String>
+                  .toList();
+
+          if (allImages.isEmpty) {
             return const Center(child: Text('No portfolio available.'));
           }
 
-          // Collect all image URLs
-          final List<String> allImageUrls = bridalPortfolioProvider
-              .filteredPortfolio
-              .expand((portfolio) =>
-                  (portfolio.portfolioImage ?? []).cast<String>())
-              .toList();
-
-          // Display only the latest 24 images
-          final List<String> limitedImageUrls = allImageUrls.take(24).toList();
-
           return Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(
+              ResponsiveWidget.isSmallScreen(context) ? 20.0 : 30.0,
+            ),
             child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: ResponsiveWidget.isSmallScreen(context)
+                    ? 2
+                    : ResponsiveWidget.isMediumScreen(context)
+                        ? 3
+                        : 4, // Number of grid items in the cross axis
+                mainAxisSpacing: 24.0, // Vertical spacing between grid items
+                crossAxisSpacing: 24.0, // Horizontal spacing between grid items
               ),
-              itemCount: limitedImageUrls.length,
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: allImages.length,
               itemBuilder: (BuildContext context, int index) {
-                final imageUrl = limitedImageUrls[index];
-
+                final imageUrl = allImages[index];
+                print('Displaying image: $imageUrl'); // Debug statement
                 return GestureDetector(
                   onTap: () {
-                    _showFullImageDialog(imageUrl);
+                    _showFullImageDialog(
+                        allImages, index); // Pass all images and index
                   },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
+                  child: Container(
+                    margin:
+                        const EdgeInsets.all(2.0), // Small margin for spacing
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(imageUrl),
+                        fit: BoxFit.cover, // Change to BoxFit.contain if needed
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      fadeInDuration: const Duration(milliseconds: 500),
-                      fadeInCurve: Curves.easeIn,
                     ),
+                    // Ensure the container has a fixed aspect ratio
+                    width: double.infinity,
+                    height: double.infinity,
                   ),
                 );
               },
@@ -82,7 +91,7 @@ class _BridalGalleryState extends State<BridalGallery> {
     );
   }
 
-  void _showFullImageDialog(String imageUrl) {
+  void _showFullImageDialog(List<String> imageUrls, int initialIndex) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -97,17 +106,23 @@ class _BridalGalleryState extends State<BridalGallery> {
             },
             child: Stack(
               children: [
-                Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.contain,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                    fadeInDuration: const Duration(milliseconds: 500),
-                    fadeInCurve: Curves.easeIn,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: PageView.builder(
+                    itemCount: imageUrls.length,
+                    itemBuilder: (context, index) {
+                      return CachedNetworkImage(
+                        imageUrl: imageUrls[index],
+                        fit: BoxFit.contain, // Ensure the full image is visible
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      );
+                    },
+                    controller: PageController(initialPage: initialIndex),
                   ),
                 ),
                 Positioned(

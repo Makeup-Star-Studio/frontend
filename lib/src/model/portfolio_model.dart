@@ -57,8 +57,8 @@ class Portfolio {
   factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
         id: json["id"],
         category: json["category"],
-        portfolioImage:
-            List<String>.from(json["portfolioImage"].map((x) => x)),
+             portfolioImage: List<String>.from(json['portfolioImage'] ?? []),
+
 
         createdAt: json["createdAt"] == null
             ? null

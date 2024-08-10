@@ -1,11 +1,12 @@
+import 'dart:convert'; // To parse JSON
+
 import 'package:flutter/material.dart';
-import 'package:makeupstarstudio/src/api/api_services.dart';
-import 'package:makeupstarstudio/src/api/response_model.dart';
+import 'package:http/http.dart' as http;
 import 'package:makeupstarstudio/src/model/portfolio_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class BridalPortfolioProvider extends ChangeNotifier {
-  List<Portfolio> _portfolio = [];
+  final List<Portfolio> _portfolio = [];
   List<Portfolio> _filteredPortfolio = [];
 
   List<Portfolio> get portfolio => _portfolio;
@@ -14,30 +15,32 @@ class BridalPortfolioProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  final StarStudioApiService _apiPortfolio = StarStudioApiService();
-
   Future<void> fetchBridalPortfolios() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiPortfolio.get(ApiConstant.getBridalPortfolio);
-      print("Response: $response");
+      final response = await http.get(
+        Uri.parse('${ApiConstant.localUrl}${ApiConstant.getBridalPortfolio}'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
 
-      var apiResponse = ApiResponse.fromJson(response);
-      if (apiResponse.status == true && apiResponse.data != null) {
-        // Handling nested structure
-        var portfolioData = apiResponse.data['portfolio'] as List;
-        _portfolio = portfolioData
-            .map((portfolioJson) => Portfolio.fromJson(portfolioJson))
-            .toList();
-        _filteredPortfolio = _portfolio;
-        // reverse to show latest first
-        _filteredPortfolio = _portfolio.reversed.toList();
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      // print url
+      print('${ApiConstant.localUrl}${ApiConstant.getBridalPortfolio}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final portfolioModel = PortfolioModel.fromJson(data);
+
+        _filteredPortfolio = portfolioModel.data.portfolio;
+      } else {
+        // Handle errors, such as displaying a message to the user
+        throw Exception('Failed to load portfolio');
       }
-
-      _isLoading = false;
-      notifyListeners();
     } catch (e, s) {
       print('Error: $e');
       print('Stack trace: $s');
@@ -51,6 +54,7 @@ class BridalPortfolioProvider extends ChangeNotifier {
   }
 
   void handleSubmissionError(error) {
-    print(error);
+    // Handle any submission errors, perhaps log or display a user-friendly message
+    print('Error occurred: $error');
   }
 }

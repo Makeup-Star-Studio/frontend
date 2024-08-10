@@ -16,9 +16,9 @@ class BookingFormSection extends StatefulWidget {
 
 class _BookingFormSectionState extends State<BookingFormSection> {
   bool _isHovering = false;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fetchUserInfo();
@@ -38,7 +38,6 @@ class _BookingFormSectionState extends State<BookingFormSection> {
         if (userProvider.isLoading) {
           return const CircularProgressIndicator();
         } else {
-          final userProvider = Provider.of<UserProvider>(context);
           final userModel = userProvider.user;
 
           // Debugging: Print the user data
@@ -48,14 +47,13 @@ class _BookingFormSectionState extends State<BookingFormSection> {
             return const Center(child: Text("No User Found"));
           }
 
-          final user = userModel.data.user;
+          final user = userModel.data.admin;
           return Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: ResponsiveWidget.isSmallScreen(context)
                     ? 20
                     : screenSize.width * 0.15),
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const BodyText(
                   text: 'For bookings & inquiries, contact:',
@@ -67,7 +65,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                 InkWell(
                   hoverColor: Colors.transparent,
                   onTap: () {
-                    _launchEmail('info@makeupstarstudio.com');
+                    _launchEmail(user.email);
                   },
                   child: RichText(
                     textAlign: TextAlign.center,
@@ -128,9 +126,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                /*-----------------------------------------------*/
                 if (ResponsiveWidget.isSmallScreen(context))
-                  // const SizedBox(height: 20),
                   Align(
                     alignment: Alignment.topRight,
                     child: MouseRegion(
@@ -166,7 +162,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                               ? Matrix4.diagonal3Values(1.1, 1.1, 1)
                               : Matrix4.diagonal3Values(1, 1, 1),
                           child: Image.asset(
-                            'assets/icons/whatsapp.png', // Change to the actual path of WhatsApp logo
+                            'assets/icons/whatsapp.png',
                             fit: BoxFit.contain,
                             width: ResponsiveWidget.isSmallScreen(context)
                                 ? 30
@@ -179,7 +175,6 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                       ),
                     ),
                   ),
-/*-----------------------------------------------*/
                 const BookingFormWidget(),
               ],
             ),

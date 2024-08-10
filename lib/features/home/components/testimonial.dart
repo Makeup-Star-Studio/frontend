@@ -7,7 +7,6 @@ import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/features/home/widget/links.dart';
 import 'package:makeupstarstudio/src/model/testimonial_model.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class TestimonialSection extends StatefulWidget {
@@ -93,6 +92,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
             padding: const EdgeInsets.symmetric(horizontal: 50),
             height: MediaQuery.of(context).size.height,
             child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               itemCount: testimonials.length,
               itemBuilder: (context, index) {
@@ -158,7 +158,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                                       child: Text('No image available'),
                                     )
                                   : Image.network(
-                                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+                                      'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
 
                                       // '${ApiConstant.localUrl}/api/testimonial/${testimonial.reviewImage}',
                                       fit: BoxFit.contain,
@@ -175,8 +175,9 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                                       },
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
+                                        if (loadingProgress == null) {
                                           return child;
+                                        }
                                         return const Center(
                                           child: CircularProgressIndicator(),
                                         );
@@ -235,6 +236,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             height: screenSize.height,
             child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               itemCount: testimonials.length,
               itemBuilder: (context, index) {
@@ -267,7 +269,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
                               child: Text('No image available'),
                             )
                           : Image.network(
-                              'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+                              'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
                               fit: BoxFit.fitHeight,
                               width: 300.0,
                               height: screenSize.height * 0.4,

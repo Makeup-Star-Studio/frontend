@@ -115,7 +115,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
         // If no new image is uploaded, retain the existing one
         String updatedImageUrl =
-            uploadedImageUrl ?? testimonial.reviewImage ?? '';
+            uploadedImageUrl ?? testimonial.reviewImage;
 
         print('Attempting to update testimonial...');
         print('Testimonial ID: ${testimonial.id}');
@@ -127,7 +127,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
         try {
           await Provider.of<TestimonialProvider>(context, listen: false)
               .updateTestimonial(
-            testimonial.id ?? '',
+            testimonial.id,
             Testimonial(
               id: testimonial.id,
               fname: _firstNamController.text,
@@ -220,7 +220,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
 
     if (shouldDelete) {
       await Provider.of<TestimonialProvider>(context, listen: false)
-          .deleteTestimonial(id ?? '')
+          .deleteTestimonial(id)
           .then((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Testimonial Deleted Successfully')),
@@ -441,10 +441,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                                   int index = entry.key;
                                   Testimonial testimonial = entry.value;
                                   return DataRow(cells: [
+                                    // ignore: unnecessary_null_comparison
                                     DataCell(testimonial.reviewImage == null
                                         ? const Icon(Icons.image)
                                         : Image.network(
-                                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+                                            'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
 
                                             // '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
                                             width: 50,
@@ -694,10 +695,11 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
                               int index = entry.key;
                               Testimonial testimonial = entry.value;
                               return DataRow(cells: [
+                                // ignore: unnecessary_null_comparison
                                 DataCell(testimonial.reviewImage == null
                                     ? const Icon(Icons.image)
                                     : Image.network(
-                                        'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage!}',
+                                        'https://makeup-star-studio.sfo2.digitaloceanspaces.com/${testimonial.reviewImage}',
 
                                         // '${ApiConstant.localUrl}/testimonial/${testimonials[index].reviewImage}',
                                         width: 50,

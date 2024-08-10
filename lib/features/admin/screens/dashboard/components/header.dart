@@ -91,7 +91,7 @@ class _ProfileCardState extends State<ProfileCard> {
             return const Center(child: Text("No User Found"));
           }
 
-          final user = userModel.data.user;
+          final user = userModel.data.admin;
           return Container(
             padding: const EdgeInsets.symmetric(
               horizontal: AppColorConstant.defaultPadding,
@@ -109,7 +109,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       children: [
                         CircleAvatar(
                           radius: 20,
-                          backgroundImage: user.imageUrl.isNotEmpty
+                          backgroundImage: user.imageUrl!.isNotEmpty
                               ? NetworkImage(
                                   'https://makeup-star-studio.sfo2.digitaloceanspaces.com/admin/${user.imageUrl}',
                                 )

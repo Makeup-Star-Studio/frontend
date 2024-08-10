@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/white_bride_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class WhiteBrideGallery extends StatefulWidget {
@@ -38,16 +37,17 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
           return const Center(child: Text('No portfolio available.'));
         }
 
-        // Collect all images from all portfolios into a single list
-        final List<String> allImageUrls = whiteBridalGalleryProvider
-            .filteredPortfolio
-            .expand((portfolio) => portfolio.portfolioImage ?? [])
-            .map((image) =>
-                '${ApiConstant.localUrl}/portfolio/${image.filename}')
-            .toList();
+        // Flatten the list of images from all portfolio items
+        final List<String> allImages =
+            whiteBridalGalleryProvider.filteredPortfolio
+                .expand((portfolio) => portfolio.portfolioImage ?? [])
+                .take(10) // Limit to 24 images
+                .cast<String>() // Ensure type is List<String>
+                .toList();
 
-        // Display only the latest 10 images
-        final List<String> limitedImageUrls = allImageUrls.take(10).toList();
+        if (allImages.isEmpty) {
+          return const Center(child: Text('No portfolio available.'));
+        }
 
         return Center(
           child: Stack(
@@ -55,15 +55,17 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
               CarouselSlider(
                 carouselController: _carouselController,
                 options: CarouselOptions(
-                  autoPlay: false,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 10),
                   viewportFraction: 1.0, // Show one image at a time
                   height: screenSize.height, // Adjust height as needed
                   enlargeCenterPage: false,
                   enableInfiniteScroll: false,
                   pauseAutoPlayOnTouch: true,
+                  scrollPhysics: const NeverScrollableScrollPhysics(),
                   // Add additional options as needed
                 ),
-                items: limitedImageUrls.map((imageUrl) {
+                items: allImages.map((imageUrl) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(

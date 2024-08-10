@@ -27,6 +27,48 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+  Future<void> _updatePassword() async {
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userId = userProvider.user?.data.admin.id;
+
+    if (userId != null) {
+      await loginProvider.updatePassword(
+        id: userId,
+        currentPassword: _oldPasswordController.text,
+        newPassword: _newPasswordController.text,
+        newPasswordConfirm: _confirmPasswordController.text,
+      );
+
+      // show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password updated successfully',
+              style: TextStyle(color: AppColorConstant.white)),
+          backgroundColor: AppColorConstant.successColor,
+        ),
+      );
+      // show error message
+      // await _fetchUserInfo();
+      _clearFields();
+    } else {
+      print('User ID is null. Unable to change password.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to update password',
+              style: TextStyle(color: AppColorConstant.white)),
+          backgroundColor: AppColorConstant.errorColor,
+        ),
+      );
+    }
+  }
+
+  void _clearFields() {
+    _oldPasswordController.clear();
+    _newPasswordController.clear();
+    _confirmPasswordController.clear();
+  }
+
   @override
   void dispose() {
     _oldPasswordController.dispose();
@@ -118,41 +160,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> _updatePassword() async {
-    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userId = userProvider.user?.data.user.id;
-
-    if (userId != null) {
-      await loginProvider.updatePassword(
-        id: userId,
-        currentPassword: _oldPasswordController.text,
-        newPassword: _newPasswordController.text,
-        newPasswordConfirm: _confirmPasswordController.text,
-      );
-
-      // show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Password updated successfully',
-              style: TextStyle(color: AppColorConstant.white)),
-          backgroundColor: AppColorConstant.successColor,
-        ),
-      );
-      // show error message
-      // await _fetchUserInfo();
-    } else {
-      print('User ID is null. Unable to change password.');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to update password',
-              style: TextStyle(color: AppColorConstant.white)),
-          backgroundColor: AppColorConstant.errorColor,
-        ),
-      );
-    }
   }
 
   Widget _buildPasswordField({

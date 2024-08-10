@@ -1,0 +1,141 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
+import 'package:provider/provider.dart';
+
+class BridalGallery extends StatefulWidget {
+  const BridalGallery({super.key});
+
+  @override
+  State<BridalGallery> createState() => _BridalGalleryState();
+}
+
+class _BridalGalleryState extends State<BridalGallery> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<BridalPortfolioProvider>(context, listen: false)
+          .fetchBridalPortfolios();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<BridalPortfolioProvider>(
+      builder: (context, bridalPortfolioProvider, child) {
+        if (bridalPortfolioProvider.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
+          if (bridalPortfolioProvider.filteredPortfolio.isEmpty) {
+            return const Center(child: Text('No portfolio available.'));
+          }
+          return Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+              ),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: bridalPortfolioProvider.filteredPortfolio.length,
+              itemBuilder: (BuildContext context, int index) {
+                final portfolio =
+                    bridalPortfolioProvider.filteredPortfolio[index];
+                final imageUrls = portfolio.portfolioImage ?? [];
+
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10.0,
+                    crossAxisSpacing: 10.0,
+                  ),
+                  itemCount: imageUrls.length,
+                  itemBuilder: (BuildContext context, int imageIndex) {
+                    final imageUrl = imageUrls[imageIndex];
+                    print('Displaying image: $imageUrl'); // Debug statement
+
+                    return GestureDetector(
+                      onTap: () {
+                        _showFullImageDialog(imageUrls, imageIndex);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) {
+                            print('Loading image: $url');
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          },
+                          errorWidget: (context, url, error) {
+                            print('Error loading image: $url');
+                            print('Error: $error');
+                            return const Icon(Icons.error);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
+  void _showFullImageDialog(List<String> imageUrls, int initialIndex) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: PageView.builder(
+                  itemCount: imageUrls.length,
+                  itemBuilder: (context, index) {
+                    return CachedNetworkImage(
+                      imageUrl: imageUrls[index],
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      fadeInDuration: const Duration(milliseconds: 500),
+                      fadeInCurve: Curves.easeIn,
+                    );
+                  },
+                  controller: PageController(initialPage: initialIndex),
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

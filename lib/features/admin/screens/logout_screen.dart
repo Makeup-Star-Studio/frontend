@@ -7,27 +7,26 @@ Future<void> showLogoutConfirmationDialog(BuildContext context) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Row(
+        title: const Row(
           children: <Widget>[
             Icon(Icons.error_outline, color: Colors.red),
             SizedBox(width: 16),
             Text('Logout'),
           ],
         ),
-        content: Text('Are you sure you want to logout?'),
+        content: const Text('Are you sure you want to logout?'),
         actions: <Widget>[
           TextButton(
             onPressed: () async {
-              await Utility.logout(); 
-              
+              await Utility.logout();
             },
-            child: Text('Yes'),
+            child: const Text('Yes'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); 
+              Navigator.of(context).pop();
             },
-            child: Text('No'),
+            child: const Text('No'),
           ),
         ],
       );

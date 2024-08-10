@@ -190,12 +190,12 @@ class LoginProvider with ChangeNotifier {
             });
             return AlertDialog(
               title: const Text('Too Many Attempts'),
-              backgroundColor: AppColorConstant.errorColor,
+              backgroundColor: AppColorConstant.white,
               content: Text(
                 remainingSeconds > 0
                     ? 'Too many failed attempts. Try again in $remainingSeconds seconds.'
                     : 'You can now try again.',
-                selectionColor: AppColorConstant.white,
+                // selectionColor: AppColorConstant.white,
               ),
               actions: [
                 TextButton(
@@ -216,7 +216,7 @@ class LoginProvider with ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.white,
         duration: const Duration(seconds: 3),
       ),
     );

@@ -41,37 +41,37 @@ class Data {
 
 class Testimonial {
   Testimonial({
-    this.id,
+    required this.id,
     required this.fname,
     required this.lname,
     required this.review,
-    this.reviewImage, // Now a filename
+    required this.reviewImage, // Now a filename
   });
 
-  final String? id;
+  final String id;
   final String fname;
   final String lname;
   final String review;
-  final String? reviewImage; // Update to String
+  final String reviewImage; // Update to String
 
   // static const String baseUrl = "http://localhost:3001/testimonial/";
 
   factory Testimonial.fromJson(Map<String, dynamic> json) {
     return Testimonial(
       id: json["id"] ?? "",
-      fname: json["fname"],
-      lname: json["lname"],
-      review: json["review"],
+      fname: json["fname"] ?? "",
+      lname: json["lname"] ?? "",
+      review: json["review"] ?? "",
       reviewImage: json["reviewImage"] ?? "", // Just a filename
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id ?? "",
+        "id": id,
         "fname": fname,
         "lname": lname,
         "review": review,
-        "reviewImage": reviewImage ?? "", // Just a filename
+        "reviewImage": reviewImage, // Just a filename
       };
 
   // // Construct the image URL

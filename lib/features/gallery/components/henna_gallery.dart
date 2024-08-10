@@ -1,7 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/henna_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class HennaGallery extends StatefulWidget {
@@ -31,20 +31,16 @@ class _HennaGalleryState extends State<HennaGallery> {
             child: CircularProgressIndicator(),
           );
         } else {
-          if (hennaGalleryProvider.filteredPortfolio.isEmpty) {
-            return const Center(child: Text('No portfolio available.'));
-          }
-
-          // Collect all images from all portfolios into a single list
-          final List<String> allImageUrls = hennaGalleryProvider
-              .filteredPortfolio
+          // Flatten the list of images from all portfolio items
+          final List<String> allImages = hennaGalleryProvider.filteredPortfolio
               .expand((portfolio) => portfolio.portfolioImage ?? [])
-              .map((image) =>
-                  '${ApiConstant.localUrl}/portfolio/${image.filename}')
+              .take(24) // Limit to 24 images
+              .cast<String>() // Ensure type is List<String>
               .toList();
 
-          // Display only the latest 24 images
-          final List<String> limitedImageUrls = allImageUrls.take(10).toList();
+          if (allImages.isEmpty) {
+            return const Center(child: Text('No portfolio available.'));
+          }
 
           return Padding(
             padding: EdgeInsets.symmetric(
@@ -60,22 +56,27 @@ class _HennaGalleryState extends State<HennaGallery> {
               ),
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: limitedImageUrls.length,
+              itemCount: allImages.length,
               itemBuilder: (BuildContext context, int index) {
-                final imageUrl = limitedImageUrls[index];
-
+                final imageUrl = allImages[index];
+                print('Displaying image: $imageUrl');
                 return GestureDetector(
                   onTap: () {
-                    _showFullImageDialog(imageUrl);
+                    _showFullImageDialog(allImages, index);
                   },
                   child: Container(
+                    margin:
+                        const EdgeInsets.all(2.0), // Small margin for spacing
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0.0),
+                      borderRadius: BorderRadius.circular(8.0),
                       image: DecorationImage(
-                        image: NetworkImage(imageUrl),
-                        fit: BoxFit.cover,
+                        image: CachedNetworkImageProvider(imageUrl),
+                        fit: BoxFit.cover, // Change to BoxFit.contain if needed
                       ),
                     ),
+                    // Ensure the container has a fixed aspect ratio
+                    width: double.infinity,
+                    height: double.infinity,
                   ),
                 );
               },
@@ -86,7 +87,7 @@ class _HennaGalleryState extends State<HennaGallery> {
     );
   }
 
-  void _showFullImageDialog(String imageUrl) {
+  void _showFullImageDialog(List<String> imageUrls, int initialIndex) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -104,9 +105,20 @@ class _HennaGalleryState extends State<HennaGallery> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
-                  child: Image.network(
-                    imageUrl,
-                    fit: BoxFit.contain,
+                  child: PageView.builder(
+                    itemCount: imageUrls.length,
+                    itemBuilder: (context, index) {
+                      return CachedNetworkImage(
+                        imageUrl: imageUrls[index],
+                        fit: BoxFit.contain, // Ensure the full image is visible
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      );
+                    },
+                    controller: PageController(initialPage: initialIndex),
                   ),
                 ),
                 Positioned(
@@ -115,6 +127,7 @@ class _HennaGalleryState extends State<HennaGallery> {
                   child: IconButton(
                     icon: const Icon(
                       Icons.close,
+                      color: Colors.white,
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();

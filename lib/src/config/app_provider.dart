@@ -2,6 +2,7 @@ import 'package:makeupstarstudio/src/provider/admin/user_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/check_login_provider.dart';
 import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
+import 'package:makeupstarstudio/src/provider/images/random_images_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/henna_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/non_bridal_gallery.dart';
@@ -34,6 +35,7 @@ class AppProvider {
   static final bookingProvider = BookingProvider();
   static final checkLoginProvider = CheckLoginProvider();
   static final userProvider = UserProvider();
+  static final imagesProvider = RandomImageProvider();
 
   static final List<ChangeNotifierProvider> providers = [
     ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
@@ -78,8 +80,11 @@ class AppProvider {
     ),
     ChangeNotifierProvider<CheckLoginProvider>(
       create: (context) => checkLoginProvider,
+    ),  
+    ChangeNotifierProvider<RandomImageProvider>(
+      create: (context) => imagesProvider,
     ),
-    ChangeNotifierProvider<UserProvider>(create: (context) => userProvider)
+    ChangeNotifierProvider<UserProvider>(create: (context) => userProvider),
   ];
 
   static void dispose() {
@@ -97,6 +102,7 @@ class AppProvider {
     whiteBridalGalleryProvider.dispose();
     portfolioProvider.dispose();
     bookingProvider.dispose();
+    imagesProvider.dispose();
   }
 
   /// Singleton factory

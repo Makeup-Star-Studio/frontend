@@ -47,14 +47,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final user = userProvider.user;
     if (user != null) {
       setState(() {
-        _fullNameController.text = user.data.user.fname;
-        _usernameController.text = user.data.user.username;
-        _emailController.text = user.data.user.email;
-        _phoneController.text = user.data.user.phoneNumber;
-        _bioController.text = user.data.user.bio;
-        _locationController.text = user.data.user.location;
+        _fullNameController.text = user.data.admin.fname;
+        _usernameController.text = user.data.admin.username;
+        _emailController.text = user.data.admin.email;
+        _phoneController.text = user.data.admin.phoneNumber;
+        _bioController.text = user.data.admin.bio ?? '';
+        _locationController.text = user.data.admin.location ?? '';
 
-        final imageUrl = user.data.user.imageUrl;
+        final imageUrl = user.data.admin.imageUrl;
         if (imageUrl.isNotEmpty) {
           _imageUrl = null;
           selectedFile = 'profile_picture.jpg';
@@ -252,7 +252,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> _updateProfile() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final userId = userProvider.user?.data.user.id;
+    final userId = userProvider.user?.data.admin.id;
 
     String? uploadedImageUrl;
 
@@ -276,7 +276,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       }
     } else {
       // Use the existing image URL if no new image is selected
-      uploadedImageUrl = userProvider.user?.data.user.imageUrl;
+      uploadedImageUrl = userProvider.user?.data.admin.imageUrl;
     }
 
     if (userId != null && uploadedImageUrl != null) {
@@ -291,6 +291,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         imageUrl: uploadedImageUrl,
       );
       await _fetchUserInfo();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: AppColorConstant.successColor,
+          content: Text(
+            'Profile updated successfully',
+            style: TextStyle(color: AppColorConstant.white),
+          ),
+        ),
+      );
     } else {
       print('User ID or image URL is null. Unable to update profile.');
     }
