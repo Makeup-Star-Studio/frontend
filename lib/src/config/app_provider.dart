@@ -15,6 +15,7 @@ import 'package:makeupstarstudio/src/provider/services/non_bridal_hair_services.
 import 'package:makeupstarstudio/src/provider/services/non_bridal_makeup_services_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
 import 'package:makeupstarstudio/src/provider/testimonial/testimonial_provider.dart';
+import 'package:makeupstarstudio/src/provider/visitCount/visit_count_provider.dart';
 import 'package:provider/provider.dart';
 
 class AppProvider {
@@ -36,6 +37,7 @@ class AppProvider {
   static final checkLoginProvider = CheckLoginProvider();
   static final userProvider = UserProvider();
   static final imagesProvider = RandomImageProvider();
+  static final visitProvider = VisitProvider();
 
   static final List<ChangeNotifierProvider> providers = [
     ChangeNotifierProvider<LoginProvider>(create: (context) => loginProvider),
@@ -85,6 +87,9 @@ class AppProvider {
       create: (context) => imagesProvider,
     ),
     ChangeNotifierProvider<UserProvider>(create: (context) => userProvider),
+     ChangeNotifierProvider<VisitProvider>(
+      create: (context) => visitProvider,
+    ),
   ];
 
   static void dispose() {
@@ -103,6 +108,7 @@ class AppProvider {
     portfolioProvider.dispose();
     bookingProvider.dispose();
     imagesProvider.dispose();
+    visitProvider.dispose();
   }
 
   /// Singleton factory

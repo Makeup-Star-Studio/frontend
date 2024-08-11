@@ -12,6 +12,7 @@ import 'package:makeupstarstudio/features/home/components/mission.dart';
 import 'package:makeupstarstudio/features/home/components/services.dart';
 import 'package:makeupstarstudio/features/home/components/subscribe.dart';
 import 'package:makeupstarstudio/features/home/components/testimonial.dart';
+import 'package:makeupstarstudio/features/home/components/visit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -55,6 +56,8 @@ class HomePage extends StatelessWidget {
             ),
             const TestimonialSection(),
             const MissionSection(),
+            const SizedBox(height: 20.0),
+            const StatsSection(),
             const SizedBox(height: 40.0),
             const SubscriptionSection(),
             const SizedBox(height: 10.0),

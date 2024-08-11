@@ -34,7 +34,7 @@ class _HennaGalleryState extends State<HennaGallery> {
           // Flatten the list of images from all portfolio items
           final List<String> allImages = hennaGalleryProvider.filteredPortfolio
               .expand((portfolio) => portfolio.portfolioImage ?? [])
-              .take(24) // Limit to 24 images
+              .take(10) // Limit to 24 images
               .cast<String>() // Ensure type is List<String>
               .toList();
 
@@ -67,16 +67,23 @@ class _HennaGalleryState extends State<HennaGallery> {
                   child: Container(
                     margin:
                         const EdgeInsets.all(2.0), // Small margin for spacing
-                    decoration: BoxDecoration(
+                    child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      child: FadeInImage(
                         image: CachedNetworkImageProvider(imageUrl),
-                        fit: BoxFit.cover, // Change to BoxFit.contain if needed
+                        placeholder: const AssetImage(
+                          'assets/images/logo.png',
+                        ), // Placeholder image
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                              child: Icon(Icons.error, color: Colors.red)),
+                        ),
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        fit: BoxFit.cover, // Ensure the image fits properly
                       ),
                     ),
-                    // Ensure the container has a fixed aspect ratio
-                    width: double.infinity,
-                    height: double.infinity,
                   ),
                 );
               },
@@ -108,14 +115,18 @@ class _HennaGalleryState extends State<HennaGallery> {
                   child: PageView.builder(
                     itemCount: imageUrls.length,
                     itemBuilder: (context, index) {
-                      return CachedNetworkImage(
-                        imageUrl: imageUrls[index],
-                        fit: BoxFit.contain, // Ensure the full image is visible
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
+                      return FadeInImage(
+                        image: NetworkImage(imageUrls[index]),
+                        placeholder: const AssetImage(
+                            'assets/images/logo-gold.png'), // Placeholder image
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                              child: Icon(Icons.error, color: Colors.red)),
                         ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        fit: BoxFit.contain, // Ensure the full image is visible
                       );
                     },
                     controller: PageController(initialPage: initialIndex),

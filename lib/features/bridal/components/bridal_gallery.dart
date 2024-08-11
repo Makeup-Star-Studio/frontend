@@ -73,14 +73,25 @@ class _BridalGalleryState extends State<BridalGallery> {
                         const EdgeInsets.all(2.0), // Small margin for spacing
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: CachedNetworkImageProvider(imageUrl),
-                        fit: BoxFit.cover, // Change to BoxFit.contain if needed
-                      ),
                     ),
-                    // Ensure the container has a fixed aspect ratio
-                    width: double.infinity,
-                    height: double.infinity,
+                    child: FadeInImage(
+                      image: CachedNetworkImageProvider(imageUrl),
+                      placeholder: const AssetImage(
+                          'assets/images/logo.png'), // Replace with your placeholder image
+                      imageErrorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: Icon(
+                              Icons.error,
+                              color: Colors.red,
+                              size: 50.0,
+                            ),
+                          ),
+                        );
+                      },
+                      fit: BoxFit.cover, // Change to BoxFit.contain if needed
+                    ),
                   ),
                 );
               },

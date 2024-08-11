@@ -22,6 +22,7 @@ class _AdminImageManagementScreenState
     extends State<AdminImageManagementScreen> {
   final _imageKey = GlobalKey<FormState>();
   List<PlatformFile>? _selectedFiles; // Handle multiple files
+  bool _isUploading = false; // Flag to indicate if uploading is in progress
 
   @override
   void initState() {
@@ -58,7 +59,7 @@ class _AdminImageManagementScreenState
     }
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     if (_imageKey.currentState!.validate() && _selectedFiles != null) {
       if (_selectedFiles!.length <= 8) {
         bool filesTooLarge = _selectedFiles!.any(
@@ -81,12 +82,21 @@ class _AdminImageManagementScreenState
         List<String> imageNames =
             _selectedFiles!.map((file) => file.name).toList();
 
+        setState(() {
+          _isUploading = true; // Start showing loader
+        });
+
         List<String>? uploadedImageUrls =
             await Provider.of<RandomImageProvider>(context, listen: false)
                 .uploadImage(
           imageBytesList,
           imageNames,
         );
+
+        setState(() {
+          _isUploading = false; // Stop showing loader
+        });
+
         if (uploadedImageUrls != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
@@ -198,8 +208,8 @@ class _AdminImageManagementScreenState
     return SingleChildScrollView(
       child: Consumer<RandomImageProvider>(
         builder: (context, provider, child) {
-          if (provider.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+          if (provider.isLoading && !_isUploading) {
+            return const Center(child: LinearProgressIndicator());
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -277,76 +287,73 @@ class _AdminImageManagementScreenState
                       const SizedBox(height: 16.0),
                       ModifiedButton(
                         press: _submitForm,
-                        color: AppColorConstant.successColor,
+                        text: 'Upload Images',
+                        color: AppColorConstant.adminPrimaryColor,
                         textColor: Colors.white,
-                        text: 'Submit',
                       ),
+                      if (_isUploading) ...[
+                        const SizedBox(height: 16.0),
+                        const CircularProgressIndicator(),
+                      ],
                       const SizedBox(height: 16.0),
-                      if (provider.isLoading)
-                        const Center(child: CircularProgressIndicator()),
-                      if (provider.images.isEmpty && !provider.isLoading)
-                        const Center(
-                          child: Text(
-                            'No images found. Please upload some images.',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
                       if (provider.images.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.all(16.0),
-                          child: GridView.builder(
-                            shrinkWrap: true, // Use shrinkWrap to fit content
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.all(8.0),
-                            itemCount: provider.images.length,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  3, // Number of columns in the grid
-                              crossAxisSpacing: 8.0,
-                              mainAxisSpacing: 8.0,
-                            ),
-                            itemBuilder: (context, index) {
-                              final image = provider.images[index];
-                              return GridTile(
-                                child: Stack(
-                                  children: [
-                                    Image.network(
-                                      image.url,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const Icon(Icons.error),
-                                    ),
-                                  // ID is placeholder here
-                                    Positioned(
-                                      top: 0,
-                                      right: 0,
-                                      child: IconButton(
-                                        icon: const Icon(Icons.delete,
-                                            color: Colors.red),
-                                        onPressed: () =>
-                                            _deleteImage(image.id ?? ''),
-                                      ),
-                                    ),
-                                  ],
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const BodyText(
+                                text: 'Existing Images',
+                                height: 1.2,
+                                size: 28.0,
+                                mediumSize: 28.0,
+                                smallSize: 20.0,
+                                color: AppColorConstant.adminPrimaryColor,
+                              ),
+                              const SizedBox(height: 16.0),
+                              GridView.builder(
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  crossAxisSpacing: 8.0,
+                                  mainAxisSpacing: 8.0,
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      const SizedBox(height: 16.0),
-                      if (provider.images.isNotEmpty)
-                        SizedBox(
-                          width: double.infinity,
-                          child: ModifiedButton(
-                            press: _deleteAllImages,
-                            color: AppColorConstant.errorColor,
-                            textColor: Colors.white,
-                            text: 'Delete All Images',
+                                itemCount: provider.images.length,
+                                itemBuilder: (context, index) {
+                                  final image = provider.images[index];
+                                  return Stack(
+                                    children: [
+                                      Image.network(
+                                        image.url,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                          onPressed: () =>
+                                              _deleteImage(image.id ?? ''),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                              const SizedBox(height: 16.0),
+                              ModifiedButton(
+                                press: _deleteAllImages,
+                                text: 'Delete All Images',
+                                color: AppColorConstant.adminPrimaryColor,
+                                textColor: Colors.white,
+                              ),
+                            ],
                           ),
                         ),
                     ],

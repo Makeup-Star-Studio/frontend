@@ -6,7 +6,7 @@ import 'package:makeupstarstudio/src/model/portfolio_model.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
 class HennaGalleryProvider extends ChangeNotifier {
-  List<Portfolio> _portfolio = [];
+  final List<Portfolio> _portfolio = [];
   List<Portfolio> _filteredPortfolio = [];
 
   List<Portfolio> get portfolio => _portfolio;
@@ -30,7 +30,7 @@ class HennaGalleryProvider extends ChangeNotifier {
       print("Response status: ${response.statusCode}");
       print("Response body: ${response.body}");
       // print url
-      print('${ApiConstant.localUrl}${ApiConstant.getBridalPortfolio}');
+      print('${ApiConstant.localUrl}${ApiConstant.getHennaGallery}');
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
