@@ -48,7 +48,7 @@ class GalleryPage extends StatelessWidget {
                 height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
             const HennaGallery(),
             const SizedBox(height: 40.0),
-            const HeadingGalleryOptions(text: 'White Bride Gallery'),
+            const HeadingGalleryOptions(text: 'American Traditional Bride Gallery'),
             SizedBox(
                 height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
             const WhiteBrideGallery(),
