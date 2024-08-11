@@ -136,7 +136,7 @@ Future<List<String>?> uploadPortfolioImages(
       if (response.statusCode == 201) {
         final responseData = json.decode(response.body);
         // Create a new Tesportfoliotimonial object
-        Portfolio newPortfolio = Portfolio.fromJson(responseData['data']['portfolio']);
+        Portfolio newPortfolio = Portfolio.fromJson(responseData['data']);
         // Insert the new testimonial at the beginning of the list
 
         _portfolio.insert(0, newPortfolio);

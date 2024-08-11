@@ -91,12 +91,10 @@ class BookingProvider extends ChangeNotifier {
       print("Response body: ${response.body}");
 
       if (response.statusCode == 201) {
-        var apiResponse = jsonDecode(response.body);
-
-        if (apiResponse['status'] == 'success' && apiResponse['data'] != null) {
-          var booking = Booking.fromJson(apiResponse);
-          _bookings.add(booking);
-        }
+        final responseData = json.decode(response.body);
+        Booking newBooking = Booking.fromJson(responseData['data']);
+        _bookings.insert(0, newBooking);
+        notifyListeners();
       } else {
         print('Failed to post booking. Status code: ${response.statusCode}');
       }

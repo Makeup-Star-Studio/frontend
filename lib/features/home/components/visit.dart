@@ -1,41 +1,6 @@
-// import 'package:flutter/material.dart';
-// import 'package:makeupstarstudio/src/provider/visitCount/visit_count_provider.dart';
-// import 'package:provider/provider.dart';
-
-// class VisitCounterScreen extends StatefulWidget {
-//   const VisitCounterScreen({super.key});
-
-//   @override
-//   _VisitCounterScreenState createState() => _VisitCounterScreenState();
-// }
-
-// class _VisitCounterScreenState extends State<VisitCounterScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     final visitProvider = Provider.of<VisitProvider>(context, listen: false);
-//     visitProvider.fetchVisitCount().then((_) {
-//       visitProvider.increaseVisitCount();
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Consumer<VisitProvider>(
-//         builder: (context, visitProvider, child) {
-//           return Text(
-//             'Number of visits: ${visitProvider.count}',
-//             style: const TextStyle(fontSize: 24),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
+import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/src/provider/visitCount/visit_count_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +22,15 @@ class _StatsSectionState extends State<StatsSection> {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    return ResponsiveWidget(
+      largeScreen: _buildLargeScreen(screenSize),
+      mediumScreen: _buildMediumScreen(screenSize),
+      smallScreen: _buildSmallScreen(screenSize),
+    );
+  }
+
+  Widget _buildLargeScreen(Size screenSize) {
     return Consumer<VisitProvider>(builder: (context, visitProvider, child) {
       return Container(
         padding: const EdgeInsets.all(16.0),
@@ -73,6 +47,40 @@ class _StatsSectionState extends State<StatsSection> {
               '500+ Satisfied Clients',
               Icons.star,
             ),
+            _buildStatCard(
+              context,
+              count: visitProvider.count,
+              'Number of Visits',
+              Icons.visibility,
+            ),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildMediumScreen(Size screenSize) {
+    return _buildSmallScreen(screenSize);
+  }
+
+  Widget _buildSmallScreen(Size screenSize) {
+    return Consumer<VisitProvider>(builder: (context, visitProvider, child) {
+      return Container(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            _buildStatCard(
+              context,
+              '10+ Years of Experience',
+              Icons.access_time,
+            ),
+            const SizedBox(height: 16),
+            _buildStatCard(
+              context,
+              '500+ Satisfied Clients',
+              Icons.star,
+            ),
+            const SizedBox(height: 16),
             _buildStatCard(
               context,
               count: visitProvider.count,

@@ -100,11 +100,12 @@ class ServicesProvider extends ChangeNotifier {
   }
 
   /*---------------------------------Post service---------------------------------*/
-  Future<void> postService(
-      {required String title,
-      required double price,
-      required String category,
-      String? image}) async {
+  Future<void> postService({
+    required String title,
+    required double price,
+    required String category,
+    String? image,
+  }) async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -119,13 +120,6 @@ class ServicesProvider extends ChangeNotifier {
         return;
       }
 
-      // Check if there's already an image for the category
-      Service? existingService = _services.firstWhere(
-          (service) => service.category == category,
-          orElse: () => Service(title: '', price: 0, category: '', image: ''));
-      String? existingImageUrl =
-          existingService.image!.isNotEmpty ? existingService.image : null;
-
       final response = await http.post(
         Uri.parse('${ApiConstant.localUrl}/api/services/'),
         headers: {
@@ -136,20 +130,17 @@ class ServicesProvider extends ChangeNotifier {
           'title': title,
           'price': price,
           'category': category,
-          'image': image ?? existingImageUrl,
+          'image': image,
         }),
       );
+
       if (response.statusCode == 201) {
         final responseData = json.decode(response.body);
-        // Create a new Testimonial object
-        Service newService = Service.fromJson(responseData['data']['services']);
-        // Insert the new testimonial at the beginning of the list
-
+        Service newService = Service.fromJson(responseData['data']);
         _services.insert(0, newService);
         notifyListeners();
       } else {
         final responseBody = json.decode(response.body);
-        // Extract the error message if available
         final errorMessage =
             responseBody['message'] ?? 'An unknown error occurred';
         throw Exception('Failed to post service: $errorMessage');
@@ -202,13 +193,13 @@ class ServicesProvider extends ChangeNotifier {
         // Update local state
         _services = _services.map((item) {
           if (item.id == id) {
-            return Service.fromJson(responseData['data']['services']);
+            return Service.fromJson(responseData['data']);
           }
           return item;
         }).toList();
         await fetchAllServices();
 
-        print('Services updated: ${responseData['data']['services']}');
+        print('Services updated: ${responseData['data']}');
       } else {
         final responseBody = json.decode(response.body);
         // Extract the error message if available

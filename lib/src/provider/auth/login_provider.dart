@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
 import 'package:makeupstarstudio/features/admin/screens/main/admin_main_page.dart';
@@ -27,7 +25,7 @@ class LoginProvider with ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  List<User> _user = [];
+  final List<User> _user = [];
   List<User> get user => _user;
 
   String _id = '';
@@ -213,10 +211,11 @@ class LoginProvider with ChangeNotifier {
   }
 
   void _showErrorSnackBar(BuildContext context, String message) {
+    // Using the context of the ScaffoldMessenger to ensure it is shown on the main Scaffold
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.red,
         duration: const Duration(seconds: 3),
       ),
     );

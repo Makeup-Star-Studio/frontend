@@ -63,7 +63,7 @@ class Service {
   final String? image;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
-        id: json["id"] as String?,
+        id: json["id"] as String? ?? '',
         title: json["title"] as String? ?? '',
         price: (json["price"] as num).toDouble(),
         category: json["category"] as String? ?? '',

@@ -27,6 +27,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
   String? _selectedCategory;
   int? _editingIndex;
   bool _isImageRequired = true;
+  final bool _isLoading = false;
 
   final List<String> _categories = [
     'Bridal',
@@ -60,18 +61,35 @@ class _AdminServicesViewState extends State<AdminServicesView> {
   }
 
   Future<void> _submitForm() async {
-    if (_servicesFormKey.currentState!.validate() &&
-        (_imageUrl != null || _editingIndex != null)) {
+    if (_servicesFormKey.currentState!.validate()) {
       String? uploadedImageUrl;
+
+      // Check if there's already an image for the selected category
+      Service? existingService = Provider.of<ServicesProvider>(context,
+              listen: false)
+          .services
+          .firstWhere(
+            (service) => service.category == _selectedCategory,
+            orElse: () => Service(title: '', price: 0, category: '', image: ''),
+          );
+      String? existingImageUrl =
+          existingService.image!.isNotEmpty ? existingService.image : null;
+
+      // Only upload a new image if the user has selected a new image
       if (_imageUrl != null) {
         uploadedImageUrl =
             await Provider.of<ServicesProvider>(context, listen: false)
                 .uploadServiceImage(
-                     _imageUrl!, selectedFile);
+          _imageUrl!,
+          selectedFile,
+        );
       }
 
-      // Ensure an image URL exists when adding a new testimonial
-      if (uploadedImageUrl == null && _editingIndex == null) {
+      // Use the newly uploaded image URL or the existing one
+      String? finalImageUrl = uploadedImageUrl ?? existingImageUrl;
+
+      // Ensure an image URL exists when adding a new service
+      if (finalImageUrl == null && _editingIndex == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: AppColorConstant.errorColor,
@@ -85,26 +103,20 @@ class _AdminServicesViewState extends State<AdminServicesView> {
       }
 
       if (_editingIndex == null) {
-        // Add testimonial
-        print('Attempting to post testimonial...');
-        print('Title: ${_titleController.text}');
-        print('Price: ${_priceController.text}');
-        print('Category: $_selectedCategory');
-        print('Image URL: $uploadedImageUrl');
-
+        // Add service
         try {
           await Provider.of<ServicesProvider>(context, listen: false)
               .postService(
             title: _titleController.text,
             price: double.parse(_priceController.text),
             category: _selectedCategory!,
-            image: uploadedImageUrl!,
+            image: finalImageUrl ?? '',
           );
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               backgroundColor: AppColorConstant.successColor,
               content: Text(
-                'Services Added Successfully',
+                'Service Added Successfully',
                 style: TextStyle(color: AppColorConstant.white),
               ),
             ),
@@ -115,12 +127,12 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             const SnackBar(
               backgroundColor: AppColorConstant.errorColor,
               content: Text(
-                'Failed to add services',
+                'Failed to add service',
                 style: TextStyle(color: AppColorConstant.white),
               ),
             ),
           );
-          print('Error posting services: $e');
+          print('Error posting service: $e');
         }
       } else {
         // Update service
@@ -128,14 +140,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             .services[_editingIndex!];
 
         // If no new image is uploaded, retain the existing one
-        String updatedImageUrl = uploadedImageUrl ?? service.image!;
-
-        print('Attempting to update service...');
-        print('Id: ${service.id}');
-        print('Title: ${_titleController.text}');
-        print('Price: ${_priceController.text}');
-        print('Category: $_selectedCategory');
-        print('Image URL: $updatedImageUrl');
+        String updatedImageUrl = finalImageUrl ?? service.image!;
 
         try {
           await Provider.of<ServicesProvider>(context, listen: false)
@@ -169,7 +174,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
               ),
             ),
           );
-          print('Error updating testimonial: $e');
+          print('Error updating service: $e');
         }
       }
     } else {
@@ -263,6 +268,22 @@ class _AdminServicesViewState extends State<AdminServicesView> {
     super.dispose();
   }
 
+  Widget _buildLoader() {
+    return Positioned(
+      left: 0,
+      right: 0,
+      bottom: 0,
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        child: const LinearProgressIndicator(
+          valueColor:
+              AlwaysStoppedAnimation<Color>(AppColorConstant.adminPrimaryColor),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Determine if the screen is small or large
@@ -275,215 +296,464 @@ class _AdminServicesViewState extends State<AdminServicesView> {
   }
 
   Widget _buildLargeScreen(BuildContext context) {
-    return Row(
+    return Stack(
       children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _servicesFormKey,
-              child: ListView(
-                children: [
-                  const Text(
-                    textAlign: TextAlign.center,
-                    "Manage Services",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: _imageUrl == null
-                        ? Container(
-                            height: 400,
-                            color: Colors.grey[200],
-                            child: const Icon(Icons.add_a_photo, size: 100),
-                          )
-                        : Image.memory(_imageUrl!,
-                            height: 500, fit: BoxFit.contain),
-                  ),
-                  const Text(
-                    textAlign: TextAlign.center,
-                    '"Pick One Image"',
-                    style: TextStyle(
-                      color: AppColorConstant.adminPrimaryColor,
-                      fontSize: 18,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  BodyText(
-                    text: "Service Title",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: ResponsiveWidget.isSmallScreen(context)
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                  TextFormInputField(
-                    textAlign: TextAlign.left,
-                    controller: _titleController,
-                    hintText:
-                        "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      return null;
-                    },
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                    focusBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  BodyText(
-                    text: "Service Price",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: ResponsiveWidget.isSmallScreen(context)
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                  TextFormInputField(
-                    textAlign: TextAlign.left,
-                    controller: _priceController,
-                    hintText: "For eg: 5000 or 8000 or 10000 etc.",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      final n = num.tryParse(value);
-                      if (n == null) {
-                        return '"$value" is not a valid number';
-                      }
-                      return null;
-                    },
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                    focusBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  BodyText(
-                    text: "Service Category",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: ResponsiveWidget.isSmallScreen(context)
-                        ? FontWeight.bold
-                        : FontWeight.normal,
-                  ),
-                  DropdownButtonFormField<String>(
-                    value: _selectedCategory,
-                    hint: const Text("Select Category"),
-                    items: _categories.map((String category) {
-                      return DropdownMenuItem<String>(
-                        value: category,
-                        child: Text(category),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    },
-                    validator: (value) => value == null ? 'required' : null,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0.0),
-                        borderSide: const BorderSide(
-                          width: 1.0,
+        Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _servicesFormKey,
+                  child: ListView(
+                    children: [
+                      const Text(
+                        textAlign: TextAlign.center,
+                        "Manage Services",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: _imageUrl == null
+                            ? Container(
+                                height: 400,
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.add_a_photo, size: 100),
+                              )
+                            : Image.memory(_imageUrl!,
+                                height: 500, fit: BoxFit.contain),
+                      ),
+                      const Text(
+                        textAlign: TextAlign.center,
+                        '"Pick One Image"',
+                        style: TextStyle(
+                          color: AppColorConstant.adminPrimaryColor,
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      BodyText(
+                        text: "Service Title",
+                        textAlign: TextAlign.left,
+                        size: 16,
+                        fontWeight: ResponsiveWidget.isSmallScreen(context)
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      TextFormInputField(
+                        textAlign: TextAlign.left,
+                        controller: _titleController,
+                        hintText:
+                            "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'required';
+                          }
+                          return null;
+                        },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                        focusBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      BodyText(
+                        text: "Service Price",
+                        textAlign: TextAlign.left,
+                        size: 16,
+                        fontWeight: ResponsiveWidget.isSmallScreen(context)
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      TextFormInputField(
+                        textAlign: TextAlign.left,
+                        controller: _priceController,
+                        hintText: "For eg: 5000 or 8000 or 10000 etc.",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'required';
+                          }
+                          final n = num.tryParse(value);
+                          if (n == null) {
+                            return '"$value" is not a valid number';
+                          }
+                          return null;
+                        },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                        focusBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      BodyText(
+                        text: "Service Category",
+                        textAlign: TextAlign.left,
+                        size: 16,
+                        fontWeight: ResponsiveWidget.isSmallScreen(context)
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: _selectedCategory,
+                        hint: const Text("Select Category"),
+                        items: _categories.map((String category) {
+                          return DropdownMenuItem<String>(
+                            value: category,
+                            child: Text(category),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        },
+                        validator: (value) => value == null ? 'required' : null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ModifiedButton(
+                          text: _editingIndex == null
+                              ? 'ADD SERVICE'
+                              : 'UPDATE SERVICE',
+                          color: AppColorConstant.adminPrimaryColor,
+                          textColor: AppColorConstant.white,
+                          press: _submitForm),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  ModifiedButton(
-                      text: _editingIndex == null
-                          ? 'ADD SERVICE'
-                          : 'UPDATE SERVICE',
-                      color: AppColorConstant.adminPrimaryColor,
-                      textColor: AppColorConstant.white,
-                      press: _submitForm),
-                ],
+                ),
               ),
             ),
-          ),
+            if (_isLoading) _buildLoader(),
+
+            /* ----------------- Services List ----------------- */
+            const VerticalDivider(thickness: 2, color: Colors.grey),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Consumer<ServicesProvider>(
+                  builder: (context, serviceProvider, child) {
+                    final services = serviceProvider.services;
+                    return Column(
+                      children: [
+                        const Text(
+                          "Displayed Services",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Expanded(
+                          child: services.isEmpty
+                              ? const Center(child: Text("No services added"))
+                              : SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: DataTable(
+                                    columns: const [
+                                      DataColumn(label: Text('Image')),
+                                      DataColumn(label: Text('Title')),
+                                      DataColumn(label: Text('Price')),
+                                      DataColumn(label: Text('Category')),
+                                      DataColumn(label: Text('Actions')),
+                                    ],
+                                    rows: services.asMap().entries.map((entry) {
+                                      int index = entry.key;
+                                      Service service = entry.value;
+                                      return DataRow(cells: [
+                                        DataCell(services[index].image == null
+                                            ? const Icon(Icons.image)
+                                            : Image.network(
+                                                'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
+                                                width: 50,
+                                                height: 50)),
+                                        DataCell(
+                                          ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                                maxWidth: 200),
+                                            child: Text(
+                                              service.title,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                        ),
+                                        DataCell(
+                                            Text(service.price.toString())),
+                                        DataCell(Text(service.category)),
+                                        DataCell(Row(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(Icons.edit),
+                                              color:
+                                                  AppColorConstant.successColor,
+                                              onPressed: () =>
+                                                  _editService(index),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(Icons.delete),
+                                              color:
+                                                  AppColorConstant.errorColor,
+                                              onPressed: () =>
+                                                  _deleteService(index),
+                                            ),
+                                          ],
+                                        )),
+                                      ]);
+                                    }).toList(),
+                                  ),
+                                ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
-        /* ----------------- Services List ----------------- */
-        const VerticalDivider(thickness: 2, color: Colors.grey),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Consumer<ServicesProvider>(
-              builder: (context, serviceProvider, child) {
-                final services = serviceProvider.services;
-                return Column(
-                  children: [
-                    const Text(
-                      "Displayed Services",
-                      style: TextStyle(
-                        fontSize: 24,
+      ],
+    );
+  }
+
+/*----------------- Small Screen Layout -----------------*/
+  Widget _buildSmallScreen(BuildContext context) {
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              if (!ResponsiveWidget.isLargeScreen(context))
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  color: AppColorConstant.adminMenuColor,
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.menu, color: Colors.white),
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                        },
+                      ),
+                      const SizedBox(width: 16),
+                      const Text(
+                        'Manage Service',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _servicesFormKey,
+                  child: Column(
+                    children: [
+                      const Text(
+                        "Post Services",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: _pickImage,
+                        child: _imageUrl == null
+                            ? Container(
+                                width: 500,
+                                height: 500,
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.add_a_photo, size: 100),
+                              )
+                            : Image.memory(_imageUrl!, fit: BoxFit.cover),
+                      ),
+                      const Text(
+                        textAlign: TextAlign.center,
+                        '"Pick One Image"',
+                        style: TextStyle(
+                          color: AppColorConstant.adminPrimaryColor,
+                          fontSize: 18,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const BodyText(
+                        text: "Service Title",
+                        textAlign: TextAlign.left,
+                        size: 16,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: services.isEmpty
-                          ? const Center(child: Text("No services added"))
-                          : SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: DataTable(
-                                columns: const [
-                                  DataColumn(label: Text('Image')),
-                                  DataColumn(label: Text('Title')),
-                                  DataColumn(label: Text('Price')),
-                                  DataColumn(label: Text('Category')),
-                                  DataColumn(label: Text('Actions')),
-                                ],
-                                rows: services.asMap().entries.map((entry) {
-                                  int index = entry.key;
-                                  Service service = entry.value;
-                                  return DataRow(cells: [
-                                    DataCell(services[index].image == null
+                      TextFormInputField(
+                        textAlign: TextAlign.left,
+                        controller: _titleController,
+                        hintText:
+                            "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'required';
+                          }
+                          return null;
+                        },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                        focusBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const BodyText(
+                        text: "Service Price",
+                        textAlign: TextAlign.left,
+                        size: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      TextFormInputField(
+                        textAlign: TextAlign.left,
+                        controller: _priceController,
+                        hintText: "For eg: 5000 or 8000 or 10000 etc.",
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'required';
+                          }
+                          final n = num.tryParse(value);
+                          if (n == null) {
+                            return '"$value" is not a valid number';
+                          }
+                          return null;
+                        },
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                        focusBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(0.0),
+                          borderSide: const BorderSide(
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const BodyText(
+                        text: "Service Category",
+                        textAlign: TextAlign.left,
+                        size: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      DropdownButtonFormField<String>(
+                        value: _selectedCategory,
+                        hint: const Text("Select Category"),
+                        items: _categories.map((String category) {
+                          return DropdownMenuItem<String>(
+                            value: category,
+                            child: Text(category),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCategory = value;
+                          });
+                        },
+                        validator: (value) => value == null ? 'required' : null,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(0.0),
+                            borderSide: const BorderSide(
+                              width: 1.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ModifiedButton(
+                          text: _editingIndex == null
+                              ? 'ADD SERVICE'
+                              : 'UPDATE SERVICE',
+                          color: AppColorConstant.adminPrimaryColor,
+                          textColor: AppColorConstant.white,
+                          press: _submitForm),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              if (_isLoading) _buildLoader(),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Consumer<ServicesProvider>(
+                  builder: (context, serviceProvider, child) {
+                    final services = serviceProvider.services;
+                    return Column(
+                      children: [
+                        const Text(
+                          "Displayed Services",
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        services.isEmpty
+                            ? const Center(child: Text("No services added"))
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: services.length,
+                                itemBuilder: (context, index) {
+                                  final service = services[index];
+                                  return ListTile(
+                                    leading: services[index].image == null
                                         ? const Icon(Icons.image)
                                         : Image.network(
                                             'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
                                             width: 50,
-                                            height: 50)),
-                                    DataCell(
-                                      ConstrainedBox(
-                                        constraints:
-                                            const BoxConstraints(maxWidth: 200),
-                                        child: Text(
-                                          service.title,
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(Text(service.price.toString())),
-                                    DataCell(Text(service.category)),
-                                    DataCell(Row(
+                                            height: 50),
+                                    title: Text(service.title),
+                                    subtitle: Text(
+                                        '${service.price} - ${service.category}'),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: [
                                         IconButton(
                                           icon: const Icon(Icons.edit),
@@ -497,252 +767,19 @@ class _AdminServicesViewState extends State<AdminServicesView> {
                                               _deleteService(index),
                                         ),
                                       ],
-                                    )),
-                                  ]);
-                                }).toList(),
+                                    ),
+                                  );
+                                },
                               ),
-                            ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ],
-    );
-  }
-
-/*----------------- Small Screen Layout -----------------*/
-  Widget _buildSmallScreen(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          if (!ResponsiveWidget.isLargeScreen(context))
-            Container(
-              padding: const EdgeInsets.all(16.0),
-              color: AppColorConstant.adminMenuColor,
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.menu, color: Colors.white),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  ),
-                  const SizedBox(width: 16),
-                  const Text(
-                    'Manage Service',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _servicesFormKey,
-              child: Column(
-                children: [
-                  const Text(
-                    "Post Services",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: _pickImage,
-                    child: _imageUrl == null
-                        ? Container(
-                            width: 500,
-                            height: 500,
-                            color: Colors.grey[200],
-                            child: const Icon(Icons.add_a_photo, size: 100),
-                          )
-                        : Image.memory(_imageUrl!, fit: BoxFit.cover),
-                  ),
-                  const Text(
-                    textAlign: TextAlign.center,
-                    '"Pick One Image"',
-                    style: TextStyle(
-                      color: AppColorConstant.adminPrimaryColor,
-                      fontSize: 18,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const BodyText(
-                    text: "Service Title",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  TextFormInputField(
-                    textAlign: TextAlign.left,
-                    controller: _titleController,
-                    hintText:
-                        "For eg: Bridal Makeup and Hair or Non Bridal Makeup or Henna Both Hands or South Indian Saree Draping etc.",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      return null;
-                    },
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                    focusBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const BodyText(
-                    text: "Service Price",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  TextFormInputField(
-                    textAlign: TextAlign.left,
-                    controller: _priceController,
-                    hintText: "For eg: 5000 or 8000 or 10000 etc.",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'required';
-                      }
-                      final n = num.tryParse(value);
-                      if (n == null) {
-                        return '"$value" is not a valid number';
-                      }
-                      return null;
-                    },
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                    focusBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: const BorderSide(
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const BodyText(
-                    text: "Service Category",
-                    textAlign: TextAlign.left,
-                    size: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  DropdownButtonFormField<String>(
-                    value: _selectedCategory,
-                    hint: const Text("Select Category"),
-                    items: _categories.map((String category) {
-                      return DropdownMenuItem<String>(
-                        value: category,
-                        child: Text(category),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategory = value;
-                      });
-                    },
-                    validator: (value) => value == null ? 'required' : null,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(0.0),
-                        borderSide: const BorderSide(
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ModifiedButton(
-                      text: _editingIndex == null
-                          ? 'ADD SERVICE'
-                          : 'UPDATE SERVICE',
-                      color: AppColorConstant.adminPrimaryColor,
-                      textColor: AppColorConstant.white,
-                      press: _submitForm),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Consumer<ServicesProvider>(
-              builder: (context, serviceProvider, child) {
-                final services = serviceProvider.services;
-                return Column(
-                  children: [
-                    const Text(
-                      "Displayed Services",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    services.isEmpty
-                        ? const Center(child: Text("No services added"))
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: services.length,
-                            itemBuilder: (context, index) {
-                              final service = services[index];
-                              return ListTile(
-                                leading: services[index].image == null
-                                    ? const Icon(Icons.image)
-                                    : Image.network(
-                                        'https://makeup-star-studio.sfo2.digitaloceanspaces.com/services/${service.image}',
-                                        width: 50,
-                                        height: 50),
-                                title: Text(service.title),
-                                subtitle: Text(
-                                    '${service.price} - ${service.category}'),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: const Icon(Icons.edit),
-                                      color: AppColorConstant.successColor,
-                                      onPressed: () => _editService(index),
-                                    ),
-                                    IconButton(
-                                      icon: const Icon(Icons.delete),
-                                      color: AppColorConstant.errorColor,
-                                      onPressed: () => _deleteService(index),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
