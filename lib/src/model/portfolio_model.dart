@@ -12,8 +12,7 @@ class PortfolioModel {
 
   String toRawJson() => json.encode(toJson());
 
-  factory PortfolioModel.fromJson(Map<String, dynamic> json) =>
-      PortfolioModel(
+  factory PortfolioModel.fromJson(Map<String, dynamic> json) => PortfolioModel(
         data: PortfolioData.fromJson(json["data"]),
       );
 
@@ -31,11 +30,11 @@ class PortfolioData {
 
   factory PortfolioData.fromJson(Map<String, dynamic> json) => PortfolioData(
         portfolio: List<Portfolio>.from(
-            json["portfolio"].map((x) => Portfolio.fromJson(x))),
+            json["portfolios"].map((x) => Portfolio.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "portfolio": List<dynamic>.from(portfolio.map((x) => x.toJson())),
+        "portfolios": List<dynamic>.from(portfolio.map((x) => x.toJson())),
       };
 }
 
@@ -50,16 +49,15 @@ class Portfolio {
 
   final String? id;
   final String category;
-  final List<String>? portfolioImage;
+  final List<PortfolioImage> portfolioImage; // Updated to PortfolioImage list
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
   factory Portfolio.fromJson(Map<String, dynamic> json) => Portfolio(
         id: json["id"],
         category: json["category"],
-             portfolioImage: List<String>.from(json['portfolioImage'] ?? []),
-
-
+        portfolioImage: List<PortfolioImage>.from(
+            json['portfolioImage'].map((x) => PortfolioImage.fromJson(x))),
         createdAt: json["createdAt"] == null
             ? null
             : DateTime.parse(json["createdAt"]),
@@ -71,8 +69,29 @@ class Portfolio {
   Map<String, dynamic> toJson() => {
         "id": id,
         "category": category,
-        "portfolioImage": List<dynamic>.from(portfolioImage!.map((x) => x)),
+        "portfolioImage":
+            List<dynamic>.from(portfolioImage.map((x) => x.toJson())),
         "createdAt": createdAt?.toIso8601String(),
         "updatedAt": updatedAt?.toIso8601String(),
+      };
+}
+
+class PortfolioImage {
+  PortfolioImage({
+    required this.id,
+    required this.url,
+  });
+
+  final String id; // Unique ID for the image
+  final String url;
+
+  factory PortfolioImage.fromJson(Map<String, dynamic> json) => PortfolioImage(
+        id: json["_id"], // The ID field
+        url: json["url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "url": url,
       };
 }

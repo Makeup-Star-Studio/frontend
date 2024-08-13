@@ -1,41 +1,41 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/src/provider/portfolio/non_bridal_gallery.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/draping_gallery_provider.dart';
 import 'package:provider/provider.dart';
 
-class NonBridalGallery extends StatefulWidget {
-  const NonBridalGallery({super.key});
+class DrapingGallery extends StatefulWidget {
+  const DrapingGallery({super.key});
 
   @override
-  State<NonBridalGallery> createState() => _NonBridalGalleryState();
+  State<DrapingGallery> createState() => _DrapingGalleryState();
 }
 
-class _NonBridalGalleryState extends State<NonBridalGallery> {
+class _DrapingGalleryState extends State<DrapingGallery> {
   @override
   void initState() {
     super.initState();
     // Fetch services data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<NonBridalGalleryProvider>(context, listen: false)
-          .fetchNonBridalGallery();
+      Provider.of<DrapingGalleryProvider>(context, listen: false)
+          .fetchDrapingGallery();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<NonBridalGalleryProvider>(
-      builder: (context, nonBridalGalleryProvider, child) {
-        if (nonBridalGalleryProvider.isLoading) {
+    return Consumer<DrapingGalleryProvider>(
+      builder: (context, drapingGalleryProvider, child) {
+        if (drapingGalleryProvider.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          if (nonBridalGalleryProvider.portfolio.isEmpty) {
+          if (drapingGalleryProvider.portfolio.isEmpty) {
             return const Center(child: Text('No portfolio available.'));
           }
           // Collect all images from all portfolios into a single list
-          final List<String> allImageUrls = nonBridalGalleryProvider
+          final List<String> allImageUrls = drapingGalleryProvider
               .filteredPortfolio
               .expand((portfolio) => portfolio.portfolioImage)
               .map((image) =>
@@ -70,26 +70,21 @@ class _NonBridalGalleryState extends State<NonBridalGallery> {
                   child: Container(
                     margin:
                         const EdgeInsets.all(2.0), // Small margin for spacing
-
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: FadeInImage(
                         image: CachedNetworkImageProvider(imageUrl),
                         placeholder: const AssetImage(
-                            'assets/images/logo.png'), // Replace with your placeholder image
-                        imageErrorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.grey[200],
-                            child: const Center(
-                              child: Icon(
-                                Icons.error,
-                                color: Colors.red,
-                                size: 50.0,
-                              ),
-                            ),
-                          );
-                        },
-                        fit: BoxFit.cover, // Change to BoxFit.contain if needed
+                          'assets/images/logo.png',
+                        ), // Placeholder image
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                              child: Icon(Icons.error, color: Colors.red)),
+                        ),
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        fit: BoxFit.cover, // Ensure the image fits properly
                       ),
                     ),
                   ),
@@ -123,14 +118,18 @@ class _NonBridalGalleryState extends State<NonBridalGallery> {
                   child: PageView.builder(
                     itemCount: imageUrls.length,
                     itemBuilder: (context, index) {
-                      return CachedNetworkImage(
-                        imageUrl: imageUrls[index],
-                        fit: BoxFit.contain, // Ensure the full image is visible
-                        placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
+                      return FadeInImage(
+                        image: NetworkImage(imageUrls[index]),
+                        placeholder: const AssetImage(
+                            'assets/images/logo-gold.png'), // Placeholder image
+                        imageErrorBuilder: (context, error, stackTrace) =>
+                            Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                              child: Icon(Icons.error, color: Colors.red)),
                         ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                        fadeInDuration: const Duration(milliseconds: 300),
+                        fit: BoxFit.contain, // Ensure the full image is visible
                       );
                     },
                     controller: PageController(initialPage: initialIndex),

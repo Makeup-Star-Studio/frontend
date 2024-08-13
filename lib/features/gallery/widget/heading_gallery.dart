@@ -24,22 +24,23 @@ class _HeadingGalleryOptionsState extends State<HeadingGalleryOptions> {
             color: AppColorConstant.black,
             size: 80.0,
             mediumSize: 70.0,
-            smallSize: 60.0,
+            smallSize: 45.0,
             // fontWeight: FontWeight.bold,
           ),
           const SizedBox(
             width: 10,
           ),
-          Expanded(
-            child: Container(
-              // create a line
-              height: 2.0,
-              width: ResponsiveWidget.isSmallScreen(context)
-                  ? screenSize.width * 0.3
-                  : screenSize.width * 0.65,
-              color: AppColorConstant.secondaryColor,
-            ),
-          )
+          if (!ResponsiveWidget.isSmallScreen(context))
+            Expanded(
+              child: Container(
+                // create a line
+                height: 2.0,
+                width: ResponsiveWidget.isSmallScreen(context)
+                    ? screenSize.width * 0.2
+                    : screenSize.width * 0.65,
+                color: AppColorConstant.secondaryColor,
+              ),
+            )
         ],
       ),
     );

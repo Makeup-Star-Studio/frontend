@@ -37,17 +37,16 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
           return const Center(child: Text('No portfolio available.'));
         }
 
-        // Flatten the list of images from all portfolio items
-        final List<String> allImages =
-            whiteBridalGalleryProvider.filteredPortfolio
-                .expand((portfolio) => portfolio.portfolioImage ?? [])
-                .take(10) // Limit to 24 images
-                .cast<String>() // Ensure type is List<String>
-                .toList();
+        // Collect all images from all portfolios into a single list
+        final List<String> allImageUrls = whiteBridalGalleryProvider
+            .filteredPortfolio
+            .expand((portfolio) => portfolio.portfolioImage)
+            .map((image) =>
+                image.url) // Extract the URL from the PortfolioImage object
+            .toList();
 
-        if (allImages.isEmpty) {
-          return const Center(child: Text('No portfolio available.'));
-        }
+        // Display only the latest 24 images
+        final List<String> limitedImageUrls = allImageUrls.take(10).toList();
 
         return Center(
           child: Stack(
@@ -65,7 +64,7 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
                   scrollPhysics: const NeverScrollableScrollPhysics(),
                   // Add additional options as needed
                 ),
-                items: allImages.map((imageUrl) {
+                items: limitedImageUrls.map((imageUrl) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
@@ -119,7 +118,7 @@ class _WhiteBrideGalleryState extends State<WhiteBrideGallery> {
                   padding: const EdgeInsets.all(16),
                   child: const BodyText(
                     text:
-                        "Indian girls marrying foreign boys and embracing white weddings is a beautiful blend of cultures, celebrating the union of diverse traditions and values. These weddings highlight the harmonious fusion of rich Indian heritage with modern, global influences, showcasing a unique and elegant approach to matrimony. They symbolize love that transcends borders, bringing together the best of both worlds in a celebration of unity and diversity.",
+                        "Wedding is a beautiful blend of cultures, celebrating the union of diverse traditions and values. These weddings highlight the harmonious fusion of rich cultural heritage with modern, global influences, showcasing a unique and elegant approach to matrimony. They symbolize love that transcends borders, bringing together the best of both worlds in a celebration of unity and diversity.",
                     textAlign: TextAlign.center,
                   ),
                 ),

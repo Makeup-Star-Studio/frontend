@@ -4,8 +4,10 @@ import 'package:makeupstarstudio/src/provider/auth/login_provider.dart';
 import 'package:makeupstarstudio/src/provider/booking/booking_provider.dart';
 import 'package:makeupstarstudio/src/provider/images/random_images_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/bridal_portfolio.dart';
-import 'package:makeupstarstudio/src/provider/portfolio/henna_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/bridal_henna_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/draping_gallery_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/non_bridal_gallery.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/non_bridal_henna_gallery_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/portfolio_provider.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/white_bride_provider.dart';
 import 'package:makeupstarstudio/src/provider/services/bridal_services_provider.dart';
@@ -29,9 +31,11 @@ class AppProvider {
   static final drapingServiceProvider = DrapingServicesProvider();
   static final testimonialProvider = TestimonialProvider();
   static final bridalPortfolioProvider = BridalPortfolioProvider();
-  static final hennaGalleryProvider = HennaGalleryProvider();
+  static final bridalHennaGalleryProvider = BridalHennaGalleryProvider();
+  static final nonBridalHennaGalleryProvider = NonBridalHennaGalleryProvider();
   static final nonBridalGalleryProvider = NonBridalGalleryProvider();
   static final whiteBridalGalleryProvider = WhiteBridalProvider();
+  static final drapingGalleryProvider = DrapingGalleryProvider();
   static final portfolioProvider = PortfolioProvider();
   static final bookingProvider = BookingProvider();
   static final checkLoginProvider = CheckLoginProvider();
@@ -65,14 +69,20 @@ class AppProvider {
     ChangeNotifierProvider<BridalPortfolioProvider>(
       create: (context) => bridalPortfolioProvider,
     ),
-    ChangeNotifierProvider<HennaGalleryProvider>(
-      create: (context) => hennaGalleryProvider,
+    ChangeNotifierProvider<BridalHennaGalleryProvider>(
+      create: (context) => bridalHennaGalleryProvider,
+    ),
+    ChangeNotifierProvider<NonBridalHennaGalleryProvider>(
+      create: (context) => nonBridalHennaGalleryProvider,
     ),
     ChangeNotifierProvider<NonBridalGalleryProvider>(
       create: (context) => nonBridalGalleryProvider,
     ),
     ChangeNotifierProvider<WhiteBridalProvider>(
       create: (context) => whiteBridalGalleryProvider,
+    ), 
+    ChangeNotifierProvider<DrapingGalleryProvider>(
+      create: (context) => drapingGalleryProvider,
     ),
     ChangeNotifierProvider<PortfolioProvider>(
       create: (context) => portfolioProvider,
@@ -102,9 +112,11 @@ class AppProvider {
     drapingServiceProvider.dispose();
     testimonialProvider.dispose();
     bridalPortfolioProvider.dispose();
-    hennaGalleryProvider.dispose();
+    bridalHennaGalleryProvider.dispose();
+    nonBridalHennaGalleryProvider.dispose();
     nonBridalGalleryProvider.dispose();
     whiteBridalGalleryProvider.dispose();
+    drapingGalleryProvider.dispose();
     portfolioProvider.dispose();
     bookingProvider.dispose();
     imagesProvider.dispose();

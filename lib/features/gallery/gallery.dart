@@ -3,9 +3,11 @@ import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/navbar/menu_drawer.dart';
 import 'package:makeupstarstudio/core/common/navbar/top_bar_contents.dart';
+import 'package:makeupstarstudio/features/gallery/components/bridal_henna_gallery.dart';
+import 'package:makeupstarstudio/features/gallery/components/draping_gallery.dart';
 import 'package:makeupstarstudio/features/gallery/components/gallery_header_content.dart';
-import 'package:makeupstarstudio/features/gallery/components/henna_gallery.dart';
 import 'package:makeupstarstudio/features/gallery/components/non_bridal_gallery.dart';
+import 'package:makeupstarstudio/features/gallery/components/non_bridal_henna_gallery.dart';
 import 'package:makeupstarstudio/features/gallery/components/white_bride_gallery.dart';
 import 'package:makeupstarstudio/features/gallery/widget/heading_gallery.dart';
 import 'package:makeupstarstudio/features/home/components/footer.dart';
@@ -43,12 +45,19 @@ class GalleryPage extends StatelessWidget {
           children: [
             GalleryHeaderSection(),
             const SizedBox(height: 20.0),
-            const HeadingGalleryOptions(text: 'Henna Gallery'),
+            const HeadingGalleryOptions(text: 'Bridal Henna Gallery'),
             SizedBox(
                 height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
-            const HennaGallery(),
+            const BridalHennaGallery(),
             const SizedBox(height: 40.0),
-            const HeadingGalleryOptions(text: 'American Traditional Bride Gallery'),
+            const HeadingGalleryOptions(text: 'Non Bridal Henna Gallery'),
+            SizedBox(
+                height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
+            const NonBridalHennaGallery(),
+            const SizedBox(height: 40.0),
+            const HeadingGalleryOptions(
+              text: 'American Traditional Bride Gallery'
+            ),
             SizedBox(
                 height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
             const WhiteBrideGallery(),
@@ -57,6 +66,12 @@ class GalleryPage extends StatelessWidget {
             SizedBox(
                 height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
             const NonBridalGallery(),
+            // GallerySlide4(),
+            const SizedBox(height: 40.0), 
+            const HeadingGalleryOptions(text: 'Draping Gallery'),
+            SizedBox(
+                height: ResponsiveWidget.isSmallScreen(context) ? 10.0 : 20.0),
+            const DrapingGallery(),
             // GallerySlide4(),
             const SizedBox(height: 40.0),
             const SubscriptionSection(),

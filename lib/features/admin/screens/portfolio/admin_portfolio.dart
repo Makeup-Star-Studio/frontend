@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/color.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
 import 'package:makeupstarstudio/core/common/text/body.dart';
+import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
+import 'package:makeupstarstudio/src/model/portfolio_model.dart';
 import 'package:makeupstarstudio/src/provider/portfolio/portfolio_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +25,22 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
 
   final List<String> _portfolioCategory = [
     'Bridal',
-    'Henna',
+    'Bridal-Henna',
+    'NonBridal-Henna',
     'Non-Bridal',
-    'White-Bride'
+    'White-Bride',
+    'Draping'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Fetch existing images when the screen loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<PortfolioProvider>(context, listen: false)
+          .fetchAllPortfolios();
+    });
+  }
 
   Future<void> _pickImages() async {
     try {
@@ -55,7 +69,7 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
     }
   }
 
-  void _submitForm() async {
+  Future<void> _submitForm() async {
     if (_portfolioKey.currentState!.validate() && _selectedFiles != null) {
       if (_selectedFiles!.length <= 24) {
         // Validate file sizes
@@ -149,6 +163,88 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
     });
   }
 
+  Future<void> _deleteImage(String portfolioId, String imageId) async {
+    // Show a dialog to confirm deletion
+    bool? confirmDelete = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const SubHeadingSlanted(
+            text: 'Confirm Deletion',
+            height: 1.2,
+            color: AppColorConstant.errorColor,
+          ),
+          content: const BodyText(
+              text: 'Are you sure you want to delete this image?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User pressed Cancel
+              },
+              child: const BodyText(text: 'Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User pressed Delete
+              },
+              child: const BodyText(text: 'Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    // If user confirmed deletion
+    if (confirmDelete == true) {
+      await Provider.of<PortfolioProvider>(context, listen: false)
+          .deleteOnePortfolioImage(portfolioId, imageId);
+    }
+  }
+
+  Future<void> _deleteCategoryImages(String category) async {
+    setState(() {
+      _isLoading = true;
+    });
+    // Show a dialog to confirm deletion
+    bool? confirmDelete = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const SubHeadingSlanted(
+            text: 'Confirm Deletion',
+            height: 1.2,
+            color: AppColorConstant.errorColor,
+          ),
+          content: const BodyText(
+              text: 'Are you sure you want to delete all images?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false); // User pressed Cancel
+              },
+              child: const BodyText(text: 'Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(true); // User pressed Delete
+              },
+              child: const BodyText(text: 'Delete'),
+            ),
+          ],
+        );
+      },
+    );
+
+    // If user confirmed deletion
+    if (confirmDelete == true) {
+      await Provider.of<PortfolioProvider>(context, listen: false)
+          .deletePortfolioByCat(category);
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   Widget _buildLoader() {
     return Positioned(
       left: 0,
@@ -170,110 +266,189 @@ class _AdminPortfolioViewState extends State<AdminPortfolioView> {
     return Stack(
       children: [
         SingleChildScrollView(
-          child: Column(
-            children: [
-              if (!ResponsiveWidget.isLargeScreen(context))
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  color: AppColorConstant.adminMenuColor,
-                  child: Row(
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.menu, color: Colors.white),
-                        onPressed: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                      ),
-                      const SizedBox(width: 16),
-                      const Text(
-                        'Manage Portfolio',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+          child: Consumer<PortfolioProvider>(
+            builder: (context, provider, child) {
+              if (provider.isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                // Group images by category
+                final Map<String, List<PortfolioImage>> imagesByCategory = {};
+                for (var portfolio in provider.portfolio) {
+                  for (var image in portfolio.portfolioImage) {
+                    if (!imagesByCategory.containsKey(portfolio.category)) {
+                      imagesByCategory[portfolio.category] = [];
+                    }
+                    imagesByCategory[portfolio.category]!.add(image);
+                  }
+                }
+                return Column(
+                  children: [
+                    if (!ResponsiveWidget.isLargeScreen(context))
+                      Container(
+                        padding: const EdgeInsets.all(16.0),
+                        color: AppColorConstant.adminMenuColor,
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.menu, color: Colors.white),
+                              onPressed: () {
+                                Scaffold.of(context).openDrawer();
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            const Text(
+                              'Manage Portfolio',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _portfolioKey,
-                  child: Column(
-                    children: [
-                      if (ResponsiveWidget.isLargeScreen(context))
-                        const Text(
-                          textAlign: TextAlign.center,
-                          "Manage Portfolio",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Form(
+                        key: _portfolioKey,
+                        child: Column(
+                          children: [
+                            DropdownButtonFormField<String>(
+                              value: _selectedCategory,
+                              items: _portfolioCategory.map((category) {
+                                return DropdownMenuItem<String>(
+                                  value: category,
+                                  child: Text(category),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  _selectedCategory = value;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                labelText: 'Select Category',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            const BodyText(
+                                text:
+                                    "you can only upload 24 images for bridal category and 10 images for others, the image size should be less than 15 mb and it should be in JPEG format",
+                                color: AppColorConstant.adminMenuColor),
+                            ElevatedButton(
+                              onPressed: _pickImages,
+                              child: const Text('Select Images'),
+                            ),
+                            if (_selectedFiles != null)
+                              SizedBox(
+                                height: 200,
+                                child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: _selectedFiles!.length,
+                                  itemBuilder: (context, index) {
+                                    final file = _selectedFiles![index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Image.memory(
+                                        file.bytes!,
+                                        fit: BoxFit.cover,
+                                        width: 100,
+                                        height: 100,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            const SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: _submitForm,
+                              child: const Text('Upload Images'),
+                            ),
+                          ],
                         ),
-                      DropdownButtonFormField<String>(
-                        value: _selectedCategory,
-                        decoration:
-                            const InputDecoration(labelText: 'Select Category'),
-                        items: _portfolioCategory.map((category) {
-                          return DropdownMenuItem(
-                            value: category,
-                            child: Text(category),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedCategory = value;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a category';
-                          }
-                          return null;
-                        },
                       ),
-                      const SizedBox(height: 16.0),
-                      const BodyText(
+                    ),
+                    const BodyText(
                         text:
-                            "'You can choose up to 24 images for bridal and 10 images each for henna, non bridal and white bridal posts .... Click on the pick images and choose the images you want to upload'",
-                        color: AppColorConstant.errorColor,
-                        textAlign: TextAlign.center,
-                        size: 16,
-                        mediumSize: 14,
-                        smallSize: 12,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      ElevatedButton(
-                        onPressed: _pickImages,
-                        child: const Text('Pick Images'),
-                      ),
-                      const SizedBox(height: 16.0),
-                      if (_selectedFiles != null) ...[
-                        Wrap(
-                          spacing: 8.0,
-                          runSpacing: 8.0,
-                          children: _selectedFiles!.map((file) {
-                            return Image.memory(
-                              file.bytes!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            );
-                          }).toList(),
+                            "if you want to delete all images of a category, click on the delete icon on the right side of the category name",
+                        color: Colors.red),
+                    ...imagesByCategory.entries.map((entry) {
+                      final category = entry.key;
+                      final images = entry.value;
+
+                      if (images.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No images found for $category',
+                            style: const TextStyle(fontSize: 18),
+                          ),
+                        );
+                      }
+
+                      return Card(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            ListTile(
+                              title: Text(category),
+                              trailing: IconButton(
+                                icon:
+                                    const Icon(Icons.delete, color: Colors.red),
+                                onPressed: () =>
+                                    _deleteCategoryImages(category),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 200,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: images.length,
+                                itemBuilder: (context, index) {
+                                  final image = images[index];
+                                  final portfolio = provider.portfolio
+                                      .firstWhere((p) =>
+                                          p.portfolioImage.contains(image));
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Stack(
+                                      children: [
+                                        Image.network(
+                                          image.url,
+                                          fit: BoxFit.cover,
+                                          width: 100,
+                                          height: 100,
+                                        ),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: IconButton(
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () => _deleteImage(
+                                              portfolio.id!,
+                                              image.id,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                      const SizedBox(height: 16.0),
-                      ElevatedButton(
-                        onPressed: _submitForm,
-                        child: const Text('Submit'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+                      );
+                    }),
+                  ],
+                );
+              }
+            },
           ),
         ),
         if (_isLoading) _buildLoader(),

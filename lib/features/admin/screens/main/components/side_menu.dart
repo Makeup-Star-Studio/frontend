@@ -41,21 +41,21 @@ class SideMenu extends StatelessWidget {
               }));
             },
           ),
-          DrawerListTile(
-            title: "Images",
-            svgSrc: "assets/svgs/booking.svg",
-            press: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 2);
-              }));
-            },
-          ),
+          // DrawerListTile(
+          //   title: "Images",
+          //   svgSrc: "assets/svgs/booking.svg",
+          //   press: () {
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+          //       return const AdminPage(selectedIndex: 2);
+          //     }));
+          //   },
+          // ),
           DrawerListTile(
             title: "Services",
             svgSrc: "assets/svgs/services.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 3);
+                return const AdminPage(selectedIndex: 2);
               }));
             },
           ),
@@ -64,7 +64,7 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/svgs/portfolio.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 4);
+                return const AdminPage(selectedIndex: 3);
               }));
             },
           ),
@@ -73,7 +73,7 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/svgs/review.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 5);
+                return const AdminPage(selectedIndex: 4);
               }));
             },
           ),
@@ -82,7 +82,7 @@ class SideMenu extends StatelessWidget {
             svgSrc: "assets/svgs/setting.svg",
             press: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const AdminPage(selectedIndex: 6);
+                return const AdminPage(selectedIndex: 5);
               }));
             },
           ),

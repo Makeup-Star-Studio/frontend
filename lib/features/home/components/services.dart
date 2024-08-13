@@ -4,7 +4,6 @@ import 'package:makeupstarstudio/core/common/text/sub_heading_slanted.dart';
 import 'package:makeupstarstudio/features/home/components/service_card.dart';
 import 'package:makeupstarstudio/src/model/services_model.dart';
 import 'package:makeupstarstudio/src/provider/services/services_provider.dart';
-import 'package:makeupstarstudio/src/utils/api_constant.dart';
 import 'package:provider/provider.dart';
 
 class ServiceSection extends StatefulWidget {
@@ -103,6 +102,9 @@ class _ServiceSectionState extends State<ServiceSection> {
         if (value.isLoading) {
           return const Center(child: CircularProgressIndicator());
         } else {
+          if (value.services.isEmpty) {
+            return const Center(child: Text('No services available'));
+          }
           final List<Service> services = value.services;
           return Container(
             padding: const EdgeInsets.all(20.0),

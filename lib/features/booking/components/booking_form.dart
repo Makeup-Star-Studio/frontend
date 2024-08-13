@@ -115,7 +115,7 @@ class _BookingFormSectionState extends State<BookingFormSection> {
                         TextSpan(
                           text: user.location.isNotEmpty
                               ? user.location
-                              : '60 Descanso Dr, San Jose, CA 95134, United States',
+                              : 'San Jose, California, United States',
                           style: const TextStyle(
                             decoration: TextDecoration.underline,
                             color: AppColorConstant.secondaryColor,

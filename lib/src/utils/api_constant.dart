@@ -1,9 +1,9 @@
 class ApiConstant {
   // *********************** INSTANCE *********************** //
-  static const String localUrl = 'https://makeupstarstudio.com';
-  static const String liveUrl = 'https://makeupstarstudio.com';
-  // static const String localUrl = 'http://localhost:3001';
-  // static const String liveUrl = '';
+  // static const String localUrl = 'https://makeupstarstudio.com';
+  // static const String liveUrl = 'https://makeupstarstudio.com';
+  static const String localUrl = 'http://localhost:3001';
+  static const String liveUrl = '';
 
   // *********** Don't change anything below if you're not 1000% sure *********** //
 
@@ -76,12 +76,26 @@ class ApiConstant {
   /// [GET]
   static const String getAllPortfolio = '/api/portfolio/';
   static const String getBridalPortfolio = '/api/portfolio/Bridal';
-  static const String getHennaGallery = '/api/portfolio/Henna';
+  static const String getBridalHennaGallery = '/api/portfolio/Bridal-Henna';
+  static const String getNonBridalHennaGallery = '/api/portfolio/NonBridal-Henna';
   static const String getNonBridalGallery = '/api/portfolio/Non-Bridal';
   static const String getWhiteBridalGallery = '/api/portfolio/White-Bride';
+  static const String getDrapingGallery = '/api/portfolio/Draping';
 
   /// [POST]
   static const String postPortfolio = '/api/portfolio/';
+
+  /// [DELETE]
+  static String deletePortfolioByCat(String category) => '/api/portfolio/delete/$category';
+  static const String deleteBridalPortfolioByCat = "/api/portfolio/delete/Bridal";
+  static const String deleteBridalHennaPortfolioByCat = "/api/portfolio/delete/Bridal";
+  static const String deleteNonBridalHennaPortfolioByCat = "/api/portfolio/delete/Bridal";
+  static const String deleteNonBridalPortfolioByCat = "/api/portfolio/delete/Bridal";
+  static const String deleteWhiteBridePortfolioByCat = "/api/portfolio/delete/Bridal";
+  static const String deleteDrapingPortfolioByCat = "/api/portfolio/delete/Bridal";
+
+  /// [DELETEONE]
+  static String deletePortfolio(String portfolioId, String imageId) => "/api/portfolio/$portfolioId/image/$imageId";
 
   /* --------------------------------- Booking --------------------------------- */
   /// [Booking]

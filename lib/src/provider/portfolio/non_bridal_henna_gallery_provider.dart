@@ -8,7 +8,7 @@ import 'package:makeupstarstudio/src/model/response_model.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
-class NonBridalGalleryProvider extends ChangeNotifier {
+class NonBridalHennaGalleryProvider extends ChangeNotifier {
   List<Portfolio> _portfolio = [];
   List<Portfolio> _filteredPortfolio = [];
 
@@ -20,12 +20,13 @@ class NonBridalGalleryProvider extends ChangeNotifier {
 
   final StarStudioApiService _apiService = StarStudioApiService();
 
-  Future<void> fetchNonBridalGallery() async {
+  Future<void> fetchNonBridalHennaGallery() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiService.get(ApiConstant.getNonBridalGallery);
+      final response =
+          await _apiService.get(ApiConstant.getNonBridalHennaGallery);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
@@ -39,7 +40,6 @@ class NonBridalGalleryProvider extends ChangeNotifier {
         // reverse to show latest first
         _filteredPortfolio = _portfolio.reversed.toList();
       }
-
       _isLoading = false;
       notifyListeners();
     } catch (e, s) {
@@ -54,7 +54,7 @@ class NonBridalGalleryProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteNonBridalGallery() async {
+  Future<void> deleteNonBridalHennaGallery() async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -71,7 +71,7 @@ class NonBridalGalleryProvider extends ChangeNotifier {
 
       final response = await http.delete(
         Uri.parse(
-            '${ApiConstant.localUrl}${ApiConstant.deleteNonBridalPortfolioByCat}'),
+            '${ApiConstant.localUrl}${ApiConstant.deleteNonBridalHennaPortfolioByCat}'),
         headers: {
           'Authorization': 'Bearer $token',
         },

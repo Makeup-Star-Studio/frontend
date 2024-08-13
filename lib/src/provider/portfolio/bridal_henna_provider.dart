@@ -8,7 +8,7 @@ import 'package:makeupstarstudio/src/model/response_model.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
 import 'package:makeupstarstudio/src/utils/api_constant.dart';
 
-class NonBridalGalleryProvider extends ChangeNotifier {
+class BridalHennaGalleryProvider extends ChangeNotifier {
   List<Portfolio> _portfolio = [];
   List<Portfolio> _filteredPortfolio = [];
 
@@ -18,14 +18,15 @@ class NonBridalGalleryProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
-  final StarStudioApiService _apiService = StarStudioApiService();
+  final StarStudioApiService _apiPortfolio = StarStudioApiService();
 
-  Future<void> fetchNonBridalGallery() async {
+  Future<void> fetchBridalHennaGallery() async {
     try {
       _isLoading = true;
       notifyListeners();
 
-      final response = await _apiService.get(ApiConstant.getNonBridalGallery);
+      final response =
+          await _apiPortfolio.get(ApiConstant.getBridalHennaGallery);
       print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
@@ -54,7 +55,7 @@ class NonBridalGalleryProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteNonBridalGallery() async {
+  Future<void> deleteBridalHennaGallery() async {
     _isLoading = true;
     notifyListeners();
     try {
@@ -71,7 +72,7 @@ class NonBridalGalleryProvider extends ChangeNotifier {
 
       final response = await http.delete(
         Uri.parse(
-            '${ApiConstant.localUrl}${ApiConstant.deleteNonBridalPortfolioByCat}'),
+            '${ApiConstant.localUrl}${ApiConstant.deleteBridalHennaPortfolioByCat}'),
         headers: {
           'Authorization': 'Bearer $token',
         },

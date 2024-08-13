@@ -1,46 +1,49 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/config/constants/responsive.dart';
-import 'package:makeupstarstudio/src/provider/portfolio/henna_provider.dart';
+import 'package:makeupstarstudio/src/provider/portfolio/bridal_henna_provider.dart';
 import 'package:provider/provider.dart';
 
-class HennaGallery extends StatefulWidget {
-  const HennaGallery({super.key});
+class BridalHennaGallery extends StatefulWidget {
+  const BridalHennaGallery({super.key});
 
   @override
-  State<HennaGallery> createState() => _HennaGalleryState();
+  State<BridalHennaGallery> createState() => _BridalHennaGalleryState();
 }
 
-class _HennaGalleryState extends State<HennaGallery> {
+class _BridalHennaGalleryState extends State<BridalHennaGallery> {
   @override
   void initState() {
     super.initState();
     // Fetch services data on widget initialization
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HennaGalleryProvider>(context, listen: false)
-          .fetchHennaGallery();
+      Provider.of<BridalHennaGalleryProvider>(context, listen: false)
+          .fetchBridalHennaGallery();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<HennaGalleryProvider>(
-      builder: (context, hennaGalleryProvider, child) {
-        if (hennaGalleryProvider.isLoading) {
+    return Consumer<BridalHennaGalleryProvider>(
+      builder: (context, bridalHennaGalleryProvider, child) {
+        if (bridalHennaGalleryProvider.isLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
         } else {
-          // Flatten the list of images from all portfolio items
-          final List<String> allImages = hennaGalleryProvider.filteredPortfolio
-              .expand((portfolio) => portfolio.portfolioImage ?? [])
-              .take(10) // Limit to 24 images
-              .cast<String>() // Ensure type is List<String>
-              .toList();
-
-          if (allImages.isEmpty) {
+          if (bridalHennaGalleryProvider.portfolio.isEmpty) {
             return const Center(child: Text('No portfolio available.'));
           }
+          // Collect all images from all portfolios into a single list
+          final List<String> allImageUrls = bridalHennaGalleryProvider
+              .filteredPortfolio
+              .expand((portfolio) => portfolio.portfolioImage)
+              .map((image) =>
+                  image.url) // Extract the URL from the PortfolioImage object
+              .toList();
+
+          // Display only the latest 24 images
+          final List<String> limitedImageUrls = allImageUrls.take(10).toList();
 
           return Padding(
             padding: EdgeInsets.symmetric(
@@ -48,32 +51,28 @@ class _HennaGalleryState extends State<HennaGallery> {
             ),
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: ResponsiveWidget.isSmallScreen(context)
-                    ? 2
-                    : 5, // Number of grid items in the cross axis
-                mainAxisSpacing: 24.0, // Vertical spacing between grid items
-                crossAxisSpacing: 24.0, // Horizontal spacing between grid items
+                crossAxisCount: ResponsiveWidget.isSmallScreen(context) ? 2 : 5,
+                mainAxisSpacing: 24.0,
+                crossAxisSpacing: 24.0,
               ),
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: allImages.length,
+              itemCount: limitedImageUrls.length,
               itemBuilder: (BuildContext context, int index) {
-                final imageUrl = allImages[index];
-                print('Displaying image: $imageUrl');
+                final imageUrl = limitedImageUrls[index];
+                print('Displaying image: $imageUrl'); // Debug statement
+
                 return GestureDetector(
                   onTap: () {
-                    _showFullImageDialog(allImages, index);
+                    _showFullImageDialog(limitedImageUrls, index);
                   },
                   child: Container(
-                    margin:
-                        const EdgeInsets.all(2.0), // Small margin for spacing
+                    margin: const EdgeInsets.all(2.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: FadeInImage(
                         image: CachedNetworkImageProvider(imageUrl),
-                        placeholder: const AssetImage(
-                          'assets/images/logo.png',
-                        ), // Placeholder image
+                        placeholder: const AssetImage('assets/images/logo.png'),
                         imageErrorBuilder: (context, error, stackTrace) =>
                             Container(
                           color: Colors.grey[200],
@@ -81,7 +80,7 @@ class _HennaGalleryState extends State<HennaGallery> {
                               child: Icon(Icons.error, color: Colors.red)),
                         ),
                         fadeInDuration: const Duration(milliseconds: 300),
-                        fit: BoxFit.cover, // Ensure the image fits properly
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -117,8 +116,8 @@ class _HennaGalleryState extends State<HennaGallery> {
                     itemBuilder: (context, index) {
                       return FadeInImage(
                         image: NetworkImage(imageUrls[index]),
-                        placeholder: const AssetImage(
-                            'assets/images/logo-gold.png'), // Placeholder image
+                        placeholder:
+                            const AssetImage('assets/images/logo-gold.png'),
                         imageErrorBuilder: (context, error, stackTrace) =>
                             Container(
                           color: Colors.grey[200],
@@ -126,7 +125,7 @@ class _HennaGalleryState extends State<HennaGallery> {
                               child: Icon(Icons.error, color: Colors.red)),
                         ),
                         fadeInDuration: const Duration(milliseconds: 300),
-                        fit: BoxFit.contain, // Ensure the full image is visible
+                        fit: BoxFit.contain,
                       );
                     },
                     controller: PageController(initialPage: initialIndex),

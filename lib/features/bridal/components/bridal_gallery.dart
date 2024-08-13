@@ -31,17 +31,19 @@ class _BridalGalleryState extends State<BridalGallery> {
             child: CircularProgressIndicator(),
           );
         } else {
-          // Flatten the list of images from all portfolio items
-          final List<String> allImages =
-              bridalPortfolioProvider.filteredPortfolio
-                  .expand((portfolio) => portfolio.portfolioImage ?? [])
-                  .take(24) // Limit to 24 images
-                  .cast<String>() // Ensure type is List<String>
-                  .toList();
-
-          if (allImages.isEmpty) {
+          if (bridalPortfolioProvider.filteredPortfolio.isEmpty) {
             return const Center(child: Text('No portfolio available.'));
           }
+          // Collect all images from all portfolios into a single list
+          final List<String> allImageUrls = bridalPortfolioProvider
+              .filteredPortfolio
+              .expand((portfolio) => portfolio.portfolioImage)
+              .map((image) =>
+                  image.url) // Extract the URL from the PortfolioImage object
+              .toList();
+
+          // Display only the latest 24 images
+          final List<String> limitedImageUrls = allImageUrls.take(24).toList();
 
           return Padding(
             padding: EdgeInsets.all(
@@ -59,14 +61,14 @@ class _BridalGalleryState extends State<BridalGallery> {
               ),
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: allImages.length,
+              itemCount: limitedImageUrls.length,
               itemBuilder: (BuildContext context, int index) {
-                final imageUrl = allImages[index];
+                final imageUrl = limitedImageUrls[index];
                 print('Displaying image: $imageUrl'); // Debug statement
                 return GestureDetector(
                   onTap: () {
                     _showFullImageDialog(
-                        allImages, index); // Pass all images and index
+                        limitedImageUrls, index); // Pass all images and index
                   },
                   child: Container(
                     margin:

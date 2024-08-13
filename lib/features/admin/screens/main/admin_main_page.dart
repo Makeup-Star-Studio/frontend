@@ -26,7 +26,7 @@ class _AdminPageState extends State<AdminPage> {
   final List<Widget> _screens = [
     const DashboardScreen(),
     const AdminBookingViewPage(),
-     AdminImageManagementScreen(),
+    //  AdminImageManagementScreen(),
     const AdminServicesView(),
     const AdminPortfolioView(),
     const AdminTestimonialsView(),
