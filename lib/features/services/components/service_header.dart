@@ -202,7 +202,7 @@ class ServiceHeaderSection extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           ClipRRect(
-            child: Image.network(
+            child: Image.asset(
               'assets/images/services.webp',
               width: screenSize.width,
               height: screenSize.height,
@@ -280,7 +280,7 @@ class ServiceHeaderSection extends StatelessWidget {
         width: screenSize.width,
         height: screenSize.height * 0.5,
         child: ClipRRect(
-          child: Image.network(
+          child: Image.asset(
             'assets/images/services.webp',
             width: screenSize.width,
             height: screenSize.height * 0.5,
