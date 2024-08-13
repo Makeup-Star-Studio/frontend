@@ -33,17 +33,17 @@ class HttpServices implements HttpRepo {
           if (requiresToken) {
             SharedPreferencesService sharedPref = SharedPreferencesService();
             var token = await sharedPref.getStringPref('userData');
-            print('Retrieved token: $token');
+            // print('Retrieved token: $token');
 
             if (token != null && token['token'] != null) {
               String tokenString = token['token'];
-              print('tokenString--> $tokenString');
+              // print('tokenString--> $tokenString');
               bool isExpired = JwtDecoder.isExpired(tokenString);
               var remainingTime = JwtDecoder.getRemainingTime(tokenString);
 
-              print('isExpired: $isExpired');
-              print('remaining time: $remainingTime');
-              print('token: $tokenString');
+              // print('isExpired: $isExpired');
+              // print('remaining time: $remainingTime');
+              // print('token: $tokenString');
 
               if (isExpired) {
                 // Utility.showExpirationDialog();
@@ -118,7 +118,7 @@ class HttpServices implements HttpRepo {
       if (response.statusCode == 308) {
         String? redirectionUrl = response.headers['location']?.first;
 
-        print('redirected url: $redirectionUrl');
+        // print('redirected url: $redirectionUrl');
         if (redirectionUrl != null) {
           return await post(redirectionUrl, body, requiresToken: requiresToken);
         } else {

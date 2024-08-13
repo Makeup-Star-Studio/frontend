@@ -260,13 +260,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
       });
     }
   }
-
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _priceController.dispose();
-    super.dispose();
-  }
+  
 
   Widget _buildLoader() {
     return Positioned(
@@ -283,6 +277,14 @@ class _AdminServicesViewState extends State<AdminServicesView> {
       ),
     );
   }
+  
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -540,6 +542,7 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             ),
           ],
         ),
+        if (_isLoading) _buildLoader(),
       ],
     );
   }
@@ -779,7 +782,10 @@ class _AdminServicesViewState extends State<AdminServicesView> {
             ],
           ),
         ),
+                      if (_isLoading) _buildLoader(),
+
       ],
+
     );
   }
 }

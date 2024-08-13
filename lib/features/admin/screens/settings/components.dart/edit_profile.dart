@@ -301,7 +301,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       );
     } else {
-      print('User ID or image URL is null. Unable to update profile.');
+      // print('User ID or image URL is null. Unable to update profile.');
     }
   }
 

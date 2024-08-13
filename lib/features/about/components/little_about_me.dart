@@ -52,7 +52,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
           final userModel = userProvider.user;
 
           // Debugging: Print the user data
-          print('UserModel data: $userModel');
+          // print('UserModel data: $userModel');
 
           if (userModel == null) {
             return const Center(child: Text("No User Found"));
@@ -138,7 +138,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
           final userModel = userProvider.user;
 
           // Debugging: Print the user data
-          print('UserModel data: $userModel');
+          // print('UserModel data: $userModel');
 
           if (userModel == null) {
             return const Center(child: Text("No User Found"));

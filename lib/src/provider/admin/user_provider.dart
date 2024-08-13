@@ -34,14 +34,14 @@ Future<void> fetchUserInfo() async {
       },
     );
 
-    print("URL----> ${ApiConstant.localUrl}/api/admin/");
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    // print("URL----> ${ApiConstant.localUrl}/api/admin/");
+    // print('Response status: ${response.statusCode}');
+    // print('Response body: ${response.body}');
 
     if (response.statusCode == 200) {
       // Debug print for JSON structure
       var responseData = json.decode(response.body);
-      print('Decoded response data: $responseData');
+      // print('Decoded response data: $responseData');
 
       // Check if the response data is in expected format
         _user = UserModel.fromJson(responseData);
@@ -69,7 +69,7 @@ Future<void> fetchUserInfo() async {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         return null;
       }
 
@@ -98,7 +98,7 @@ Future<void> fetchUserInfo() async {
         }
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response body: ${response.body}');
       }
     } catch (e, s) {
       print('Error: $e');
@@ -126,11 +126,11 @@ Future<void> fetchUserInfo() async {
       String? userId = prefs.getString('userId');
       String? token = prefs.getString('userToken');
 
-      print('Retrieved userId: $userId');
-      print('Retrieved token: $token');
+      // print('Retrieved userId: $userId');
+      // print('Retrieved token: $token');
 
       if (userId == null || token == null) {
-        print('User ID or token is missing');
+        // print('User ID or token is missing');
         _isLoading = false;
         notifyListeners();
         return;

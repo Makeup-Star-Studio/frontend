@@ -62,7 +62,7 @@ class _NonBridalGalleryState extends State<NonBridalGallery> {
               itemCount: limitedImageUrls.length,
               itemBuilder: (BuildContext context, int index) {
                 final imageUrl = limitedImageUrls[index];
-                print('Displaying image: $imageUrl');
+                // print('Displaying image: $imageUrl');
                 return GestureDetector(
                   onTap: () {
                     _showFullImageDialog(limitedImageUrls, index);

@@ -26,7 +26,7 @@ class PortfolioProvider extends ChangeNotifier {
       notifyListeners();
 
       final response = await _apiPortfolio.get(ApiConstant.getAllPortfolio);
-      print("Response: $response");
+      // print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.status == true && apiResponse.data != null) {
@@ -62,7 +62,7 @@ class PortfolioProvider extends ChangeNotifier {
     String? token = await sharedPrefs.getTokenPref('userToken');
 
     if (token == null) {
-      print('No token found');
+      // print('No token found');
       return null;
     }
 
@@ -97,7 +97,7 @@ class PortfolioProvider extends ChangeNotifier {
         }
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response body: ${response.body}');
       }
     }
 
@@ -112,10 +112,10 @@ class PortfolioProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -167,10 +167,10 @@ class PortfolioProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -227,10 +227,10 @@ class PortfolioProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -246,7 +246,7 @@ class PortfolioProvider extends ChangeNotifier {
 
       if (response.statusCode == 204) {
         _portfolio.clear();
-        print('Successfully deleted portfolio by category');
+        // print('Successfully deleted portfolio by category');
         await fetchAllPortfolios(); // Refresh the data to reflect changes
         notifyListeners();
       } else {

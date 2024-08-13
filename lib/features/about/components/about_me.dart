@@ -39,7 +39,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
       final userModel = userProvider.user;
 
       // Debugging: Print the user data
-      print('UserModel data: $userModel');
+      // print('UserModel data: $userModel');
 
       if (userModel == null) {
         return const Center(child: Text("No User Found"));
@@ -53,7 +53,8 @@ class _AboutMeSectionState extends State<AboutMeSection> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 600,
+              width: 500,
+              height: 500,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 color: Colors.grey[200],
@@ -71,10 +72,14 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                     ? Image.network(
                         'https://makeup-star-studio.sfo2.digitaloceanspaces.com/admin/${user.imageUrl}',
                         fit: BoxFit.cover,
+                        // width: 500.0,
+                        // height: 500.0,
                       )
                     : Image.asset(
                         'assets/images/profile.jpg',
                         fit: BoxFit.cover,
+                        // width: 500.0,
+                        // height: 500.0,
                       ),
               ),
             ),
@@ -88,7 +93,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                 children: [
                   const BigText(
                     text: 'MAKEUP STAR STUDIO',
-                    size: 50.0,
+                    size: 45.0,
                     color: AppColorConstant.secondaryColor,
                   ),
                   RichText(
@@ -210,7 +215,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
           final userModel = userProvider.user;
 
           // Debugging: Print the user data
-          print('UserModel data: $userModel');
+          // print('UserModel data: $userModel');
 
           if (userModel == null) {
             return const Center(child: Text("No User Found"));

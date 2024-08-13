@@ -36,7 +36,7 @@ class _TestimonialSectionState extends State<TestimonialSection> {
         Provider.of<TestimonialProvider>(context, listen: false)
             .testimonials
             .length;
-    if (_currentIndex < testimonialCount - 1 && _currentIndex < 2) {
+    if (_currentIndex < testimonialCount - 1 && _currentIndex < 5) {
       setState(() {
         _currentIndex++;
       });
@@ -65,11 +65,11 @@ class _TestimonialSectionState extends State<TestimonialSection> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final List<Testimonial> testimonials =
-        Provider.of<TestimonialProvider>(context).testimonials.take(3).toList();
+        Provider.of<TestimonialProvider>(context).testimonials.take(6).toList();
 
-    for (var testimonial in testimonials) {
-      print("Image URL: ${testimonial.reviewImage}");
-    }
+    // for (var testimonial in testimonials) {
+    //   // print("Image URL: ${testimonial.reviewImage}");
+    // }
 
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(testimonials),

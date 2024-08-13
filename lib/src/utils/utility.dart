@@ -26,7 +26,7 @@ class Utility {
     try {
       var context = navigatorKey.currentState?.context;
       if (context == null) {
-        print('Context is null');
+        // print('Context is null');
         return;
       }
 

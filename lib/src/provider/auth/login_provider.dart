@@ -83,8 +83,8 @@ class LoginProvider with ChangeNotifier {
         headers: {'Content-Type': 'application/json'},
         body: json.encode(body),
       );
-      print('${ApiConstant.localUrl}/api/admin/login/');
-      print('Response status: ${response.statusCode}');
+      // print('${ApiConstant.localUrl}/api/admin/login/');
+      // print('Response status: ${response.statusCode}');
 
       Navigator.of(context).pop();
 
@@ -95,11 +95,11 @@ class LoginProvider with ChangeNotifier {
 
         var responseData = json.decode(response.body);
         var apiResponse = ApiResponse.fromJson(responseData);
-        print('API Response: ${apiResponse.toJson()}');
-        print('Retrieved token: ${apiResponse.token}');
+        // print('API Response: ${apiResponse.toJson()}');
+        // print('Retrieved token: ${apiResponse.token}');
 
         _id = responseData['data']['user']['id'];
-        print('user ID: $_id');
+        // print('user ID: $_id');
         if (apiResponse.token.isNotEmpty) {
           await sharedPrefs.setStringPref('userToken', apiResponse.token);
           await sharedPrefs.setBoolPref('logged', true);
@@ -251,11 +251,11 @@ class LoginProvider with ChangeNotifier {
       String? userId = prefs.getString('userId');
       String? token = prefs.getString('userToken');
 
-      print('Retrieved userId: $userId');
-      print('Retrieved token: $token');
+      // print('Retrieved userId: $userId');
+      // print('Retrieved token: $token');
 
       if (userId == null || token == null) {
-        print('User ID or token is missing');
+        // print('User ID or token is missing');
         _isLoading = false;
         notifyListeners();
         return;
@@ -276,11 +276,11 @@ class LoginProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        print('Response body: $data');
+        // print('Response body: $data');
         notifyListeners();
       } else {
         print('Failed to update password. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response body: ${response.body}');
       }
 
       _isLoading = false;

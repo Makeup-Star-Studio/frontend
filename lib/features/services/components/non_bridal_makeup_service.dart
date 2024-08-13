@@ -37,9 +37,9 @@ class NonBridalMakeupServiceSectionState
     final List<Service> nonBridalMakeupServices =
         Provider.of<NonBridalMakeupServicesProvider>(context).filteredServices;
 
-    for (var nonBridalMakeupService in nonBridalMakeupServices) {
-      print("Image URL: ${nonBridalMakeupService.image}");
-    }
+    // for (var nonBridalMakeupService in nonBridalMakeupServices) {
+    //   print("Image URL: ${nonBridalMakeupService.image}");
+    // }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),

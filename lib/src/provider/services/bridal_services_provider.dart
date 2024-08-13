@@ -22,7 +22,7 @@ class BridalServicesProvider extends ChangeNotifier {
       notifyListeners();
 
       final response = await _apiService.get(ApiConstant.getBridalServices);
-      print("Response: $response");
+      // print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.status == true && apiResponse.data != null) {

@@ -21,10 +21,10 @@ class BookingProvider extends ChangeNotifier {
 
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -38,10 +38,10 @@ class BookingProvider extends ChangeNotifier {
       );
 
       // print uri
-      print('${ApiConstant.localUrl}${ApiConstant.getAllBookings}');
+      // print('${ApiConstant.localUrl}${ApiConstant.getAllBookings}');
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      // print("Response status: ${response.statusCode}");
+      // print("Response body: ${response.body}");
 
       if (response.statusCode == 200) {
         var apiResponse = jsonDecode(response.body);
@@ -86,9 +86,9 @@ class BookingProvider extends ChangeNotifier {
         body: jsonEncode(newBooking.toJson()),
       );
 
-      print('${ApiConstant.localUrl}${ApiConstant.postBooking}');
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      // print('${ApiConstant.localUrl}${ApiConstant.postBooking}');
+      // print("Response status: ${response.statusCode}");
+      // print("Response body: ${response.body}");
 
       if (response.statusCode == 201) {
         final responseData = json.decode(response.body);
@@ -121,10 +121,10 @@ class BookingProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;

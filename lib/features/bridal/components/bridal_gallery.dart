@@ -64,7 +64,7 @@ class _BridalGalleryState extends State<BridalGallery> {
               itemCount: limitedImageUrls.length,
               itemBuilder: (BuildContext context, int index) {
                 final imageUrl = limitedImageUrls[index];
-                print('Displaying image: $imageUrl'); // Debug statement
+                // print('Displaying image: $imageUrl'); // Debug statement
                 return GestureDetector(
                   onTap: () {
                     _showFullImageDialog(

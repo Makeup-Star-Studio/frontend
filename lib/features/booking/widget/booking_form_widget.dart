@@ -29,7 +29,7 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _socialMediaController = TextEditingController();
+  // final TextEditingController _socialMediaController = TextEditingController();
   final TextEditingController _eventDateController = TextEditingController();
   final TextEditingController _eventTypeController = TextEditingController();
   final TextEditingController _serviceTypeController = TextEditingController();
@@ -92,7 +92,7 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
       lname: _lastNameController.text,
       email: _emailController.text,
       phoneNumber: _phoneController.text,
-      socialMedia: _socialMediaController.text,
+      // socialMedia: _socialMediaController.text,
       eventDate: selectedEventDate, // Use the formatted event date
       eventType: selectedEventTypes,
       serviceType: selectedServiceTypes,
@@ -149,7 +149,7 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
     _lastNameController.clear();
     _emailController.clear();
     _phoneController.clear();
-    _socialMediaController.clear();
+    // _socialMediaController.clear();
     _eventDateController.clear();
     _eventTypeController.clear();
     _serviceTypeController.clear();
@@ -170,7 +170,7 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
     _lastNameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
-    _socialMediaController.dispose();
+    // _socialMediaController.dispose();
     _eventDateController.dispose();
     _eventTypeController.dispose();
     _serviceTypeController.dispose();
@@ -291,15 +291,15 @@ class _BookingFormWidgetState extends State<BookingFormWidget> {
                   'with country code ex: +1 USA/CAN, +44 UK, +61 AUS, +91 INDIA)',
             ),
             const SizedBox(height: 20),
-            // social media
-            BookingInputField(
-              labelText: 'Instagram/Facebook/SocialMedia',
-              controller: _socialMediaController,
-              hintText:
-                  'Note: provide your social media user name, E.g. Instagram: @makeupstarstudio',
-              isTextRequired: false,
-            ),
-            const SizedBox(height: 20),
+            // // social media
+            // BookingInputField(
+            //   labelText: 'Instagram/Facebook/SocialMedia',
+            //   controller: _socialMediaController,
+            //   hintText:
+            //       'Note: provide your social media user name, E.g. Instagram: @makeupstarstudio',
+            //   isTextRequired: false,
+            // ),
+            // const SizedBox(height: 20),
             // event date
             BookingInputField(
               labelText:

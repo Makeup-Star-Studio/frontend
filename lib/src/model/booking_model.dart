@@ -48,7 +48,6 @@ class Booking {
     required this.lname,
     required this.email,
     required this.phoneNumber,
-    required this.socialMedia,
     required this.eventDate,
     required this.eventType,
     required this.serviceType,
@@ -70,7 +69,6 @@ class Booking {
   final String lname;
   final String email;
   final String phoneNumber;
-  final String socialMedia;
   final DateTime eventDate;
   final List<String> eventType;
   final List<String> serviceType;
@@ -92,7 +90,6 @@ class Booking {
         lname: json['lname'],
         email: json['email'],
         phoneNumber: json['phoneNumber'],
-        socialMedia: json['socialMedia'],
         eventDate: DateTime.parse(json['eventDate']),
         eventType: List<String>.from(json['eventType']),
         serviceType: List<String>.from(json['serviceType']),
@@ -115,7 +112,6 @@ class Booking {
         'lname': lname,
         'email': email,
         'phoneNumber': phoneNumber,
-        'socialMedia': socialMedia,
         'eventDate': eventDate.toIso8601String(),
         'eventType': eventType,
         'serviceType': serviceType,

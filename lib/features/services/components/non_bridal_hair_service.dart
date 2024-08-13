@@ -37,9 +37,9 @@ class NonBridalHairServiceSectionState
     final List<Service> nonBridalHairServices =
         Provider.of<NonBridalHairServicesProvider>(context).filteredServices;
 
-    for (var nonBridalHairService in nonBridalHairServices) {
-      print("Image URL: ${nonBridalHairService.image}");
-    }
+    // for (var nonBridalHairService in nonBridalHairServices) {
+    //   print("Image URL: ${nonBridalHairService.image}");
+    // }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),

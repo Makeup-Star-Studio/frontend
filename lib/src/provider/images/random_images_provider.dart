@@ -34,12 +34,12 @@ class RandomImageProvider extends ChangeNotifier {
         },
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
+      // print("Response status: ${response.statusCode}");
+      // print("Response body: ${response.body}");
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseData = json.decode(response.body);
-        print("Response Data: $responseData");
+        // print("Response Data: $responseData");
 
         if (responseData['urls'] != null) {
           var imageUrls = responseData['urls'] as List;
@@ -77,7 +77,7 @@ class RandomImageProvider extends ChangeNotifier {
     String? token = await sharedPrefs.getTokenPref('userToken');
 
     if (token == null) {
-      print('No token found');
+      // print('No token found');
       return null;
     }
 
@@ -93,8 +93,8 @@ class RandomImageProvider extends ChangeNotifier {
         ))
         ..headers['Authorization'] = 'Bearer $token';
 
-      print('Request: $request');
-      print('Request uri: ${request.url}');
+      // print('Request: $request');
+      // print('Request uri: ${request.url}');
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
@@ -114,7 +114,7 @@ class RandomImageProvider extends ChangeNotifier {
         }
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response body: ${response.body}');
       }
     }
 
@@ -128,17 +128,17 @@ class RandomImageProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
       }
 
       final url = '${ApiConstant.localUrl}/api/images/delete/$id';
-      print('Deleting image with URL: $url');
+      // print('Deleting image with URL: $url');
 
       final response = await http.delete(
         Uri.parse(url),
@@ -175,10 +175,10 @@ class RandomImageProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;

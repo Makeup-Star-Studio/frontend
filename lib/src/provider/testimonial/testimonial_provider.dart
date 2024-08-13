@@ -27,10 +27,10 @@ class TestimonialProvider extends ChangeNotifier {
 
       final response =
           await _apiTestimonial.get(ApiConstant.getAllTestimonials);
-      print("Response: $response");
+      // print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
-      print("API Response: ${apiResponse.toJson()}");
+      // print("API Response: ${apiResponse.toJson()}");
 
       if (apiResponse.status == true && apiResponse.data != null) {
         var testimonialsData = apiResponse.data['testimonials'] as List;
@@ -59,15 +59,15 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         return null;
       }
 
       final uri = Uri.parse('${ApiConstant.localUrl}/api/testimonial/upload');
-      print('Posting to URL: $uri');
+      // print('Posting to URL: $uri');
 
       var request = http.MultipartRequest('POST', uri)
         ..files.add(http.MultipartFile.fromBytes(
@@ -81,12 +81,12 @@ class TestimonialProvider extends ChangeNotifier {
 
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-      print("Post Response Status Code: ${response.statusCode}");
-      print("Post Response Body: ${response.body}");
+      // print("Post Response Status Code: ${response.statusCode}");
+      // print("Post Response Body: ${response.body}");
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
-        print("API Response: $jsonResponse");
+        // print("API Response: $jsonResponse");
 
         // Check if the response contains the expected URL field
         if (jsonResponse['url'] != null) {
@@ -94,14 +94,16 @@ class TestimonialProvider extends ChangeNotifier {
         } else if (jsonResponse['data'] != null &&
             jsonResponse['data']['imageUrl'] != null) {
           return jsonResponse['data']['imageUrl'];
-        } else {
-          print('No valid image URL found in the response.');
         }
-      } else {
-        print(
-            'Failed to post testimonial. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
-      }
+        // } else {
+        //   print('No valid image URL found in the response.');
+        // }
+      } 
+      // else {
+      //   print(
+      //       'Failed to post testimonial. Status code: ${response.statusCode}');
+      //   print('Response body: ${response.body}');
+      // }
     } catch (e, s) {
       print('Error: $e');
       print('Stack trace: $s');
@@ -121,10 +123,10 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -178,10 +180,10 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -212,7 +214,7 @@ class TestimonialProvider extends ChangeNotifier {
         }).toList();
         await fetchTestimonial();
 
-        print('Testimonial updated: ${responseData['data']['testimonial']}');
+        // print('Testimonial updated: ${responseData['data']['testimonial']}');
       } else {
         final responseBody = json.decode(response.body);
         // Extract the error message if available
@@ -240,7 +242,7 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
         print('No token found');

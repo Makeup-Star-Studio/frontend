@@ -279,9 +279,9 @@ class BridalServiceSectionState extends State<BridalServiceSection> {
     final List<Service> bridalServices =
         Provider.of<BridalServicesProvider>(context).filteredServices;
 
-    for (var bridalService in bridalServices) {
-      print("Image URL: ${bridalService.image}");
-    }
+    // for (var bridalService in bridalServices) {
+    //   print("Image URL: ${bridalService.image}");
+    // }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),

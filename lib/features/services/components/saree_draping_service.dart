@@ -37,9 +37,9 @@ class SareeDrapingServiceSectionState
     final List<Service> sareeDrapingServices =
         Provider.of<DrapingServicesProvider>(context).filteredServices;
 
-    for (var sareeDrapingService in sareeDrapingServices) {
-      print("Image URL: ${sareeDrapingService.image}");
-    }
+    // for (var sareeDrapingService in sareeDrapingServices) {
+    //   print("Image URL: ${sareeDrapingService.image}");
+    // }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),

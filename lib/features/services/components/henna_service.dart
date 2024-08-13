@@ -35,9 +35,9 @@ class HennaServiceSectionState extends State<HennaServiceSection> {
     final List<Service> hennaServices =
         Provider.of<HennaServicesProvider>(context).filteredServices;
 
-    for (var hennaService in hennaServices) {
-      print("Image URL: ${hennaService.image}");
-    }
+    // for (var hennaService in hennaServices) {
+    //   print("Image URL: ${hennaService.image}");
+    // }
     return ResponsiveWidget(
       largeScreen: _buildLargeScreen(screenSize, context),
       mediumScreen: _buildMediumScreen(screenSize, context),

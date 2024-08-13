@@ -26,7 +26,7 @@ class ServicesProvider extends ChangeNotifier {
       notifyListeners();
 
       final response = await _apiService.get(ApiConstant.getAllServices);
-      print("Response: $response");
+      // print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.status == true && apiResponse.data != null) {
@@ -60,7 +60,7 @@ class ServicesProvider extends ChangeNotifier {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         return null;
       }
 
@@ -89,7 +89,7 @@ class ServicesProvider extends ChangeNotifier {
         }
       } else {
         print('Failed to upload image. Status code: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        // print('Response body: ${response.body}');
       }
     } catch (e, s) {
       print('Error: $e');
@@ -111,10 +111,10 @@ class ServicesProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -168,7 +168,7 @@ class ServicesProvider extends ChangeNotifier {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;
@@ -199,7 +199,7 @@ class ServicesProvider extends ChangeNotifier {
         }).toList();
         await fetchAllServices();
 
-        print('Services updated: ${responseData['data']}');
+        // print('Services updated: ${responseData['data']}');
       } else {
         final responseBody = json.decode(response.body);
         // Extract the error message if available
@@ -227,10 +227,10 @@ class ServicesProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;

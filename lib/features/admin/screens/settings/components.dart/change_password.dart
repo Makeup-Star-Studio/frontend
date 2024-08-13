@@ -52,7 +52,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       // await _fetchUserInfo();
       _clearFields();
     } else {
-      print('User ID is null. Unable to change password.');
+      // print('User ID is null. Unable to change password.');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to update password',

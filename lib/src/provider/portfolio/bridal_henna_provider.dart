@@ -27,7 +27,7 @@ class BridalHennaGalleryProvider extends ChangeNotifier {
 
       final response =
           await _apiPortfolio.get(ApiConstant.getBridalHennaGallery);
-      print("Response: $response");
+      // print("Response: $response");
 
       var apiResponse = ApiResponse.fromJson(response);
       if (apiResponse.status == true && apiResponse.data != null) {
@@ -61,10 +61,10 @@ class BridalHennaGalleryProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      print('Retrieved token: $token');
+      // print('Retrieved token: $token');
 
       if (token == null) {
-        print('No token found');
+        // print('No token found');
         _isLoading = false;
         notifyListeners();
         return;

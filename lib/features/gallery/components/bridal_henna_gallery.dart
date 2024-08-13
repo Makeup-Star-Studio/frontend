@@ -60,7 +60,7 @@ class _BridalHennaGalleryState extends State<BridalHennaGallery> {
               itemCount: limitedImageUrls.length,
               itemBuilder: (BuildContext context, int index) {
                 final imageUrl = limitedImageUrls[index];
-                print('Displaying image: $imageUrl'); // Debug statement
+                // print('Displaying image: $imageUrl'); // Debug statement
 
                 return GestureDetector(
                   onTap: () {

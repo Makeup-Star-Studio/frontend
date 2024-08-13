@@ -18,16 +18,16 @@ class StarStudioApiService {
       bool isExpired = JwtDecoder.isExpired(tokenString);
       var remainingTime = JwtDecoder.getRemainingTime(tokenString);
 
-      print('isExpired: $isExpired');
-      print('remaining time: $remainingTime');
-      print('token: $tokenString');
+      // print('isExpired: $isExpired');
+      // print('remaining time: $remainingTime');
+      // print('token: $tokenString');
 
       if (isExpired) {
         throw Exception('Session expired');
       }
     }
 
-    print('Full Url ----> $fullPath');
+    // print('Full Url ----> $fullPath');
     final response = await http.get(
       Uri.parse(fullPath),
       headers: <String, String>{
@@ -55,16 +55,16 @@ class StarStudioApiService {
       bool isExpired = JwtDecoder.isExpired(tokenString);
       var remainingTime = JwtDecoder.getRemainingTime(tokenString);
 
-      print('isExpired: $isExpired');
-      print('remaining time: $remainingTime');
-      print('token: $tokenString');
+      // print('isExpired: $isExpired');
+      // print('remaining time: $remainingTime');
+      // print('token: $tokenString');
 
       if (isExpired) {
         throw Exception('Session expired');
       }
     }
 
-    print('Full Url ----> ${GlobalConfig.baseUrl}$path');
+    // print('Full Url ----> ${GlobalConfig.baseUrl}$path');
     final response = await http.post(
       Uri.parse('${GlobalConfig.baseUrl}$path'),
       headers: <String, String>{
