@@ -199,11 +199,11 @@ class ServiceHeaderSection extends StatelessWidget {
       width: screenSize.width,
       height: screenSize.height,
       child: Stack(
-        fit: StackFit.expand,
+        // fit: StackFit.expand,
         children: [
           ClipRRect(
             child: Image.asset(
-              'assets/images/services.webp',
+                'assets/images/services.webp',
               width: screenSize.width,
               height: screenSize.height,
               fit: BoxFit.cover,
