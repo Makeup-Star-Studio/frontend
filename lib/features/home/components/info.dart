@@ -38,7 +38,7 @@ class InfoSection extends StatelessWidget {
                 const BodyText(
                   textAlign: TextAlign.start,
                   text:
-                      'Makeup Star Studio is a team of talented beauty professionals providing luxury on-site beauty services while elevating your beauty and confidence. Serving Bay Area, San Francisco & beyond.',
+                      'Makeup Star Studio is a team of talented beauty professionals providing luxury on-site beauty services while elevating your beauty and confidence. Looking for a San Jose or Bay Area artist?',
                 ),
                 const SizedBox(height: 10.0),
                 Row(
@@ -117,7 +117,7 @@ class InfoSection extends StatelessWidget {
           const BodyText(
             // textAlign: TextAlign.start,
             text:
-                'Makeup Star Studio is a team of talented beauty professionals providing luxury on-site beauty services while elevating your beauty and confidence. Serving Bay Area, San Francisco & beyond.',
+                'Makeup Star Studio - San Jose Artist || Bay Area Artist || Punjabi Artist \n Makeup Star Studio is a team of talented beauty professionals providing luxury on-site beauty services while elevating your beauty and confidence. Serving Bay Area, San Francisco & beyond.',
           ),
           const SizedBox(height: 10.0),
           Column(
@@ -154,7 +154,7 @@ class InfoSection extends StatelessWidget {
               const SizedBox(width: 10.0),
               _buildSocialMediaIcon(
                 'assets/icons/whatsapp.png',
-                'https://wa.link/yoty74',
+                'https://wa.me/14156960258',
               ),
               const SizedBox(width: 10.0),
               _buildSocialMediaIcon(
