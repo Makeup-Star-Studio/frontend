@@ -26,7 +26,7 @@ class _AdminTestimonialsViewState extends State<AdminTestimonialsView> {
   final _lastNameController = TextEditingController();
   final _reviewController = TextEditingController();
   int? _editingIndex;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   @override
   void initState() {

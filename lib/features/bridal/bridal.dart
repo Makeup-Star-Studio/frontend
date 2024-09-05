@@ -39,7 +39,7 @@ class BridalPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BridalHeaderSection(),
+            const BridalHeaderSection(),
             const BridalTextSection(),
             const SizedBox(height: 20.0),
             const Center(

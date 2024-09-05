@@ -35,7 +35,7 @@ class Utility {
         context: context,
         barrierDismissible: false, 
         builder: (BuildContext context) {
-          return AlertDialog(
+          return const AlertDialog(
             content: Row(
               children: <Widget>[
                 CircularProgressIndicator(),

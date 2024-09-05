@@ -35,9 +35,9 @@ class BookingPage extends StatelessWidget {
               child: const TopNavigationBar(),
             ),
       drawer: const MenuDrawer(),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
-          children: const [
+          children: [
             BookingHeaderSection(),
             SizedBox(height: 80.0),
             HeaderContentBookingSection(
