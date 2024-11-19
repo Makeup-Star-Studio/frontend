@@ -136,7 +136,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                       children: [
                         TextSpan(
                           text:
-                              "Geet, originally from India, spent the majority of her life in Seattle, USA. Her journey as a makeup artist began in Seattle, and four years ago, she relocated to the Bay Area. Trained by renowned artists such as  ",
+                              "Geet is a Bay Area Makeup Artist. Trained by renowned artists such as  ",
                         ),
                         TextSpan(
                           text:
@@ -304,7 +304,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                     children: [
                       TextSpan(
                         text:
-                            "Geet, originally from India, spent the majority of her life in Seattle, USA. Her journey as a makeup artist began in Seattle, and four years ago, she relocated to the Bay Area. Trained by renowned artists such as  ",
+                            "Geet is a Bay Area Makeup Artist. Trained by renowned artists such as ",
                       ),
                       TextSpan(
                         text:

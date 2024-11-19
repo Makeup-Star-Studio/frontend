@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:makeupstarstudio/navigator_key.dart';
 import 'package:makeupstarstudio/src/services/shared_pref.dart';
