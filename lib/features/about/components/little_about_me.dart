@@ -71,7 +71,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                     children: [
                       const BigText(
                         textAlign: TextAlign.start,
-                        text: 'Little More About Geet',
+                        text: 'Little More About Geetanjuhlee',
                         // height: 84 / 50,
                       ),
                       // ListTile(
@@ -80,7 +80,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                       //   title: BodyText(
                       //     textAlign: TextAlign.start,
                       //     text:
-                      //         "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
+                      //         "Apart from being a certified makeup artist, hair stylist & heena artist, Geetanjuhlee is also a technical recruiter.",
                       //     // size: 16.0,
                       //   ),
                       // ),
@@ -91,7 +91,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                           textAlign: TextAlign.start,
                           text: user.bio.isNotEmpty
                               ? user.bio
-                              : "When she is not serving clients, Geet can be found exercising and walking around Santa Cruz beach. \n She enjoys a good read in her local library and also loves to binge watch Netflix series.",
+                              : "When she is not serving clients, Geetanjuhlee can be found exercising and walking around Santa Cruz beach. \n She enjoys a good read in her local library and also loves to binge watch Netflix series.",
                           // size: 16.0,
                         ),
                       ),
@@ -153,7 +153,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
               children: [
                 const BigText(
                   // textAlign: TextAlign.start,
-                  text: 'Little More About Geet',
+                  text: 'Little More About Geetanjuhlee',
                   // height: 84 / 50,
                 ),
                 const SizedBox(height: 20.0),
@@ -180,7 +180,7 @@ class _LittleAboutMeSectionState extends State<LittleAboutMeSection> {
                     textAlign: TextAlign.start,
                     text: user.bio.isNotEmpty
                         ? user.bio
-                        : "Apart from being a certified makeup artist, hair stylist & heena artist, Geet is also a technical recruiter.",
+                        : "Apart from being a certified makeup artist, hair stylist & heena artist, Geetanjuhlee is also a technical recruiter.",
                     // size: 16.0,
                   ),
                 ),

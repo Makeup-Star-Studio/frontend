@@ -106,12 +106,12 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                       ),
                       children: [
                         TextSpan(
-                          text: "Geet",
+                          text: "Geetanjuhlee",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextSpan(
                           text:
-                              " is the Lead Artist of Makeup Star Studio! Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
+                              " is the Lead Artist of Makeup Star Studio! She goes by the nickname - 'Geet', Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
                         ),
                         TextSpan(
                           text: "10 years ",
@@ -136,7 +136,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                       children: [
                         TextSpan(
                           text:
-                              "Geet is a Bay Area Makeup Artist. Trained by renowned artists such as  ",
+                              "Geetanjuhlee is a Bay Area Makeup Artist. Trained by renowned artists such as  ",
                         ),
                         TextSpan(
                           text:
@@ -169,7 +169,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                       children: [
                         TextSpan(
                           text:
-                              "I love uplifting women, empowering them to feel their best and I'm so passionate about helping other women be successful and live a life by design. Geet uses an extensive kit of high-end products and tools including these brands: ",
+                              "I love uplifting women, empowering them to feel their best and I'm so passionate about helping other women be successful and live a life by design. Geetanjuhlee uses an extensive kit of high-end products and tools including these brands: ",
                         ),
                         TextSpan(
                           text:
@@ -273,12 +273,12 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                     ),
                     children: [
                       TextSpan(
-                        text: "Geet",
+                        text: "Geetanjuhlee",
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       TextSpan(
                         text:
-                            " is the Lead Artist of Makeup Star Studio! Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
+                            " is the Lead Artist of Makeup Star Studio! She goes by the nickname - 'Geet'. Geet provides bridal glam services for Bay Area's bridal beauties along with brides all over the world. Geet has been working in the beauty industry for over ",
                       ),
                       TextSpan(
                         text: "10 years ",
@@ -304,7 +304,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                     children: [
                       TextSpan(
                         text:
-                            "Geet is a Bay Area Makeup Artist. Trained by renowned artists such as ",
+                            "Geetanjuhlee is a Bay Area Makeup Artist. Trained by renowned artists such as ",
                       ),
                       TextSpan(
                         text:
@@ -338,7 +338,7 @@ class _AboutMeSectionState extends State<AboutMeSection> {
                     children: [
                       TextSpan(
                         text:
-                            "I love uplifting women, empowering them to feel their best and I'm so passionate about helping other women be successful and live a life by design. Geet uses an extensive kit of high-end products and tools including these brands: ",
+                            "I love uplifting women, empowering them to feel their best and I'm so passionate about helping other women be successful and live a life by design. Geetanjuhlee uses an extensive kit of high-end products and tools including these brands: ",
                       ),
                       TextSpan(
                         text:
