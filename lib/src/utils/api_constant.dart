@@ -1,7 +1,7 @@
 class ApiConstant {
   // *********************** INSTANCE *********************** //
-  static const String localUrl = 'https://makeupstarstudio.com';
-  static const String liveUrl = 'https://makeupstarstudio.com';
+  static const String localUrl = 'https://www.makeupstarstudio.com';
+  static const String liveUrl = 'https://www.makeupstarstudio.com';
   // static const String localUrl = 'http://localhost:3001';
   // static const String liveUrl = '';
 
