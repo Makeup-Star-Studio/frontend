@@ -97,26 +97,16 @@ class _AdminImageManagementScreenState
           _isUploading = false; // Stop showing loader
         });
 
-        if (uploadedImageUrls != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                backgroundColor: AppColorConstant.successColor,
-                content: BodyText(
-                    text: 'Images Added Successfully', color: Colors.white)),
-          );
-          Provider.of<RandomImageProvider>(context, listen: false)
-              .fetchAllImages();
-          _clearForm();
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                backgroundColor: AppColorConstant.errorColor,
-                content: BodyText(
-                    text: 'Error uploading images. Please try again.',
-                    color: Colors.white)),
-          );
-        }
-      }
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              backgroundColor: AppColorConstant.successColor,
+              content: BodyText(
+                  text: 'Images Added Successfully', color: Colors.white)),
+        );
+        Provider.of<RandomImageProvider>(context, listen: false)
+            .fetchAllImages();
+        _clearForm();
+            }
     }
   }
 

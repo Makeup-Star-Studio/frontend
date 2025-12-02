@@ -260,26 +260,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (_imageUrl != null) {
       uploadedImageUrl =
           await userProvider.uploadAdminImage(_imageUrl!, selectedFile);
-
-      // Ensure the image was uploaded successfully
-      if (uploadedImageUrl == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: AppColorConstant.errorColor,
-            content: Text(
-              'Image upload failed. Please try again.',
-              style: TextStyle(color: AppColorConstant.white),
-            ),
-          ),
-        );
-        return;
-      }
     } else {
       // Use the existing image URL if no new image is selected
       uploadedImageUrl = userProvider.user?.data.admin.imageUrl;
     }
 
-    if (userId != null && uploadedImageUrl != null) {
+    if (userId != null) {
       await userProvider.updateUserInfo(
         id: userId,
         fname: _fullNameController.text,

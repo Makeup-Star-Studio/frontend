@@ -68,10 +68,6 @@ Future<void> fetchUserInfo() async {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      if (token == null) {
-        // print('No token found');
-        return null;
-      }
 
       final uri = Uri.parse('${ApiConstant.localUrl}/api/admin/upload');
       var request = http.MultipartRequest('POST', uri)
@@ -129,7 +125,7 @@ Future<void> fetchUserInfo() async {
       // print('Retrieved userId: $userId');
       // print('Retrieved token: $token');
 
-      if (userId == null || token == null) {
+      if (token == null) {
         // print('User ID or token is missing');
         _isLoading = false;
         notifyListeners();

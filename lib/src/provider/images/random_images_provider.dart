@@ -76,11 +76,6 @@ class RandomImageProvider extends ChangeNotifier {
     final SharedPreferencesService sharedPrefs = SharedPreferencesService();
     String? token = await sharedPrefs.getTokenPref('userToken');
 
-    if (token == null) {
-      // print('No token found');
-      return null;
-    }
-
     for (int i = 0; i < imageBytesList.length; i++) {
       final uri = Uri.parse('${ApiConstant.localUrl}/api/images/upload');
       var request = http.MultipartRequest('POST', uri)
@@ -128,14 +123,6 @@ class RandomImageProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        // print('No token found');
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
 
       final url = '${ApiConstant.localUrl}/api/images/delete/$id';
       // print('Deleting image with URL: $url');
@@ -175,14 +162,6 @@ class RandomImageProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        // print('No token found');
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
 
       final response = await http.delete(
         Uri.parse('${ApiConstant.localUrl}/api/images/'),

@@ -254,7 +254,7 @@ class LoginProvider with ChangeNotifier {
       // print('Retrieved userId: $userId');
       // print('Retrieved token: $token');
 
-      if (userId == null || token == null) {
+      if (token == null) {
         // print('User ID or token is missing');
         _isLoading = false;
         notifyListeners();

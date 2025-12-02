@@ -59,12 +59,6 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        // print('No token found');
-        return null;
-      }
 
       final uri = Uri.parse('${ApiConstant.localUrl}/api/testimonial/upload');
       // print('Posting to URL: $uri');
@@ -123,14 +117,6 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        // print('No token found');
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
 
       final response = await http.post(
         Uri.parse('${ApiConstant.localUrl}/api/testimonial/'),
@@ -180,14 +166,6 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        // print('No token found');
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
 
       final response = await http.put(
         Uri.parse('${ApiConstant.localUrl}/api/testimonial/$id'),
@@ -242,14 +220,6 @@ class TestimonialProvider extends ChangeNotifier {
     try {
       final SharedPreferencesService sharedPrefs = SharedPreferencesService();
       String? token = await sharedPrefs.getTokenPref('userToken');
-      // print('Retrieved token: $token');
-
-      if (token == null) {
-        print('No token found');
-        _isLoading = false;
-        notifyListeners();
-        return;
-      }
 
       final response = await http.delete(
         Uri.parse('${ApiConstant.localUrl}/api/testimonial/$id'),
